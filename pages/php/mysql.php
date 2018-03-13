@@ -28,7 +28,7 @@ switch ($opcion) {
 		if(!$mysqli->query("CALL agregarEmpresa (@nombre,@telefono,@correo,@direccion)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 Es posible que el tipo de violencia ya exista');
+    		header('HTTP/1.1 400 Es posible que la empresa ya exista');
     		die();
 		}
 		if($mysqli) $mysqli->close();
@@ -68,11 +68,28 @@ switch ($opcion) {
 		if(!$mysqli->query("CALL editarEmpresa (@id,@nombre,@telefono,@correo,@direccion)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 Es posible que el tipo de violencia ya exista');
+    		header('HTTP/1.1 400 Es posible que la empresa ya exista');
     		die();
 		}
 		if($mysqli) $mysqli->close();
 		echo "Empresa actualizada";
+	break;
+
+	case 'agregarBus':
+		$placa = $_POST['txtPlaca'];
+		$nombre = $_POST['txtNombre'];
+		$id = $_POST['id'];
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$mysqli->query("SET @nombre  = " . "'" . $mysqli->real_escape_string($nombre) . "'");
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		if(!$mysqli->query("CALL agregarBus (@placa,@nombre,@id)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Es posible que el tipo de violencia ya exista');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Bus agregado";
 	break;
 	
 	default:
