@@ -92,6 +92,42 @@ switch ($opcion) {
 		echo "Bus agregado";
 	break;
 	
+	case  'cargarBuses':
+		$resultado = $mysqli->query("CALL cargarBuses()");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case  'cargarBus':
+		$placa = $_POST['placa'];
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$resultado = $mysqli->query("CALL cargarBus (@placa)");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case 'editarBus':
+		$placa = $_POST['placa'];
+		$nombre = $_POST['txtNombre'];
+		$id = $_POST['id'];
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$mysqli->query("SET @nombre  = " . "'" . $mysqli->real_escape_string($nombre) . "'");
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		if(!$mysqli->query("CALL editarBus (@placa,@nombre,@id)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Es posible que el bus ya exista');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Bus actualizado";
+	break;
+
 	default:
 		# code...
 		break;
