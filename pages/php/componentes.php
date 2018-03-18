@@ -24,7 +24,29 @@ switch ($opcion) {
 		}
 	    echo json_encode($json);
 	break;
+	case 'agregarComponente':
+		$codigo = $_POST['txtCodigo'];
+		$fecha = $_POST['txtFecha'];
+		$estado = $_POST['txtEstado'];
+		$lote = $_POST['txtlote'];
+		$imei = $_POST['txtIMEI'];
+		$tipo = $_POST['txtTipoComponente'];
+		$mysqli->query("SET @codigo  = " . "'" . $mysqli->real_escape_string($codigo) . "'");
+		$mysqli->query("SET @fecha  = " . "'" . $mysqli->real_escape_string($fecha) . "'");
+		$mysqli->query("SET @estado  = " . "'" . $mysqli->real_escape_string($estado) . "'");
+		$mysqli->query("SET @lote  = " . "'" . $mysqli->real_escape_string($lote) . "'");
+		$mysqli->query("SET @imei  = " . "'" . $mysqli->real_escape_string($imei) . "'");
+		$mysqli->query("SET @tipo  = " . "'" . $mysqli->real_escape_string($tipo) . "'");
 
+		if(!$mysqli->query("CALL agregarComponente(@codigo,@estado,@fecha,@lote,@tipo,@imei)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 El componente ya existe');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Componente agregado";
+	break;
 
 	default:
 		# code...

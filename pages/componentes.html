@@ -60,17 +60,17 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-offset-3 col-lg-6">
-                                    <form>
+                                <div class="col-lg-offset-2 col-lg-8">
+                                    <form id="componentesForm">
                                       <div class="form-row">
                                         <div class="col-md-4 mb-3">
                                           <label for="validationDefault01">Lote</label>
-                                          <input type="text" class="form-control" required>
+                                          <input type="text" class="form-control" id="txtLote" required>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 mb-5">
                                             <label for="validationDefault02">Fecha</label>
                                             <div class='input-group date' id='fechaEntrada'>
-                                                <input type='text' class="form-control" required/>
+                                                <input type='text' class="form-control" id="txtFecha" required/>
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
@@ -78,7 +78,7 @@
                                         </div>
                                         <div class="col-md-4 mb-3">
                                           <label for="validationDefault02">Estado</label>
-                                            <select class="form-control">
+                                            <select class="form-control" id="listEstado">
                                                 <option>Bueno</option>
                                                 <option>Malo</option>
                                                 <option>Reparar</option>
@@ -87,13 +87,14 @@
                                       </div>
                                       <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
                                       <div class="form-row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-6 mb-4">
                                           <label for="validationDefault03">Codigo</label>
-                                          <input type="text" class="form-control" onfocusout="revisarTipo()" required>
+                                          <input type="text" class="form-control" id="txtCodigo" onfocusout="revisarTipo()" required>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-6 mb-4">
                                           <label for="validationDefault04">Tipo</label>
-                                            <select class="form-control" id="tipoComponente">
+                                            <select class="form-control" id="tipoComponente" onchange="revisarIMEI(this)" required>
+                                                <option disabled selected value> -- Escoja una opción -- </option>
                                             </select> 
                                         </div>
                                       </div>
@@ -101,14 +102,14 @@
                                       <div class="form-row " id="rImei" style="display: none">
                                         <div class="col-md-6 mb-3">
                                           <label for="validationDefault03">IMEI</label>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" id ="imeiInput">
                                         </div>
                                         <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
                                       </div>
                                       
                                       <div class="form-row col-lg-12 ">
                                         <div class="col-md-6 mb-3">
-                                            <button class="btn btn-primary mt-2" type="submit">Agregar</button>
+                                            <button class="btn btn-primary mt-2" type="submit" id="btnAgregarComponente">Agregar</button>
                                         </div>
                                       </div>
                                     </form>
@@ -119,8 +120,40 @@
                             <!-- /.row (nested) -->
                         </div>
                         <!-- /.panel-body -->
+
                     </div>
                     <!-- /.panel -->
+
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            DataTables Advanced Tables
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="tablaComponentes">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Tipo</th>
+                                        <th>Lote</th>
+                                        <th>Fecha</th>
+                                        <th>Estado</th>
+                                        <th>IMEI</th>
+                                        <th visible="false">TipoCod</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+ 
+                            </table>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+
+
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -155,6 +188,11 @@
 
     <script src="js/componentes.js"></script>
 
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+
     <script type="text/javascript">
         $(function () {
             $('#fechaEntrada').datetimepicker({
@@ -162,7 +200,9 @@
             });
         });
 
-    </script>    
+    </script>   
+
+ 
 </body>
 
 </html>
