@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-03-2018 a las 07:21:59
+-- Tiempo de generación: 25-03-2018 a las 19:19:52
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.2.2
 
@@ -30,6 +30,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `agregarBus` (IN `pPlaca` INT(6), IN
 	INSERT INTO bus (Placa,Nombre,ID_Empresa) VALUES (pPlaca,pNombre,pID_Empresa);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `agregarComponente` (IN `pCod` VARCHAR(40), IN `pEstado` VARCHAR(20), IN `pFechaRegistro` VARCHAR(40), IN `pLote` VARCHAR(20), IN `pTipoComponente` INT(3), IN `pIMEI` VARCHAR(40))  NO SQL
+BEGIN
+	INSERT INTO componentes (cod,estado,fechaRegistro,lote,tipo_componente,IMEI) VALUES (pCod,pEstado,pFechaRegistro,pLote,pTipoComponente,pIMEI);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `agregarEmpresa` (IN `pNombre` VARCHAR(50), IN `pTelefono` VARCHAR(15), IN `pCorreo` VARCHAR(45), IN `pDireccion` VARCHAR(200))  BEGIN
 	INSERT INTO empresa (Nombre,Telefono,Correo,Direccion) VALUES (pNombre,pTelefono,pCorreo,pDireccion);
 END$$
@@ -48,6 +53,11 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarEmpresas` ()  BEGIN
 	SELECT * FROM empresa;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarTiposComponente` ()  NO SQL
+BEGIN
+	SELECT * FROM tipo_componente;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `editarBus` (IN `pPlaca` INT(6), IN `pNombre` VARCHAR(20), IN `pID_Empresa` INT(11))  BEGIN
@@ -88,11 +98,24 @@ INSERT INTO `bus` (`Placa`, `Nombre`, `ID_Empresa`) VALUES
 CREATE TABLE `componentes` (
   `cod` varchar(40) NOT NULL,
   `tipo_componente` int(3) NOT NULL,
-  `lote` int(8) NOT NULL,
+  `lote` varchar(20) NOT NULL,
   `fechaRegistro` varchar(40) NOT NULL,
-  `Estado` int(2) NOT NULL,
+  `Estado` varchar(20) NOT NULL,
   `IMEI` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `componentes`
+--
+
+INSERT INTO `componentes` (`cod`, `tipo_componente`, `lote`, `fechaRegistro`, `Estado`, `IMEI`) VALUES
+('2344123ATTX234523', 8, 'X155', '14/02/2018', 'Bueno', ''),
+('2345MODEMGPRS1234', 13, '234', '27/02/2018', 'Bueno', '543185345'),
+('2434', 2, '1234', '11/03/2018', 'Bueno', ''),
+('3567345634', 11, '45634', '06/03/2018', 'Bueno', ''),
+('attx234', 8, '1234', '13/03/2018', 'Bueno', ''),
+('attx2345', 8, '1234', '06/03/2018', 'Bueno', ''),
+('attx23456543', 8, '1234', '07/03/2018', 'Bueno', '');
 
 -- --------------------------------------------------------
 
@@ -113,7 +136,7 @@ CREATE TABLE `empresa` (
 --
 
 INSERT INTO `empresa` (`ID`, `Nombre`, `Telefono`, `Correo`, `Direccion`) VALUES
-(1, 'a', 'a', 'a', 'aa'),
+(1, 'Empresa1', 'a', 'a', 'aa'),
 (2, 'asd', '1561', 'da', 'asdf');
 
 -- --------------------------------------------------------
@@ -133,22 +156,22 @@ CREATE TABLE `tipo_componente` (
 --
 
 INSERT INTO `tipo_componente` (`id`, `codigo`, `nombre`) VALUES
-(0, 'BPTX1', 'Serie TX1'),
-(1, 'ATTX', 'PRO'),
-(2, 'AANTBEA', 'Antena'),
-(3, 'ATRADIOSMT', 'Radio'),
-(4, 'BTMOD', 'Reset Modem'),
-(5, 'TBEA', 'MAX'),
-(6, 'ATCPUTX', '8KTX'),
-(7, 'TSERMAX', 'MAX2'),
-(8, 'BPRX1', 'SERIE RX1'),
-(9, 'ATRXD', 'DUPLEX'),
-(10, 'ATCENCARG', 'Centro Carga'),
-(11, 'ATCPURX', 'TAR'),
-(12, 'ATFILTRO', 'Filtro'),
-(13, 'BPRX3', 'SERIE RX3'),
-(14, 'APTX3', 'SERIE TX3'),
-(15, 'MOD', 'MODEM');
+(0, 'AANTBEA', 'Antena'),
+(1, 'APTX3', 'SERIE TX3'),
+(2, 'ATCENCARG', 'Centro Carga'),
+(3, 'ATCPURX', 'TAR'),
+(4, 'ATCPUTX', '8KTX'),
+(5, 'ATFILTRO', 'Filtro'),
+(6, 'ATRADIOSMT', 'Radio'),
+(7, 'ATRXD', 'DUPLEX'),
+(8, 'ATTX', 'PRO'),
+(9, 'BPRX1', 'SERIE RX1'),
+(10, 'BPRX3', 'SERIE RX3'),
+(11, 'BPTX1', 'Serie TX1'),
+(12, 'BTMOD', 'Reset Modem'),
+(13, 'MOD', 'MODEM'),
+(14, 'TBEA', 'MAX'),
+(15, 'TSERMAX', 'MAX2');
 
 --
 -- Índices para tablas volcadas
