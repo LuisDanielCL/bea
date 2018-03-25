@@ -109,6 +109,8 @@ function editarBus(){
 
 function siRespuesta4(r){
     limpiar();
+    cargarEmpresasFiltrar();
+    filtrarBuses();
     alert(r);
 }
 
