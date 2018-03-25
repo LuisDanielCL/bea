@@ -1,9 +1,10 @@
 var listTipo = [];
-
+var tabla;
 $( document ).ready(function() {
     cargarTipoComponente();
 
-    $('#tablaComponentes').DataTable( {
+    tabla = $('#tablaComponentes').DataTable( {
+
         "columns": [
             null,
             null,
@@ -14,7 +15,7 @@ $( document ).ready(function() {
             null,
             {
               "data": null,
-              "defaultContent": '<button class="btn btn-primary">Editar</button><button class="btn btn-danger">Eliminar</button>'
+              "defaultContent": '<button class="btn btn-primary" onclick="cargarEditar(this)" >Editar</button><button class="btn btn-danger" onclick="cargarEliminar()" >Eliminar</button>'
             }
         ],
         "columnDefs": [
@@ -26,7 +27,27 @@ $( document ).ready(function() {
         ],
         "processing": true,
         "serverSide": true,
-        "ajax": "php/tablas/tablaComponentes.php"
+        "ajax": "php/tablas/tablaComponentes.php",
+            initComplete: function () {
+                this.api().columns().every( function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo( $(column.footer()).empty() )
+                        .on( 'change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+      
+                            column
+                                .search( this.value ).draw();
+                        } );
+      
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                    } );
+                } );
+            }
+        
     } );
 });
 
@@ -44,6 +65,17 @@ function cargarTipoComponente(){
 	                     parametros,    	                       
 	                     RespuestaCargarTipoComponente    // Función que se ejecuta cuando el servidor responde
                          );
+}
+
+function cargarEditar(boton){
+    var fila  = boton.closest('tr').rowIndex;
+    console.log( $('#tablaComponentes').DataTable.row( fila ).data() );
+    alert("editar")
+}
+
+
+function cargarEliminar(){
+    alert("eliminar")
 }
 
 function RespuestaCargarTipoComponente(r){
@@ -123,6 +155,7 @@ function agregarComponente(){
 function componenteAgregado(r){
         limpiar();
         alert(r);
+        tabla.ajax.reload();
         
 }
 
