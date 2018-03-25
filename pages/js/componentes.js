@@ -68,8 +68,9 @@ function cargarTipoComponente(){
 }
 
 function cargarEditar(boton){
-    var fila  = boton.closest('tr').rowIndex;
-    console.log( $('#tablaComponentes').DataTable.row( fila ).data() );
+    var data = tabla.row( (boton.closest('tr').rowIndex) -1 ).data();
+    document.getElementById('txtCodigo').value = data[0];
+    document.getElementById('txtCodigo').disabled = true;
     alert("editar")
 }
 
