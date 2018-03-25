@@ -128,6 +128,16 @@ switch ($opcion) {
 		echo "Bus actualizado";
 	break;
 
+	case  'filtrarBuses':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL filtrarBuses (@id)");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
 	default:
 		# code...
 		break;
