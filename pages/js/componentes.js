@@ -15,7 +15,7 @@ $( document ).ready(function() {
             null,
             {
               "data": null,
-              "defaultContent": '<button class="btn btn-primary" onclick="cargarEditar(this)" >Editar</button><button class="btn btn-danger" onclick="cargarEliminar()" >Eliminar</button>'
+              "defaultContent": '<button class="btn btn-primary" onclick="cargarEditar(this)" >Editar</button><button class="btn btn-danger" onclick="eliminarComponente(this)" >Eliminar</button>'
             }
         ],
         "columnDefs": [
@@ -67,20 +67,8 @@ function cargarTipoComponente(){
                          );
 }
 
-function cargarEditar(boton){
-    var data = tabla.row( (boton.closest('tr').rowIndex) -1 ).data();
-    document.getElementById('txtCodigo').value = data[0];
-    document.getElementById('txtCodigo').disabled = true;
-    alert("editar")
-}
-
-
-function cargarEliminar(){
-    alert("eliminar")
-}
-
 function RespuestaCargarTipoComponente(r){
-	var doc = JSON.parse(r);
+    var doc = JSON.parse(r);
     var sel = document.getElementById('tipoComponente') // find the drop down
     listTipo = [];
     listTipo.push(-1); // Carga el espacio vacio primero
@@ -92,6 +80,24 @@ function RespuestaCargarTipoComponente(r){
         opt.text = obj.nombre; // set the text
         sel.appendChild(opt); // add it to the select
     }
+}
+
+
+function cargarEditar(boton){
+    var data = tabla.row( (boton.closest('tr').rowIndex) -1 ).data();
+    console.log(data);
+    document.getElementById('txtCodigo').value = data[0];
+    document.getElementById("txtLote").value = data[2];
+    document.getElementById("txtFecha").value = data[3];
+    document.getElementById("imeiInput").value = data[5];
+    revisarTipoTexto(data[1]);
+    revisarEstado(data[4]);
+    document.getElementById('txtCodigo').disabled = true;
+    document.getElementById("btnAgregarComponente").style.display="none";
+    document.getElementById("btnEditarComponente").style.display="inline-block";
+
+
+    alert("editar")
 }
 
 function revisarTipo(){
@@ -109,6 +115,36 @@ function revisarTipo(){
     }
 }
 
+function revisarTipoTexto(texto){
+    var tipo = document.getElementById("tipoComponente");
+    var txt = "";
+    var stringBusqueda = ""
+    for (var i = 0; i < tipo.length; i++) {        
+        stringBusqueda = tipo.options[i].text;
+        var isType= texto.toUpperCase().includes(stringBusqueda.toUpperCase());
+        if (isType == true){
+            tipo.selectedIndex = i;
+            revisarIMEI(tipo);        
+        }
+    }
+}
+
+function revisarEstado(texto){
+    var tipo = document.getElementById("listEstado");
+    var txt = "";
+    var stringBusqueda = ""
+    for (var i = 0; i < tipo.length; i++) {        
+        stringBusqueda = tipo.options[i].text;
+        var isType= texto.toUpperCase().includes(stringBusqueda.toUpperCase());
+        if (isType == true){
+            tipo.selectedIndex = i;      
+        }
+    }
+}
+
+
+
+
 function revisarIMEI(tipoComponente){
     var tipoNombre = tipoComponente.options[tipoComponente.selectedIndex].text;
             var imeiSec =document.getElementById("rImei");
@@ -120,21 +156,26 @@ function revisarIMEI(tipoComponente){
                 document.getElementById("imeiInput").required = false;
                 document.getElementById("imeiInput").text = "";
             }
-
 }
 
 
 
 
 $( "#componentesForm" ).submit(function( event ) {
-    agregarComponente();
+    var editarBoton = document.getElementById("btnEditarComponente").style.display;
+    console.log(editarBoton);
+    if(editarBoton=="none"){
+        agregarComponente();
+    }else{
+        editarComponente();
+    }
+
     return false;
 });
 
 
 function agregarComponente(){
     var tipoComponente = document.getElementById("tipoComponente");
-    console.log(listTipo[tipoComponente.selectedIndex]);
     var parametros = {
         opcion : "agregarComponente",
         txtCodigo: $('#txtCodigo').val(),
@@ -160,9 +201,77 @@ function componenteAgregado(r){
         
 }
 
+
+function editarComponente(){
+    var tipoComponente = document.getElementById("tipoComponente");
+    var parametros = {
+        opcion : "editarComponente",
+        txtCodigo: $('#txtCodigo').val(),
+        txtFecha: $('#txtFecha').val(),
+        txtEstado: $('#listEstado').val(),
+        txtlote: $('#txtLote').val(),
+        txtIMEI: $('#imeiInput').val(),
+        txtTipoComponente: listTipo[tipoComponente.selectedIndex]
+    };
+    console.log(parametros);
+    // Realizar la petición
+    var post = $.post(
+                          "php/componentes.php",    // Script que se ejecuta en el servidor
+                          parametros,                              
+                          componenteEditado    // Función que se ejecuta cuando el servidor responde
+                          );
+    }
+
+function componenteEditado(r){
+        limpiarTodo();
+        alert(r);
+        tabla.ajax.reload();
+        
+}
+
+function eliminarComponente(boton){
+    var tipoComponente = document.getElementById("tipoComponente");
+    var data = tabla.row( (boton.closest('tr').rowIndex) -1 ).data();
+    
+    var parametros = {
+        opcion : "eliminarComponente",
+        txtCodigo: data[0]
+    };
+    console.log(parametros);
+    // Realizar la petición
+    var post = $.post(
+                          "php/componentes.php",    // Script que se ejecuta en el servidor
+                          parametros,                              
+                          componenteEliminado    // Función que se ejecuta cuando el servidor responde
+                          );
+    }
+
+function componenteEliminado(r){
+        alert(r);
+        tabla.ajax.reload();
+        
+}
+
+
 function limpiar(){
     document.getElementById('txtCodigo').value = "";
     document.getElementById("imeiInput").required = false;
-    document.getElementById("imeiInput").text = "";
+    document.getElementById("imeiInput").value = ""; 
     document.getElementById("tipoComponente").selectedIndex = 0;
+    document.getElementById("rImei").style.display = "none";
+}
+
+function limpiarTodo(){
+    document.getElementById('txtCodigo').value = "";
+    document.getElementById("imeiInput").required = false;
+    document.getElementById("imeiInput").value = "";
+    document.getElementById("txtFecha").value = "";
+    document.getElementById("txtCodigo").value = "";
+    document.getElementById("txtLote").value = "";
+    document.getElementById("listEstado").selectedIndex = 0;
+    document.getElementById("tipoComponente").selectedIndex = 0;
+    document.getElementById('txtCodigo').disabled = false;
+    document.getElementById("rImei").style.display = "none";
+    document.getElementById("btnAgregarComponente").style.display="inline-block";
+    document.getElementById("btnEditarComponente").style.display="none";
 }

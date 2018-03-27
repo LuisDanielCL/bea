@@ -65,7 +65,7 @@
                                       <div class="form-row">
                                         <div class="col-md-4 mb-3">
                                           <label for="validationDefault01">Lote</label>
-                                          <input type="text" class="form-control" id="txtLote" required>
+                                          <input type="text" class="form-control" id="txtLote" autocomplete="off" required>
                                         </div>
                                         <div class="col-md-4 mb-5">
                                             <label for="validationDefault02">Fecha</label>
@@ -79,6 +79,7 @@
                                         <div class="col-md-4 mb-3">
                                           <label for="validationDefault02">Estado</label>
                                             <select class="form-control" id="listEstado">
+                                                <option disabled selected value>Escoja una opción</option>
                                                 <option>Bueno</option>
                                                 <option>Malo</option>
                                                 <option>Reparar</option>
@@ -89,7 +90,7 @@
                                       <div class="form-row">
                                         <div class="col-md-6 mb-4">
                                           <label for="validationDefault03">Codigo</label>
-                                          <input type="text" class="form-control" id="txtCodigo" onfocusout="revisarTipo()" required>
+                                          <input type="text" class="form-control" id="txtCodigo" autocomplete="off" onfocusout="revisarTipo()" required>
                                         </div>
                                         <div class="col-md-6 mb-4">
                                           <label for="validationDefault04">Tipo</label>
@@ -102,14 +103,16 @@
                                       <div class="form-row " id="rImei" style="display: none">
                                         <div class="col-md-6 mb-3">
                                           <label for="validationDefault03">IMEI</label>
-                                          <input type="text" class="form-control" id ="imeiInput">
+                                          <input type="text" class="form-control" autocomplete="off" id ="imeiInput">
                                         </div>
                                         <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
                                       </div>
                                       
                                       <div class="form-row col-lg-12 ">
                                         <div class="col-md-6 mb-3">
-                                            <button class="btn btn-primary mt-2" type="submit" id="btnAgregarComponente">Agregar</button>
+                                            <button class="btn btn-success mt-2" type="submit" id="btnAgregarComponente">Agregar</button>
+                                            <button class="btn btn-primary mt-2" type="submit"  style="display:none;" id="btnEditarComponente">Editar</button>
+                                            <button class="btn btn-danger mt-2"  type="button" onclick="limpiarTodo()" id="btnLimpiarComponente">Limpiar</button>
                                         </div>
                                       </div>
                                     </form>
