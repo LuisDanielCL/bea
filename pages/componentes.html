@@ -65,7 +65,7 @@
                                       <div class="form-row">
                                         <div class="col-md-4 mb-3">
                                           <label for="validationDefault01">Lote</label>
-                                          <input type="text" class="form-control" id="txtLote" autocomplete="off" required>
+                                          <input type="text" class="form-control" id="txtLote" autocomplete="off" required  maxlength="20">
                                         </div>
                                         <div class="col-md-4 mb-5">
                                             <label for="validationDefault02">Fecha</label>
@@ -78,7 +78,7 @@
                                         </div>
                                         <div class="col-md-4 mb-3">
                                           <label for="validationDefault02">Estado</label>
-                                            <select class="form-control" id="listEstado">
+                                            <select class="form-control" id="listEstado" required>
                                                 <option disabled selected value>Escoja una opción</option>
                                                 <option>Bueno</option>
                                                 <option>Malo</option>
@@ -90,7 +90,7 @@
                                       <div class="form-row">
                                         <div class="col-md-6 mb-4">
                                           <label for="validationDefault03">Codigo</label>
-                                          <input type="text" class="form-control" id="txtCodigo" autocomplete="off" onfocusout="revisarTipo()" required>
+                                          <input type="text" class="form-control" id="txtCodigo" autocomplete="off" onfocusout="revisarTipo()" required maxlength="40">
                                         </div>
                                         <div class="col-md-6 mb-4">
                                           <label for="validationDefault04">Tipo</label>
@@ -103,7 +103,7 @@
                                       <div class="form-row " id="rImei" style="display: none">
                                         <div class="col-md-6 mb-3">
                                           <label for="validationDefault03">IMEI</label>
-                                          <input type="text" class="form-control" autocomplete="off" id ="imeiInput">
+                                          <input type="text" class="form-control" autocomplete="off" id ="imeiInput" maxlength="40">
                                         </div>
                                         <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
                                       </div>
@@ -131,7 +131,7 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
+                            Componentes
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
