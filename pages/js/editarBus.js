@@ -146,7 +146,6 @@ function filtrarBuses(){
         cargarBuses();
     } else {
         index = index -1;
-        console.log(index);
         var id = arrayEmpresa[index];
         var parametros = {
             opcion : "filtrarBuses",
@@ -163,6 +162,8 @@ function filtrarBuses(){
 
 function siRespuesta6(r){
     arrayBus = [];
+    removeOptions();
+    //console.log("largo "+doc.length);
     var doc = JSON.parse(r);
     var salida = '<select class="form-control" tabindex="-1" id="sBus" onclick="cargarBus();">';                   
     $("#cbBus").html("");
@@ -173,9 +174,18 @@ function siRespuesta6(r){
         arrayBus[i] = obj.Placa;
         //console.log(arrayfamiliaridad[i]);
     }
-    salida += "</select>";
+    salida += "</select>"; 
     $("#cbBus").html(salida);
     limpiar();
+}
+
+function removeOptions(){
+    var selectbox = document.getElementById('sBus');
+    var i;
+    for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
+    {
+        selectbox.remove(i);
+    }
 }
 
 function limpiar(){
