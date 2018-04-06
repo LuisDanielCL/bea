@@ -138,6 +138,16 @@ switch ($opcion) {
 		echo json_encode($json) ;
 	break;
 
+	case  'obtenerPass':
+		$user = $_POST['txtUser'];
+		$mysqli->query("SET @user  = " . "'" . $mysqli->real_escape_string($user) . "'");
+		$resultado = $mysqli->query("CALL obtenerPass (@user)");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
 	default:
 		# code...
 		break;

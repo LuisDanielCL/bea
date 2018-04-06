@@ -58,7 +58,7 @@
                                     <form role="form">
                                         <div class="form-group">
                                             <label>Nombre</label>
-                                            <input type="text" id="txtNombre" class="form-control" placeholder="Obligatorio">
+                                            <input type="text" id="txtNombre" class="form-control" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Telefono</label>
@@ -72,7 +72,7 @@
                                             <label>Direccion</label>
                                             <textarea type="text" id="txtDireccion" class="form-control" rows="3"></textarea>
                                         </div>
-                                        <button type="button" class="btn btn-success" onclick="agregarEmpresa();">Agregar</button>
+                                        <button type="submit" class="btn btn-success" onclick="agregarEmpresa();">Agregar</button>
                                         <label>               </label>
                                         <button type="button" class="btn btn-warning" onclick="limpiar();">Limpiar</button>
                                     </form>
@@ -94,8 +94,8 @@
     </div>
     <!-- /#wrapper -->
 
+
     <!-- jQuery -->
-    <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script>
         $("#menu").load("menu.html");
