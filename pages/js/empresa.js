@@ -30,3 +30,8 @@ function limpiar(){
 	document.getElementById('txtCorreo').value = "";
 	document.getElementById('txtDireccion').value = "";
 }
+
+$( "#empresaForm" ).submit(function( event ) {
+    agregarEmpresa();
+    return false;
+});
