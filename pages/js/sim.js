@@ -2,10 +2,9 @@ var listTipo = [];
 var tabla;
 $( document ).ready(function() {
 
-    tabla = $('#tablaComponentes').DataTable( {
+    tabla = $('#tablaSim').DataTable( {
 
         "columns": [
-            null,
             null,
             null,
             null,
@@ -17,35 +16,9 @@ $( document ).ready(function() {
               "defaultContent": '<button class="btn btn-primary" onclick="cargarEditar(this)" >Editar</button><button class="btn btn-danger" onclick="eliminarComponente(this)" >Eliminar</button>'
             }
         ],
-        "columnDefs": [
-            {
-                "targets": [ 6 ],
-                "visible": false,
-                "searchable": false
-            }
-        ],
         "processing": true,
         "serverSide": true,
-        "ajax": "php/tablas/tablaComponentes.php",
-            initComplete: function () {
-                this.api().columns().every( function () {
-                    var column = this;
-                    var select = $('<select><option value=""></option></select>')
-                        .appendTo( $(column.footer()).empty() )
-                        .on( 'change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                            );
-      
-                            column
-                                .search( this.value ).draw();
-                        } );
-      
-                    column.data().unique().sort().each( function ( d, j ) {
-                        select.append( '<option value="'+d+'">'+d+'</option>' )
-                    } );
-                } );
-            }
+        "ajax": "php/tablas/tablaSim.php"
         
     } );
 });
@@ -58,49 +31,17 @@ var arrayBus = [];
 
 function cargarEditar(boton){
     var data = tabla.row( (boton.closest('tr').rowIndex) -1 ).data();
-    console.log(data);
-    document.getElementById('txtCodigo').value = data[0];
-    document.getElementById("txtLote").value = data[2];
-    document.getElementById("txtFecha").value = data[3];
-    document.getElementById("imeiInput").value = data[5];
-    revisarTipoTexto(data[1]);
-    revisarEstado(data[4]);
-    document.getElementById('txtCodigo').disabled = true;
-    document.getElementById("btnAgregarComponente").style.display="none";
-    document.getElementById("btnEditarComponente").style.display="inline-block";
-
-
-    alert("editar")
+    document.getElementById('txtNumero').value = data[0];
+    document.getElementById("txtPin").value = data[1];
+    document.getElementById("txtPuk").value = data[2];
+    document.getElementById("txtCodigo").value = data[3];
+    document.getElementById("txtFecha").value = data[4];
+    revisarEstado(data[5]);
+    document.getElementById('txtNumero').disabled = true;
+    document.getElementById("btnAgregarSim").style.display="none";
+    document.getElementById("btnEditarSim").style.display="inline-block";
 }
 
-function revisarTipo(){
-    var tipo = document.getElementById("tipoComponente");
-    var codigoTexto = document.getElementById("txtCodigo").value;
-    var txt = "";
-    var stringBusqueda = ""
-    for (var i = 0; i < tipo.length; i++) {        
-        stringBusqueda = tipo.options[i].value;
-        var isType= codigoTexto.toUpperCase().includes(stringBusqueda);
-        if (isType == true){
-            tipo.selectedIndex = i;
-            revisarIMEI(tipo);        
-        }
-    }
-}
-
-function revisarTipoTexto(texto){
-    var tipo = document.getElementById("tipoComponente");
-    var txt = "";
-    var stringBusqueda = ""
-    for (var i = 0; i < tipo.length; i++) {        
-        stringBusqueda = tipo.options[i].text;
-        var isType= texto.toUpperCase().includes(stringBusqueda.toUpperCase());
-        if (isType == true){
-            tipo.selectedIndex = i;
-            revisarIMEI(tipo);        
-        }
-    }
-}
 
 function revisarEstado(texto){
     var tipo = document.getElementById("listEstado");
@@ -121,12 +62,12 @@ function revisarEstado(texto){
 
 
 $( "#componentesForm" ).submit(function( event ) {
-    var editarBoton = document.getElementById("btnEditarComponente").style.display;
+    var editarBoton = document.getElementById("btnEditarSim").style.display;
     console.log(editarBoton);
     if(editarBoton=="none"){
         agregarSim();
     }else{
-        editarComponente();
+        editarSim();
     }
 
     return false;
@@ -161,27 +102,26 @@ function simAgregado(r){
 }
 
 
-function editarComponente(){
-    var tipoComponente = document.getElementById("tipoComponente");
+function editarSim(){
     var parametros = {
-        opcion : "editarComponente",
-        txtCodigo: $('#txtCodigo').val(),
+        opcion : "editarSim",
+        txtNumero: $('#txtNumero').val(),
         txtFecha: $('#txtFecha').val(),
         txtEstado: $('#listEstado').val(),
-        txtlote: $('#txtLote').val(),
-        txtIMEI: $('#imeiInput').val(),
-        txtTipoComponente: listTipo[tipoComponente.selectedIndex]
+        txtPin: $('#txtPin').val(),
+        txtPuk: $('#txtPuk').val(),
+        txtCodigo: $('#txtCodigo').val()
     };
     console.log(parametros);
     // Realizar la petición
     var post = $.post(
-                          "php/componentes.php",    // Script que se ejecuta en el servidor
+                          "php/sim.php",    // Script que se ejecuta en el servidor
                           parametros,                              
-                          componenteEditado    // Función que se ejecuta cuando el servidor responde
+                          simEditado    // Función que se ejecuta cuando el servidor responde
                           );
     }
 
-function componenteEditado(r){
+function simEditado(r){
         limpiarTodo();
         alert(r);
         tabla.ajax.reload();
@@ -225,6 +165,8 @@ function limpiarTodo(){
     document.getElementById('txtNumero').value = "";
     document.getElementById('txtCodigo').value = "";
     document.getElementById("txtFecha").value = "";
-    document.getElementById("btnAgregarComponente").style.display="inline-block";
-    document.getElementById("btnEditarComponente").style.display="none";
+    document.getElementById('txtNumero').disabled = false;
+    document.getElementById("listEstado").selectedIndex = 0;
+    document.getElementById("btnAgregarSim").style.display="inline-block";
+    document.getElementById("btnEditarSim").style.display="none";
 }
