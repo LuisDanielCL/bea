@@ -60,20 +60,20 @@ switch ($opcion) {
     		die();
 		}
 		if($mysqli) $mysqli->close();
-		echo "Componente editado";
+		echo "Sim editado";
 	break;
-	case 'eliminarComponente':
-		$codigo = $_POST['txtCodigo'];
-		$mysqli->query("SET @codigo  = " . "'" . $mysqli->real_escape_string($codigo) . "'");
+	case 'eliminarSim':
+		$numero = $_POST['txtNumero'];
+		$mysqli->query("SET @numero  = " . "'" . $mysqli->real_escape_string($numero) . "'");
 
-		if(!$mysqli->query("CALL eliminarComponente(@codigo)"))
+		if(!$mysqli->query("CALL eliminarSim(@numero)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 Fallo eliminar componente');
+    		header('HTTP/1.1 400 Fallo eliminar sim');
     		die();
 		}
 		if($mysqli) $mysqli->close();
-		echo "Componente eliminado";
+		echo "Sim eliminado";
 	break;
 
 	default:

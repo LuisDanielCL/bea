@@ -13,7 +13,7 @@ $( document ).ready(function() {
             null,
             {
               "data": null,
-              "defaultContent": '<button class="btn btn-primary" onclick="cargarEditar(this)" >Editar</button><button class="btn btn-danger" onclick="eliminarComponente(this)" >Eliminar</button>'
+              "defaultContent": '<button class="btn btn-primary" onclick="cargarEditar(this)" >Editar</button><button class="btn btn-danger" onclick="eliminarSim(this)" >Eliminar</button>'
             }
         ],
         "processing": true,
@@ -128,24 +128,23 @@ function simEditado(r){
         
 }
 
-function eliminarComponente(boton){
-    var tipoComponente = document.getElementById("tipoComponente");
+function eliminarSim(boton){
     var data = tabla.row( (boton.closest('tr').rowIndex) -1 ).data();
     
     var parametros = {
-        opcion : "eliminarComponente",
-        txtCodigo: data[0]
+        opcion : "eliminarSim",
+        txtNumero: data[0]
     };
     console.log(parametros);
     // Realizar la petición
     var post = $.post(
-                          "php/componentes.php",    // Script que se ejecuta en el servidor
+                          "php/sim.php",    // Script que se ejecuta en el servidor
                           parametros,                              
-                          componenteEliminado    // Función que se ejecuta cuando el servidor responde
+                          simEliminado    // Función que se ejecuta cuando el servidor responde
                           );
     }
 
-function componenteEliminado(r){
+function simEliminado(r){
         alert(r);
         tabla.ajax.reload();
         
