@@ -140,8 +140,10 @@ switch ($opcion) {
 
 	case  'obtenerPass':
 		$user = $_POST['txtUser'];
+		$pass = $_POST['txtPass'];
 		$mysqli->query("SET @user  = " . "'" . $mysqli->real_escape_string($user) . "'");
-		$resultado = $mysqli->query("CALL obtenerPass (@user)");
+		$mysqli->query("SET @pass  = " . "'" . $mysqli->real_escape_string($pass) . "'");
+		$resultado = $mysqli->query("CALL obtenerPass (@user,@pass)");
 		while($row = $resultado->fetch_array()){
 			$json[] = $row;
 		}

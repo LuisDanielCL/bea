@@ -8,6 +8,7 @@ function iniciar(){
             var parametros = {
                 opcion : "obtenerPass",
                 txtUser: $('#txtUser').val(),
+                txtPass: $('#txtPass').val()
             };
 
             // Realizar la petición
@@ -20,12 +21,17 @@ function iniciar(){
     }
 }
 function siRespuesta(r){
-	var doc = JSON.parse(r);
-	var pass = document.getElementById('txtPass').value;   
-	if (pass == doc[0].password) {
-		alert('Bien');
-		setTimeout("location.href='index.html'", 10);
-	}else{
+	try{
+		var doc = JSON.parse(r);
+		var user = document.getElementById('txtUser').value;  	
+		if (user == doc[0].user) {
+			alert('Bien');
+			setTimeout("location.href='index.html'",0);
+		}else{
+			alert('Password incorrecto');
+		}
+	}catch(e){
 		alert('Password incorrecto');
-	}            
+	}
+	            
 }
