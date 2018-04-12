@@ -32,28 +32,20 @@ function siRespuesta(r){
 }
 
 function agregarBus(){
-    if (document.getElementById('txtNombre').value == "") {
-        alert('El nombre es requerido');
-    }else{ 
-        if (document.getElementById('txtPlaca').value == "") {
-            alert('La placa es requerida');
-        }else{
-            var id = arrayEmpresa[document.getElementById('sEmpresa').selectedIndex];
-            var parametros = {
-                opcion : "agregarBus",
-                txtPlaca: $('#txtPlaca').val(),
-                txtNombre: $('#txtNombre').val(),
-                id : id
-            };
+    var id = arrayEmpresa[document.getElementById('sEmpresa').selectedIndex];
+    var parametros = {
+        opcion : "agregarBus",
+        txtPlaca: $('#txtPlaca').val(),
+        txtNombre: $('#txtNombre').val(),
+        id : id
+    };
 
-            // Realizar la petición
-            var post = $.post(
-                                  "php/mysql.php",    // Script que se ejecuta en el servidor
-                                  parametros,                              
-                                  siRespuesta2    // Función que se ejecuta cuando el servidor responde
-                                  );
-        }
-    }
+    // Realizar la petición
+    var post = $.post(
+                          "php/mysql.php",    // Script que se ejecuta en el servidor
+                          parametros,                              
+                          siRespuesta2    // Función que se ejecuta cuando el servidor responde
+                          );
 }
 
 function siRespuesta2(r){
@@ -65,3 +57,8 @@ function limpiar(){
     document.getElementById('txtNombre').value = "";
     document.getElementById('txtPlaca').value = "";
 }
+
+$( "#busForm" ).submit(function( event ) {
+    agregarBus();
+    return false;
+});

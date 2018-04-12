@@ -1,24 +1,16 @@
 function iniciar(){
-    if (document.getElementById('txtUser').value == "") {
-        alert('El user es requerido');
-    }else{ 
-        if (document.getElementById('txtPass').value == "") {
-            alert('El password es requerido');
-        }else{
-            var parametros = {
-                opcion : "obtenerPass",
-                txtUser: $('#txtUser').val(),
-                txtPass: $('#txtPass').val()
-            };
+    var parametros = {
+        opcion : "obtenerPass",
+        txtUser: $('#txtUser').val(),
+        txtPass: $('#txtPass').val()
+    };
 
-            // Realizar la petición
-            var post = $.post(
-                                  "php/mysql.php",    // Script que se ejecuta en el servidor
-                                  parametros,                              
-                                  siRespuesta    // Función que se ejecuta cuando el servidor responde
-                                  );
-        }
-    }
+    // Realizar la petición
+    var post = $.post(
+                          "php/mysql.php",    // Script que se ejecuta en el servidor
+                          parametros,                              
+                          siRespuesta    // Función que se ejecuta cuando el servidor responde
+                          );
 }
 function siRespuesta(r){
 	try{
@@ -32,6 +24,10 @@ function siRespuesta(r){
 		}
 	}catch(e){
 		alert('Password incorrecto');
-	}
-	            
+	}	            
 }
+
+$( "#loginForm" ).submit(function( event ) {
+    iniciar();
+    return false;
+});

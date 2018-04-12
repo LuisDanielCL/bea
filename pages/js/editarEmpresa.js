@@ -56,26 +56,22 @@ function siRespuesta2(r){
 }
 
 function editarEmpresa(){
-    if (document.getElementById('txtNombre').value == "") {
-        alert('El nombre es requerido');
-    }else{  
-        var id = arrayEmpresa[document.getElementById('sEmpresa').selectedIndex];
-        var parametros = {
-            opcion : "editarEmpresa",
-            id : id,
-            txtNombre: $('#txtNombre').val(),
-            txtTelefono: $('#txtTelefono').val(),
-            txtCorreo: $('#txtCorreo').val(),
-            txtDireccion: $('#txtDireccion').val()
-        };
+    var id = arrayEmpresa[document.getElementById('sEmpresa').selectedIndex];
+    var parametros = {
+        opcion : "editarEmpresa",
+        id : id,
+        txtNombre: $('#txtNombre').val(),
+        txtTelefono: $('#txtTelefono').val(),
+        txtCorreo: $('#txtCorreo').val(),
+        txtDireccion: $('#txtDireccion').val()
+    };
 
-        // Realizar la petición
-        var post = $.post(
-                              "php/mysql.php",    // Script que se ejecuta en el servidor
-                              parametros,                              
-                              siRespuesta3    // Función que se ejecuta cuando el servidor responde
-                              );
-    }
+    // Realizar la petición
+    var post = $.post(
+                          "php/mysql.php",    // Script que se ejecuta en el servidor
+                          parametros,                              
+                          siRespuesta3    // Función que se ejecuta cuando el servidor responde
+                          );  
 }
 
 function siRespuesta3(r){
@@ -90,3 +86,8 @@ function limpiar(){
     document.getElementById('txtCorreo').value = "";
     document.getElementById('txtDireccion').value = "";
 }
+
+$( "#editarForm" ).submit(function( event ) {
+    editarEmpresa();
+    return false;
+});

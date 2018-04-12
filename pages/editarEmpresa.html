@@ -55,14 +55,14 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-10">
-                                    <form role="form">
+                                    <form id="editarForm" role="form">
                                         <div class="form-group">
                                             <label>Seleccione la empresa a editar:</label>
                                             <div id="cbEmpresa"></div> 
                                         </div>
                                         <div class="form-group">
                                             <label>Nombre</label>
-                                            <input type="text" id="txtNombre" class="form-control" placeholder="Obligatorio">
+                                            <input type="text" id="txtNombre" class="form-control" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Telefono</label>
@@ -76,7 +76,7 @@
                                             <label>Direccion</label>
                                             <textarea type="text" id="txtDireccion" class="form-control" rows="3"></textarea>
                                         </div>
-                                        <button type="button" class="btn btn-primary" onclick="editarEmpresa();">Actualizar</button>
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
                                         <label>               </label>
                                         <button type="button" class="btn btn-warning" onclick="limpiar();">Limpiar</button>
                                     </form>

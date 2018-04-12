@@ -42,16 +42,16 @@
                         <h3 class="panel-title">Iniciar sesion</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                        <form id="loginForm" role="form">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="User" id="txtUser" type="text" autofocus>
+                                    <input class="form-control" placeholder="User" id="txtUser" type="text" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" id="txtPass" type="password" value="">
+                                    <input class="form-control" placeholder="Password" id="txtPass" type="password" value="" required>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button type="button" class="btn btn-success" onclick="iniciar();">Iniciar</button>
+                                <button type="submit" class="btn btn-success">Iniciar</button>
                             </fieldset>
                         </form>
                     </div>
