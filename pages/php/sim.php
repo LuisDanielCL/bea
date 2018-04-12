@@ -39,41 +39,41 @@ switch ($opcion) {
 		if($mysqli) $mysqli->close();
 		echo "Sim agregado";
 	break;
-	case 'editarComponente':
-		$codigo = $_POST['txtCodigo'];
+	case 'editarSim':
+		$numero = $_POST['txtNumero'];
 		$fecha = $_POST['txtFecha'];
 		$estado = $_POST['txtEstado'];
-		$lote = $_POST['txtlote'];
-		$imei = $_POST['txtIMEI'];
-		$tipo = $_POST['txtTipoComponente'];
-		$mysqli->query("SET @codigo  = " . "'" . $mysqli->real_escape_string($codigo) . "'");
+		$pin = $_POST['txtPin'];
+		$puk = $_POST['txtPuk'];
+		$codigo = $_POST['txtCodigo'];
+		$mysqli->query("SET @numero  = " . "'" . $mysqli->real_escape_string($numero) . "'");
 		$mysqli->query("SET @fecha  = " . "'" . $mysqli->real_escape_string($fecha) . "'");
 		$mysqli->query("SET @estado  = " . "'" . $mysqli->real_escape_string($estado) . "'");
-		$mysqli->query("SET @lote  = " . "'" . $mysqli->real_escape_string($lote) . "'");
-		$mysqli->query("SET @imei  = " . "'" . $mysqli->real_escape_string($imei) . "'");
-		$mysqli->query("SET @tipo  = " . "'" . $mysqli->real_escape_string($tipo) . "'");
-
-		if(!$mysqli->query("CALL editarComponente(@codigo,@estado,@fecha,@lote,@tipo,@imei)"))
-		{
-    		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 Fallo editar componente');
-    		die();
-		}
-		if($mysqli) $mysqli->close();
-		echo "Componente editado";
-	break;
-	case 'eliminarComponente':
-		$codigo = $_POST['txtCodigo'];
+		$mysqli->query("SET @pin  = " . "'" . $mysqli->real_escape_string($pin) . "'");
+		$mysqli->query("SET @puk  = " . "'" . $mysqli->real_escape_string($puk) . "'");
 		$mysqli->query("SET @codigo  = " . "'" . $mysqli->real_escape_string($codigo) . "'");
 
-		if(!$mysqli->query("CALL eliminarComponente(@codigo)"))
+		if(!$mysqli->query("CALL editarSim(@numero,@pin,@puk,@codigo,@fecha,@estado)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 Fallo eliminar componente');
+    		header('HTTP/1.1 400 Fallo editar SIM');
     		die();
 		}
 		if($mysqli) $mysqli->close();
-		echo "Componente eliminado";
+		echo "Sim editado";
+	break;
+	case 'eliminarSim':
+		$numero = $_POST['txtNumero'];
+		$mysqli->query("SET @numero  = " . "'" . $mysqli->real_escape_string($numero) . "'");
+
+		if(!$mysqli->query("CALL eliminarSim(@numero)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Fallo eliminar sim');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Sim eliminado";
 	break;
 
 	default:

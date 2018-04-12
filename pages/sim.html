@@ -65,7 +65,7 @@
                                       <div class="form-row">
                                         <div class="col-md-4 mb-3">
                                           <label for="validationDefault01">Numero</label>
-                                          <input type="text" class="form-control" id="txtNumero" autocomplete="off" required  maxlength="20">
+                                          <input type="text" class="form-control" id="txtNumero" autocomplete="off" required  maxlength="10">
                                         </div>
                                         <div class="col-md-4 mb-5">
                                             <label for="validationDefault02">Fecha</label>
@@ -89,15 +89,15 @@
                                       <div class="form-row">
                                         <div class="col-md-2 mb-4">
                                           <label for="validationDefault03">PIN</label>
-                                          <input type="text" class="form-control" id="txtPin" autocomplete="off" required maxlength="40">
+                                          <input type="text" class="form-control" id="txtPin" autocomplete="off" required maxlength="6">
                                         </div>
                                         <div class="col-md-5 mb-4">
                                           <label for="validationDefault03">PUK</label>
-                                          <input type="text" class="form-control" id="txtPuk" autocomplete="off" required maxlength="40">
+                                          <input type="text" class="form-control" id="txtPuk" autocomplete="off" required maxlength="20">
                                         </div>
                                         <div class="col-md-5 mb-4">
                                           <label for="validationDefault03">Codigo</label>
-                                          <input type="text" class="form-control" id="txtCodigo" autocomplete="off" required maxlength="40">
+                                          <input type="text" class="form-control" id="txtCodigo" autocomplete="off" required maxlength="30">
                                         </div>
 
                                       </div>
@@ -107,8 +107,8 @@
                                       <div class="form-row col-lg-12 ">
                                         <div class="col-md-6 mb-3">
                                             <button class="btn btn-success mt-2" type="submit" id="btnAgregarSim">Agregar</button>
-                                            <button class="btn btn-primary mt-2" type="submit"  style="display:none;" id="btnEditarComponente">Editar</button>
-                                            <button class="btn btn-danger mt-2"  type="button" onclick="limpiarTodo()" id="btnLimpiarComponente">Limpiar</button>
+                                            <button class="btn btn-primary mt-2" type="submit"  style="display:none;" id="btnEditarSim">Editar</button>
+                                            <button class="btn btn-danger mt-2"  type="button" onclick="limpiarTodo()" id="btnLimpiarSim">Limpiar</button>
                                         </div>
                                       </div>
                                     </form>
@@ -131,16 +131,15 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="tablaComponentes">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="tablaSim">
                                 <thead>
                                     <tr>
+                                        <th>Numero Teléfono</th>
+                                        <th>Pin</th>
+                                        <th>Puk</th>
                                         <th>Código</th>
-                                        <th>Tipo</th>
-                                        <th>Lote</th>
-                                        <th>Fecha</th>
+                                        <th>Fecha registro</th>
                                         <th>Estado</th>
-                                        <th>IMEI</th>
-                                        <th visible="false">TipoCod</th>
                                         <th>Acción</th>
                                     </tr>                                   
                                 </thead>
