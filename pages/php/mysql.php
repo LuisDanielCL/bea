@@ -175,6 +175,32 @@ switch ($opcion) {
 		echo "Tecnico agregado";
 	break;
 
+	case 'hacerAdmin':
+		$user = $_POST['txtUser'];
+		$mysqli->query("SET @user  = " . "'" . $mysqli->real_escape_string($user) . "'");
+		if(!$mysqli->query("CALL hacerAdmin (@user)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Un tecnico ha sido promovido a administrador";
+	break;
+
+	case 'quitarAdmin':
+		$user = $_POST['txtUser'];
+		$mysqli->query("SET @user  = " . "'" . $mysqli->real_escape_string($user) . "'");
+		if(!$mysqli->query("CALL quitarAdmin (@user)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Se le ha revocado a un administrador los permisos";
+	break;
+
 	default:
 		# code...
 		break;
