@@ -1,9 +1,10 @@
 var listTipo = [];
-var tabla;
+var tablaComponente;
+var tablaKit;
 $( document ).ready(function() {
     cargarTipoComponente();
 
-    tabla = $('#tablaComponentes').DataTable( {
+    tablaComponente = $('#tablaComponentes').DataTable( {
         "scrollX": true,
         "columns": [
             null,
@@ -27,28 +28,19 @@ $( document ).ready(function() {
         ],
         "processing": true,
         "serverSide": true,
-        "ajax": "php/tablas/tablaComponentes.php",
-            initComplete: function () {
-                this.api().columns().every( function () {
-                    var column = this;
-                    var select = $('<select><option value=""></option></select>')
-                        .appendTo( $(column.footer()).empty() )
-                        .on( 'change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                            );
-      
-                            column
-                                .search( this.value ).draw();
-                        } );
-      
-                    column.data().unique().sort().each( function ( d, j ) {
-                        select.append( '<option value="'+d+'">'+d+'</option>' )
-                    } );
-                } );
-            }
+        "ajax": "php/tablas/tablaComponentes.php"
         
     } );
+
+
+    tablaKit = $('#tablKits').DataTable( {
+        "scrollX": true,
+        "processing": true,
+        "serverSide": true,
+        "ajax": "php/tablas/tablaKit.php"
+        
+    } );
+
 });
 
 var arrayEmpresa = [];
