@@ -175,41 +175,6 @@ switch ($opcion) {
 		echo "Tecnico agregado";
 	break;
 
-	case 'editarUsuario':
-		$nombre = $_POST['txtNombre'];
-		$apellidoUno = $_POST['txtApellidoUno'];
-		$apellidoDos = $_POST['txtApellidoDos'];
-		$user = $_POST['txtUser'];
-		$pass = $_POST['txtPass'];
-		$telefono = $_POST['txtTelefono'];
-		$correo = $_POST['txtCorreo'];
-		$mysqli->query("SET @nombre  = " . "'" . $mysqli->real_escape_string($nombre) . "'");
-		$mysqli->query("SET @apellidoUno  = " . "'" . $mysqli->real_escape_string($apellidoUno) . "'");
-		$mysqli->query("SET @apellidoDos  = " . "'" . $mysqli->real_escape_string($apellidoDos) . "'");
-		$mysqli->query("SET @user  = " . "'" . $mysqli->real_escape_string($user) . "'");
-		$mysqli->query("SET @pass  = " . "'" . $mysqli->real_escape_string($pass) . "'");
-		$mysqli->query("SET @telefono  = " . "'" . $mysqli->real_escape_string($telefono) . "'");
-		$mysqli->query("SET @correo  = " . "'" . $mysqli->real_escape_string($correo) . "'");
-		if(!$mysqli->query("CALL editarUsuario (@nombre,@apellidoUno,@apellidoDos,@user,@pass,@telefono,@correo)"))
-		{
-    		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 Es posible que el usuario ya exista');
-    		die();
-		}
-		if($mysqli) $mysqli->close();
-		echo "Tecnico actualizado";
-	break;
-
-	case  'cargarUsuario':
-		$user = $_POST['user'];
-		$mysqli->query("SET @user  = " . "'" . $mysqli->real_escape_string($user) . "'");
-		$resultado = $mysqli->query("CALL cargarUsuario (@user)");
-		while($row = $resultado->fetch_array()){
-			$json[] = $row;
-		}
-		echo json_encode($json) ;
-	break;
-
 	case 'hacerAdmin':
 		$user = $_POST['txtUser'];
 		$mysqli->query("SET @user  = " . "'" . $mysqli->real_escape_string($user) . "'");

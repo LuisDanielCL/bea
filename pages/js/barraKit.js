@@ -47,6 +47,11 @@ var arrayEmpresa = [];
 var arrayEmpresaNombre = [];
 var arrayBus = [];
 
+function revisarComponentes(inputComponente){
+
+    
+}
+
 function cargarTipoComponente(){
 	var parametros = {
 		opcion : "cargarTipoComponente"
