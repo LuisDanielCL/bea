@@ -61,6 +61,7 @@ function siRespuesta2(r){
     }
     salida += "</select>";
     $("#cbBus").html(salida);
+    cargarBus();
 }
 
 function cargarBus(){
@@ -82,7 +83,18 @@ function siRespuesta3(r){
     var doc = JSON.parse(r);         
     var obj = doc[0];     
     document.getElementById('txtNombre').value = obj.Nombre;
-    document.getElementById('txtEmpresa').value = arrayEmpresaNombre[obj.ID_Empresa-1];
+    setEmpresa(obj.ID_Empresa);
+}
+
+function setEmpresa(id){
+    var index=0;
+    for (var i = 0; i <= arrayEmpresa.length; i++) {
+        if (id == arrayEmpresa[i]) {
+            index = i;
+        }
+    }
+    console.log(index);
+    document.getElementById('sEmpresa').value = index;
 }
 
 function editarBus(){
@@ -129,7 +141,7 @@ function cargarEmpresasFiltrar(){
 function siRespuesta5(r){
     var doc = JSON.parse(r);
     var salida = '<select class="form-control" tabindex="-1" id="sEmpresaFiltrar" onclick="filtrarBuses();">';  
-    salida += '<option value="'+i+'">Todos</option>';                  
+    salida += '<option value="-1">Todos</option>';                  
     $("#cbEmpresaFiltrar").html("");
     for (var i = 0; i < doc.length; i++) {
         var j = i;
@@ -161,22 +173,28 @@ function filtrarBuses(){
 }
 
 function siRespuesta6(r){
-    arrayBus = [];
-    removeOptions();
-    //console.log("largo "+doc.length);
-    var doc = JSON.parse(r);
-    var salida = '<select class="form-control" tabindex="-1" id="sBus" onclick="cargarBus();">';                   
-    $("#cbBus").html("");
-    for (var i = 0; i < doc.length; i++) {
-        var j = i;
-        var obj = doc[i];
-        salida += '<option value="'+i+'">'+obj.Placa+"  "+obj.Nombre+'</option>';
-        arrayBus[i] = obj.Placa;
-        //console.log(arrayfamiliaridad[i]);
+    try{
+        arrayBus = [];
+        removeOptions();
+        //console.log("largo "+doc.length);
+        var doc = JSON.parse(r);
+        var salida = '<select class="form-control" tabindex="-1" id="sBus" onclick="cargarBus();">';                   
+        $("#cbBus").html("");
+        for (var i = 0; i < doc.length; i++) {
+            var j = i;
+            var obj = doc[i];
+            salida += '<option value="'+i+'">'+obj.Placa+"  "+obj.Nombre+'</option>';
+            arrayBus[i] = obj.Placa;
+            //console.log(arrayfamiliaridad[i]);
+        }
+        salida += "</select>"; 
+        $("#cbBus").html(salida);
+        cargarBus();
+    }catch(e){
+        alert("La empresa "+ arrayEmpresaNombre[document.getElementById('sEmpresaFiltrar').selectedIndex-1] + " no tiene buses registrados");
+        document.getElementById('sEmpresaFiltrar').value = -1;
+        filtrarBuses();
     }
-    salida += "</select>"; 
-    $("#cbBus").html(salida);
-    limpiar();
 }
 
 function removeOptions(){
