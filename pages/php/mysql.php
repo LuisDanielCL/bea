@@ -201,6 +201,16 @@ switch ($opcion) {
 		echo "Se le ha revocado a un administrador los permisos";
 	break;
 
+	case  'mostrarBuses':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL mostrarBuses (@id)");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
 	default:
 		# code...
 		break;
