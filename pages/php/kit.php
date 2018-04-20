@@ -16,27 +16,18 @@ $opcion = $_POST['opcion'];
 
 switch ($opcion) {
 
-	case 'agregarSim':
-		$numero = $_POST['txtNumero'];
-		$fecha = $_POST['txtFecha'];
-		$estado = $_POST['txtEstado'];
-		$pin = $_POST['txtPin'];
-		$puk = $_POST['txtPuk'];
-		$codigo = $_POST['txtCodigo'];
-		$mysqli->query("SET @numero  = " . "'" . $mysqli->real_escape_string($numero) . "'");
-		$mysqli->query("SET @fecha  = " . "'" . $mysqli->real_escape_string($fecha) . "'");
-		$mysqli->query("SET @estado  = " . "'" . $mysqli->real_escape_string($estado) . "'");
-		$mysqli->query("SET @pin  = " . "'" . $mysqli->real_escape_string($pin) . "'");
-		$mysqli->query("SET @puk  = " . "'" . $mysqli->real_escape_string($puk) . "'");
-		$mysqli->query("SET @codigo  = " . "'" . $mysqli->real_escape_string($codigo) . "'");
+	case 'revisarComponente':
+		$componente = $_POST['componente'];
+		$mysqli->query("SET @componente  = " . "'" . $mysqli->real_escape_string($componente) . "'");
 
-		if(!$mysqli->query("CALL agregarSim(@numero,@fecha,@estado,@pin,@puk,@codigo)"))
+
+		$resultado = $mysqli->query("CALL revisarExistenciaComponente(@componente)"))
+		$data=mysql_fetch_assoc($result);
+		$total = $data['total'];
+		if($total != 0) // si entra quiere decir que el componente existe pasa a comprobar si se esta usando
 		{
-    		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 El SIM ya existe');
-    		die();
+			$resultado = $mysqli->query("CALL componenteEnUso(@componente)"))
 		}
-		if($mysqli) $mysqli->close();
 		echo "Sim agregado";
 	break;
 	case 'editarSim':

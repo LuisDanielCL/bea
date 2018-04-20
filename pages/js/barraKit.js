@@ -1,6 +1,7 @@
 var listTipo = [];
 var tablaComponente;
 var tablaKit;
+var componenteActual;
 $( document ).ready(function() {
     cargarTipoComponente();
 
@@ -47,36 +48,24 @@ var arrayEmpresa = [];
 var arrayEmpresaNombre = [];
 var arrayBus = [];
 
-function revisarComponentes(inputComponente){
+function revisarComponente(inputComponente){
+    componenteActual = inputComponente;
+    var parametros = {
+    opcion : "revisarComponente",
+    componente : inputComponente.value
+    }
 
-    
-}
-
-function cargarTipoComponente(){
-	var parametros = {
-		opcion : "cargarTipoComponente"
-	}
-
-	var post = $.post(
-                         "php/componentes.php",    // Script que se ejecuta en el servidor
-	                     parametros,    	                       
-	                     RespuestaCargarTipoComponente    // Función que se ejecuta cuando el servidor responde
+    var post = $.post(
+                         "php/kit.php",    // Script que se ejecuta en el servidor
+                         parametros,                               
+                         respuestaRevisarComponente    // Función que se ejecuta cuando el servidor responde
                          );
+    
 }
 
 function RespuestaCargarTipoComponente(r){
     var doc = JSON.parse(r);
-    var sel = document.getElementById('tipoComponente') // find the drop down
-    listTipo = [];
-    listTipo.push(-1); // Carga el espacio vacio primero
-    for (var i = 0; i < doc.length; i++) {
-        var obj = doc[i];
-        var opt = document.createElement("option"); // Create the new element
-        listTipo.push(obj.id);
-        opt.value = obj.codigo; // set the value
-        opt.text = obj.nombre; // set the text
-        sel.appendChild(opt); // add it to the select
-    }
+    console.log(doc);
 }
 
 
