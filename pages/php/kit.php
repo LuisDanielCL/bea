@@ -19,16 +19,31 @@ switch ($opcion) {
 	case 'revisarComponente':
 		$componente = $_POST['componente'];
 		$mysqli->query("SET @componente  = " . "'" . $mysqli->real_escape_string($componente) . "'");
-
-
-		$resultado = $mysqli->query("CALL revisarExistenciaComponente(@componente)"))
-		$data=mysql_fetch_assoc($result);
+		$salida = "";
+		$resultado = $mysqli->query("CALL revisarExistenciaComponente(@componente)");
+		$data=$resultado->fetch_array();
 		$total = $data['total'];
+		$mysqli->close();
 		if($total != 0) // si entra quiere decir que el componente existe pasa a comprobar si se esta usando
 		{
-			$resultado = $mysqli->query("CALL componenteEnUso(@componente)"))
+			$mysqli2 = new mysqli($servername, $username, $password,$DBName);
+			$mysqli2->query("SET @componente  = " . "'" . $mysqli2->real_escape_string($componente) . "'");
+			$resultado2 = $mysqli2->query("CALL revisarUsoComponente(@componente)");
+			$data2=$resultado2->fetch_array();
+			$total2 = $data2['total'];
+			$mysqli2->close();
+			if($total2 != 0) // si entra quiere decir que el componente esta en uso
+			{
+				$salida = 'uso';
+			}else{
+				$salida = 'existe';
+			}
+		}else{
+			$salida = 'nuevo';
+
 		}
-		echo "Sim agregado";
+
+		echo $salida;
 	break;
 	case 'editarSim':
 		$numero = $_POST['txtNumero'];

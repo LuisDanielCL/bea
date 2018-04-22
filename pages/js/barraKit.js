@@ -48,12 +48,19 @@ var arrayEmpresa = [];
 var arrayEmpresaNombre = [];
 var arrayBus = [];
 
+<<<<<<< HEAD
 function revisarComponente(inputComponente){
     componenteActual = inputComponente;
     var parametros = {
     opcion : "revisarComponente",
     componente : inputComponente.value
     }
+=======
+function cargarTipoComponente(){
+	var parametros = {
+		opcion : "cargarTipoComponente"
+	}
+>>>>>>> parent of 3f74064... Merge branch 'master' of https://github.com/LuisDanielCL/bea
 
     var post = $.post(
                          "php/kit.php",    // Script que se ejecuta en el servidor
@@ -63,9 +70,8 @@ function revisarComponente(inputComponente){
     
 }
 
-function RespuestaCargarTipoComponente(r){
-    var doc = JSON.parse(r);
-    console.log(doc);
+function respuestaRevisarComponente(r){
+    alert(r);
 }
 
 
