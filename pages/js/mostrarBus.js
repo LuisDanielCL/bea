@@ -1,3 +1,5 @@
+window.onload = alert(localStorage.getItem("busID"));
+
 $( document ).ready(function() {
     cargarEmpresas();
 });
@@ -94,7 +96,5 @@ function siRespuesta3(r){
 }
 
 function mostrarBus(btn){
-    var id = "15";
-    localStorage.setItem("busID",id);
     setTimeout("location.href='mostrarBus.html'",0);
 }
