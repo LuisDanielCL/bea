@@ -24,6 +24,16 @@ switch ($opcion) {
 		}
 	    echo json_encode($json);
 	break;
+	case  'cargarComponente':
+		$codigo = $_POST['codigo'];
+		$mysqli->query("SET @codigo  = " . "'" . $mysqli->real_escape_string($codigo) . "'");
+		$resultado = $mysqli->query("CALL cargarComponente(@codigo)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
+	break;
 	case 'agregarComponente':
 		$codigo = $_POST['txtCodigo'];
 		$fecha = $_POST['txtFecha'];

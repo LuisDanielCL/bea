@@ -3,23 +3,9 @@ var tablaComponente;
 var tablaKit;
 var componenteActual;
 $( document ).ready(function() {
-    cargarTipoComponente();
 
     tablaComponente = $('#tablaComponentes').DataTable( {
         "scrollX": true,
-        "columns": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            {
-              "data": null,
-              "defaultContent": '<button class="btn btn-primary" onclick="cargarEditar(this)" >Editar</button><button class="btn btn-danger" onclick="eliminarComponente(this)" >Eliminar</button>'
-            }
-        ],
         "columnDefs": [
             {
                 "targets": [ 6 ],
@@ -44,36 +30,110 @@ $( document ).ready(function() {
 
 });
 
-var arrayEmpresa = [];
-var arrayEmpresaNombre = [];
-var arrayBus = [];
 
 
 function revisarComponente(inputComponente){
-    componenteActual = inputComponente;
-    var parametros = {
-    opcion : "revisarComponente",
-    componente : inputComponente.value
+    inputComponente.value = inputComponente.value.trim();
+    if(inputComponente.value != ""){
+        componenteActual = inputComponente;
+        var parametros = {
+        opcion : "revisarComponente",
+        componente : inputComponente.value
+        }
+        var post = $.post(
+                             "php/kit.php",    // Script que se ejecuta en el servidor
+                             parametros,                               
+                             respuestaRevisarComponente    // Función que se ejecuta cuando el servidor responde
+                             );
+    }else{
+       $(componenteActual).parent().removeClass('has-error has-edit has-success'); 
     }
-    var post = $.post(
-                         "php/kit.php",    // Script que se ejecuta en el servidor
-                         parametros,                               
-                         respuestaRevisarComponente    // Función que se ejecuta cuando el servidor responde
-                         );
-    
 }
 
 function respuestaRevisarComponente(r){
-    if (r == 'nuevo'){
-
-    }
-    if (r == 'uso'){
-        
-    }
-    if (r == 'existe'){
-        
+    
+    switch(r) {
+        case 'nuevo':
+            $(componenteActual).parent().addClass('has-success');
+            break;
+        case 'uso':
+            $(componenteActual).parent().toggleClass('has-error');
+            break;
+        case 'existe':
+            $(componenteActual).parent().removeClass('has-error has-success');
+            break;
     }
 }
+
+function revisar8K(inputComponente){
+
+    inputComponente.value = inputComponente.value.trim();
+    if(inputComponente.value != ""){
+        componenteActual = inputComponente;
+        var parametros = {
+        opcion : "revisarComponente",
+        componente : inputComponente.value
+        }
+        var post = $.post(
+                             "php/kit.php",    // Script que se ejecuta en el servidor
+                             parametros,                               
+                             respuestaRevisarComponente    // Función que se ejecuta cuando el servidor responde
+                             );
+    }else{
+       $(componenteActual).parent().removeClass('has-error has-edit has-success'); 
+    }
+}
+
+function respuestaRevisarComponente(r){
+    //Primero limpia el class y los datos
+    $(componenteActual).parent().removeClass('has-error has-edit has-success'); 
+    document.getElementById('claveCortaTX1').value = "";
+    document.getElementById('claveLargaTX1').value = "";
+    document.getElementById('claveCortaTX1').disabled = false;
+    document.getElementById('claveLargaTX1').disabled = false;
+
+    //cambia el color dependiendo del estado del codigo
+    switch(r) {
+        case 'nuevo':
+            $(componenteActual).parent().addClass('has-success');
+            break;
+        case 'uso':
+            $(componenteActual).parent().toggleClass('has-error');
+            break;
+        case 'existe':
+            $(componenteActual).parent().addClass('has-edit');
+            
+            obtenerClaves(componenteActual.value);
+            break;
+    }
+}
+
+
+function obtenerClaves(codigoComponente){
+    var parametros = {
+    opcion : "cargarComponente",
+    codigo : codigoComponente
+    }
+    var post = $.post(
+                         "php/componentes.php",    // Script que se ejecuta en el servidor
+                         parametros,                               
+                         respuestaObtenerClaves    // Función que se ejecuta cuando el servidor responde
+                         );
+
+}
+
+
+function respuestaObtenerClaves(r){
+    var doc = JSON.parse(r);
+    for (var i = 0; i < doc.length; i++) {
+        var obj = doc[i];
+        document.getElementById('claveCortaTX1').value = obj.claveCorta;
+        document.getElementById('claveLargaTX1').value = obj.claveLarga;
+        document.getElementById('claveCortaTX1').disabled = true;
+        document.getElementById('claveLargaTX1').disabled = true;
+    }
+}
+
 
 
 function cargarEditar(boton){

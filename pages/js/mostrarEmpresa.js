@@ -89,7 +89,6 @@ function siRespuesta3(r){
             ]).draw(false);
         }
     }catch(e){
-        alert("La empresa "+arrayEmpresaNombre[document.getElementById('sEmpresa').selectedIndex]+" no tiene buses registrados")
         document.getElementById('sEmpresa').value = 0;
         cargarEmpresa();
     }
