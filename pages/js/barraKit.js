@@ -63,9 +63,8 @@ function revisarComponente(inputComponente){
     
 }
 
-function RespuestaCargarTipoComponente(r){
-    var doc = JSON.parse(r);
-    console.log(doc);
+function respuestaRevisarComponente(r){
+    alert(r);
 }
 
 
