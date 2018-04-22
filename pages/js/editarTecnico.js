@@ -3,7 +3,7 @@ $( document ).ready(function() {
 });
 
 function cargarUsuario(){
-    var user = "admin"
+    var user = localStorage.getItem("username");
     var parametros = {
         opcion : "cargarUsuario",
         user : user

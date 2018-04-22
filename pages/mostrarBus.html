@@ -61,24 +61,20 @@
                                             <div id="cbEmpresa"></div> 
                                         </div>
                                         <div class="form-group">
-                                            <label>Telefono</label>
-                                            <input type="text" id="txtTelefono" class="form-control" disabled>
+                                            <label>Placa</label>
+                                            <div id="cbBus"></div> 
                                         </div>
                                         <div class="form-group">
-                                            <label>Correo</label>
-                                            <input type="text" id="txtCorreo" class="form-control" disabled>
+                                            <label>Nombre</label>
+                                            <input type="text" id="txtNombre" class="form-control" disabled>
                                         </div>
                                         <div class="form-group">
-                                            <label>Direccion</label>
-                                            <textarea type="text" id="txtDireccion" class="form-control" rows="3" disabled></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Buses</label>
+                                            <label>Barras</label>
                                             <table width="100%" class="table table-striped table-bordered table-hover" id="tablaBuses">
                                                 <thead>
                                                     <tr>
-                                                        <th>Placa</th>
-                                                        <th>Nombre</th>
+                                                        <th>Tipo Barra</th>
+                                                        <th>Codigo</th>
                                                         <th>Acción</th>
                                                     </tr>                                   
                                                 </thead>
@@ -123,6 +119,17 @@
     <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
     <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script> 
+
+    <script>
+    // tooltip demo
+    $('.tooltip-demo').tooltip({
+        selector: "[data-toggle=tooltip]",
+        container: "body"
+    })
+    // popover demo
+    $("[data-toggle=popover]")
+        .popover()
+    </script>
 </body>
 
 </html>

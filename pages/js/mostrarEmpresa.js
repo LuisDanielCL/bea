@@ -4,6 +4,7 @@ $( document ).ready(function() {
 
 var arrayEmpresa = [];
 var arrayEmpresaNombre = [];
+var arrayBuses = [];
 var tablaBuses;
 
 function cargarEmpresas(){
@@ -80,10 +81,11 @@ function siRespuesta3(r){
         tablaBuses.clear();
         for (var i = 0; i < doc.length; i++) {
             var obj = doc[i]; 
+            arrayBuses[i] = obj.Placa;
             tablaBuses.row.add([
                 obj.Placa,
                 obj.Nombre,
-                '<button class="btn btn-danger" onclick="mostrarBus(this)" >Mostrar</button>'
+                '<button class="btn btn-danger" onclick="mostrarBus('+i+')" >Mostrar</button>'
             ]).draw(false);
         }
     }catch(e){
@@ -93,8 +95,7 @@ function siRespuesta3(r){
     }
 }
 
-function mostrarBus(btn){
-    var id = "15";
-    localStorage.setItem("busID",id);
+function mostrarBus(btnID){
+    localStorage.setItem("busPlaca",arrayBuses[btnID]);
     setTimeout("location.href='mostrarBus.html'",0);
 }
