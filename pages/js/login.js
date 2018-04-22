@@ -17,7 +17,7 @@ function siRespuesta(r){
 		var doc = JSON.parse(r);
 		var user = document.getElementById('txtUser').value;  	
 		if (user == doc[0].user) {
-			alert('Bien');
+      localStorage.setItem("username",user);
 			setTimeout("location.href='index.html'",0);
 		}else{
 			alert('Password incorrecto');
