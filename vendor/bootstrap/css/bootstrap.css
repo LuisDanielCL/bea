@@ -3193,6 +3193,38 @@ select[multiple].input-lg {
 .has-success .form-control-feedback {
   color: #3c763d;
 }
+.has-edit .help-block,
+.has-edit .control-label,
+.has-edit .radio,
+.has-edit .checkbox,
+.has-edit .radio-inline,
+.has-edit .checkbox-inline,
+.has-edit.radio label,
+.has-edit.checkbox label,
+.has-edit.radio-inline label,
+.has-edit.checkbox-inline label {
+  color: #0033cc;
+}
+.has-edit .form-control {
+  border-color: #0033cc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.has-edit .form-control:focus {
+  border-color:  #0040ff;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #809fff;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #809fff;
+}
+.has-edit .input-group-addon {
+  color: #0033cc;
+  background-color: #ccd9ff;
+  border-color: #0033cc;
+}
+.has-edit .form-control-feedback {
+  color: #0033cc;
+}
+
+
 .has-warning .help-block,
 .has-warning .control-label,
 .has-warning .radio,
@@ -3223,6 +3255,8 @@ select[multiple].input-lg {
 .has-warning .form-control-feedback {
   color: #8a6d3b;
 }
+
+
 .has-error .help-block,
 .has-error .control-label,
 .has-error .radio,

@@ -125,7 +125,6 @@
                                                     <th visible="false">Estado</th>
                                                     <th visible="false">IMEI</th>
                                                     <th visible="false">TipoCod</th>
-                                                    <th>Acción</th>
                                                 </tr>                                   
                                             </thead>
              
@@ -175,7 +174,7 @@
                                         <div class="row">
                                             <div class="col-lg-offset-2 col-lg-8">
                                                 <form id="componentesForm">
-                                                    <div class="form-group row">
+                                                    <div class="form-group row ">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">Serie</label>
                                                         <div class="col-sm-10">
                                                           <input class="form-control" id="serieTX1" placeholder="Serie" required>
@@ -184,7 +183,7 @@
                                                     <div class="form-group row">
                                                         <label class="col-sm-2 col-form-label">8KTX1</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="8kTX1" placeholder="8KTX1" onchange="revisarComponente(this);">
+                                                          <input class="form-control" id="8kTX1" placeholder="8KTX1" onchange="revisar8K(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="col-lg-offset-2">
@@ -204,7 +203,7 @@
                                                     <div class="form-group row">
                                                         <label  class="col-sm-2 col-form-label">MODEM</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="modemTX1" placeholder="Modem">
+                                                          <input class="form-control" id="modemTX1" placeholder="Modem" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="col-lg-offset-2">
@@ -218,25 +217,25 @@
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">PRO</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="PRO">
+                                                          <input class="form-control" id="inputMAX" placeholder="PRO" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">PRO2</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="PRO">
+                                                          <input class="form-control" id="inputMAX" placeholder="PRO" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">MAX</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="MAX">
+                                                          <input class="form-control" id="inputMAX" placeholder="MAX" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">MAX2</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="MAX">
+                                                          <input class="form-control" id="inputMAX" placeholder="MAX" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                   <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
@@ -267,7 +266,7 @@
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">Serie</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="serieTX1" placeholder="Serie" required>
+                                                          <input class="form-control" id="serieTX1" placeholder="Serie" onchange="revisarComponente(this);" required>
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
@@ -279,26 +278,26 @@
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">Duplex2</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="MAX">
+                                                          <input class="form-control" id="inputMAX" placeholder="MAX" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">PRO2</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="PRO">
+                                                          <input class="form-control" id="inputMAX" placeholder="PRO" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label  class="col-sm-2 col-form-label">Centro carga</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="modemTX1" placeholder="Modem">
+                                                          <input class="form-control" id="modemTX1" placeholder="Modem" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">TAR</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="PRO">
+                                                          <input class="form-control" id="inputMAX" placeholder="PRO" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                   <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
@@ -333,38 +332,38 @@
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">Serie</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="serieTX1" placeholder="Serie">
+                                                          <input class="form-control" id="serieTX1" placeholder="Serie" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label class="col-sm-2 col-form-label">Duplex</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="8kTX1" placeholder="8KTX1">
+                                                          <input class="form-control" id="8kTX1" placeholder="8KTX1" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">Duplex2</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="MAX">
+                                                          <input class="form-control" id="inputMAX" placeholder="MAX" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">PRO2</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="PRO">
+                                                          <input class="form-control" id="inputMAX" placeholder="PRO" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label  class="col-sm-2 col-form-label">Centro carga</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="modemTX1" placeholder="Modem">
+                                                          <input class="form-control" id="modemTX1" placeholder="Modem" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">TAR</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="PRO">
+                                                          <input class="form-control" id="inputMAX" placeholder="PRO" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                   <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
@@ -395,19 +394,19 @@
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">Serie</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="serieTX1" placeholder="Serie">
+                                                          <input class="form-control" id="serieTX1" placeholder="Serie" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label class="col-sm-2 col-form-label">PRO</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="8kTX1" placeholder="8KTX1">
+                                                          <input class="form-control" id="8kTX1" placeholder="8KTX1" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="inputPassword" class="col-sm-2 col-form-label">PRO2</label>
                                                         <div class="col-sm-10">
-                                                          <input class="form-control" id="inputMAX" placeholder="MAX">
+                                                          <input class="form-control" id="inputMAX" placeholder="MAX" onchange="revisarComponente(this);">
                                                         </div>  
                                                     </div>
 
@@ -440,11 +439,11 @@
                                           <div class="form-row">
                                             <div class="col-md-6 mb-6">
 
-                                                <button class="btn btn-success btn-lg btn-block" type="submit"  onclick="mostrarComponentes(this)" >Agregar</button>
+                                                <button class="btn btn-success btn-lg btn-block" type="submit"  >Agregar</button>
                                             </div>
                                             <div class="col-md-6 mb-6">
 
-                                                <button class="btn btn-danger btn-lg btn-block"  type="button" style="float:right;" onclick="mostrarComponentes(this)" >Limpiar</button>
+                                                <button class="btn btn-danger btn-lg btn-block"  type="button" style="float:right;">Limpiar</button>
                                             </div>
                                             
                                           </div>
