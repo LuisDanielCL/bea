@@ -21,22 +21,25 @@ function cargarEmpresas(){
 
 function siRespuesta(r){
 	var doc = JSON.parse(r);
-	var salida = '<select class="form-control" tabindex="-1" id="sEmpresa" onclick="cargarEmpresa();">';                    
+	var salida = '<select class="form-control" tabindex="-1" id="sEmpresa" onclick="cargarEmpresa();" required>'; 
+    salida += '<option disabled selected value>Escoja una opcion</opcion>';                   
 	$("#cbEmpresa").html("");
 	for (var i = 0; i < doc.length; i++) {
-        var j = i;
+        var j = i+1;
         var obj = doc[i];
-        salida += '<option value="'+i+'">'+obj.Nombre+'</option>';
+        salida += '<option value="'+j+'">'+obj.Nombre+'</option>';
         arrayEmpresa[i] = obj.ID;
         arrayEmpresaNombre[i] = obj.Nombre;
     }
     salida += "</select>";
     $("#cbEmpresa").html(salida);
-    cargarEmpresa();
 }
 
 function cargarEmpresa(){
-    var id = arrayEmpresa[document.getElementById('sEmpresa').selectedIndex];
+    var id=1;
+    if (document.getElementById('sEmpresa').selectedIndex != 0) {
+        id = arrayEmpresa[document.getElementById('sEmpresa').selectedIndex-1];    
+    }
     var parametros = {
         opcion : "cargarEmpresa",
         id : id
@@ -60,18 +63,20 @@ function siRespuesta2(r){
 }
 
 function cargarBuses(){
-    var id = arrayEmpresa[document.getElementById('sEmpresa').selectedIndex];
-    var parametros = {
-        opcion : "mostrarBuses",
-        id : id
-    };
+    if (document.getElementById('sEmpresa').selectedIndex != 0) {
+        var id = arrayEmpresa[document.getElementById('sEmpresa').selectedIndex-1];    
+        var parametros = {
+            opcion : "mostrarBuses",
+            id : id
+        };
 
-    // Realizar la petición
-    var post = $.post(
-                          "php/mysql.php",    // Script que se ejecuta en el servidor
-                          parametros,                              
-                          siRespuesta3    // Función que se ejecuta cuando el servidor responde
-                          ); 
+        // Realizar la petición
+        var post = $.post(
+                              "php/mysql.php",    // Script que se ejecuta en el servidor
+                              parametros,                              
+                              siRespuesta3    // Función que se ejecuta cuando el servidor responde
+                              ); 
+    }
 }
 
 function siRespuesta3(r){
@@ -89,8 +94,9 @@ function siRespuesta3(r){
             ]).draw(false);
         }
     }catch(e){
+        alert("La empresa "+arrayEmpresaNombre[document.getElementById('sEmpresa').selectedIndex-1]+" no tiene buses registrados");
         document.getElementById('sEmpresa').value = 0;
-        cargarEmpresa();
+        limpiar();
     }
 }
 
@@ -98,4 +104,12 @@ function mostrarBus(btnID){
     localStorage.setItem("busPlaca",arrayBuses[btnID]);
     localStorage.setItem("empresaID",arrayEmpresa[document.getElementById('sEmpresa').selectedIndex]);
     setTimeout("location.href='mostrarBus.html'",0);
+}
+
+function limpiar(){
+    document.getElementById('txtTelefono').value = "";
+    document.getElementById('txtCorreo').value = "";
+    document.getElementById('txtDireccion').value = "";
+    tablaBuses.clear();
+    tablaBuses.draw();
 }

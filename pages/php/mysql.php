@@ -246,6 +246,16 @@ switch ($opcion) {
 		echo json_encode($json) ;
 	break;
 
+	case  'cargarKit':
+		$placa = $_POST['placa'];
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$resultado = $mysqli->query("CALL cargarKit (@placa)");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
 	default:
 		# code...
 		break;
