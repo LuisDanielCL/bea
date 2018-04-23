@@ -97,5 +97,6 @@ function siRespuesta3(r){
 
 function mostrarBus(btnID){
     localStorage.setItem("busPlaca",arrayBuses[btnID]);
+    localStorage.setItem("empresaID",arrayEmpresa[document.getElementById('sEmpresa').selectedIndex]);
     setTimeout("location.href='mostrarBus.html'",0);
 }

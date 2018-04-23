@@ -1,5 +1,5 @@
 var placa = localStorage.getItem("busPlaca");
-localStorage.setItem("busPlaca","");
+var empresa = localStorage.getItem("empresaID");
 
 $( document ).ready(function() {
     cargarEmpresas();
@@ -39,7 +39,12 @@ function siRespuesta(r){
 }
 
 function cargarBuses(){
-    var id = arrayEmpresa[document.getElementById('sEmpresa').selectedIndex];
+    if (empresa.localeCompare("") == 0) {
+        id = arrayEmpresa[document.getElementById('sEmpresa').selectedIndex];
+    }else{
+        id = empresa;
+        setEmpresa(empresa);
+    }
     var parametros = {
         opcion : "filtrarBuses",
         id : id
@@ -78,14 +83,13 @@ function siRespuesta2(r){
 }
 
 function cargarBus(){
-    alert(localStorage.getItem("busPlaca"));
+    console.log("placa "+placa);
     if (placa.localeCompare("") == 0) {
+        console.log("yes");
         placa = arrayBus[document.getElementById('sBus').selectedIndex];
     }else{
         setBus(placa);
     }
-    alert(arrayBus[document.getElementById('sBus').selectedIndex]);
-    alert(placa);
     var parametros = {
         opcion : "cargarBus",
         placa : placa
@@ -103,7 +107,10 @@ function siRespuesta3(r){
     var doc = JSON.parse(r);         
     var obj = doc[0];     
     document.getElementById('txtNombre').value = obj.Nombre;
-    setEmpresa(obj.ID_Empresa);
+    placa = "";
+    empresa = "";
+    localStorage.setItem("busPlaca",null);
+    localStorage.setItem("empresa","");
 }
 
 function setEmpresa(id){
@@ -113,7 +120,6 @@ function setEmpresa(id){
             index = i;
         }
     }
-    console.log(index);
     document.getElementById('sEmpresa').value = index;
 }
 
@@ -124,14 +130,12 @@ function setBus(placa){
             index = i;
         }
     }
-    console.log(index);
     document.getElementById('sBus').value = index;
 }
 
 function removeOptions(){
     var selectbox = document.getElementById('sBus');
-    var i;
-    for(i = arrayBus.length - 1 ; i >= 0 ; i--)
+    for(var i = arrayBus.length - 1 ; i >= 0 ; i--)
     {
         selectbox.remove(i);
     }
