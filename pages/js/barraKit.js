@@ -2,6 +2,8 @@ var listTipo = [];
 var tablaComponente;
 var tablaKit;
 var componenteActual;
+var editar = false;
+var componentesAct = [];
 $( document ).ready(function() {
 
     tablaComponente = $('#tablaComponentes').DataTable( {
@@ -45,24 +47,30 @@ $( document ).ready(function() {
 
 function revisarComponente(inputComponente){
     inputComponente.value = inputComponente.value.trim();
-    if(inputComponente.value != ""){
-        componenteActual = inputComponente;
+    componenteActual = inputComponente;
+    $(inputComponente).parent().removeClass('has-error has-edit has-success has-warning'); 
+
+    if(!componentesAct.includes(inputComponente.value)){
         var parametros = {
-        opcion : "revisarComponente",
-        componente : inputComponente.value
-        }
+            opcion : "revisarComponente",
+            componente : inputComponente.value
+            }                
+
+
         var post = $.post(
                              "php/kit.php",    // Script que se ejecuta en el servidor
                              parametros,                               
                              respuestaRevisarComponente    // Función que se ejecuta cuando el servidor responde
                              );
     }else{
-       $(inputComponente).parent().removeClass('has-error has-edit has-success'); 
+        $(componenteActual).parent().addClass('has-warning');
     }
+
+
 }
 
 function respuestaRevisarComponente(r){
-    $(componenteActual).parent().removeClass('has-error has-edit has-success'); 
+    $(componenteActual).parent().removeClass('has-error has-edit has-success has-warning'); 
     switch(r) {
         case 'nuevo':
             $(componenteActual).parent().addClass('has-success');
@@ -79,8 +87,14 @@ function respuestaRevisarComponente(r){
 function revisar8K(inputComponente){
 
     inputComponente.value = inputComponente.value.trim();
-    if(inputComponente.value != ""){
-        componenteActual = inputComponente;
+    componenteActual = inputComponente;
+    $(componenteActual).parent().removeClass('has-error has-edit has-success has-warning');
+    document.getElementById('claveCortaTX1').value = "";
+    document.getElementById('claveLargaTX1').value = "";
+    document.getElementById('claveCortaTX1').disabled = false;
+    document.getElementById('claveLargaTX1').disabled = false;
+    
+    if(!componentesAct.includes(inputComponente.value)){
         var parametros = {
         opcion : "revisarComponente",
         componente : inputComponente.value
@@ -91,11 +105,8 @@ function revisar8K(inputComponente){
                              respuestaRevisarComponente8K    // Función que se ejecuta cuando el servidor responde
                              );
     }else{
-        $(inputComponente).parent().removeClass('has-error has-edit has-success'); 
-        document.getElementById('claveCortaTX1').value = "";
-        document.getElementById('claveLargaTX1').value = "";
-        document.getElementById('claveCortaTX1').disabled = false;
-        document.getElementById('claveLargaTX1').disabled = false;
+        $(componenteActual).parent().addClass('has-warning');
+        obtenerClaves(componenteActual.value);
     }
 }
 
@@ -152,8 +163,12 @@ function respuestaObtenerClaves(r){
 function revisarIMEI(inputComponente){
 
     inputComponente.value = inputComponente.value.trim();
-    if(inputComponente.value != ""){
-        componenteActual = inputComponente;
+    componenteActual = inputComponente;
+    $(componenteActual).parent().removeClass('has-error has-edit has-success has-warning');
+    document.getElementById('imeiModem').value = "";
+    document.getElementById('imeiModem').disabled = false;
+
+    if(!componentesAct.includes(inputComponente.value)){
         var parametros = {
         opcion : "revisarComponente",
         componente : inputComponente.value
@@ -164,9 +179,8 @@ function revisarIMEI(inputComponente){
                              respuestaRevisarComponenteIMEI    // Función que se ejecuta cuando el servidor responde
                              );
     }else{
-        $(inputComponente).parent().removeClass('has-error has-edit has-success');
-        document.getElementById('imeiModem').value = "";
-        document.getElementById('imeiModem').disabled = false;
+        $(componenteActual).parent().addClass('has-warning');        
+        obtenerIMEI(componenteActual.value);
     }
 }
 
@@ -260,10 +274,15 @@ function revisarEstado(texto){
 
 
 
-
 $( "#kitForm" ).submit(function( event ) {
-        agregarKit();
 
+    var editarBoton = document.getElementById("btnEditarBarra").style.display;
+    console.log(editarBoton);
+    if(editarBoton=="none"){
+        agregarKit();
+    }else{
+
+    }
     return false;
 });
 
@@ -271,100 +290,118 @@ $( "#kitForm" ).submit(function( event ) {
 function agregarKit(){
     
     if(document.getElementById('serieTX1').value.trim() != ""){
-        if($(document.getElementById('8kTX1')).parent().hasClass('has-success')){
-            agregarComponente($('#8kTX1').val().trim(),"3","",$('#claveCortaTX1').val().trim(),
-                $('#claveLargaTX1').val().trim());
-        }
-        if($(document.getElementById('modemTX1')).parent().hasClass('has-success')){
-            agregarComponente($('#modemTX1').val().trim(),"8",$('#imeiModem').val().trim(),"","");
-        }
-        if($(document.getElementById('tx1PRO1')).parent().hasClass('has-success')){
-            agregarComponente($('#tx1PRO1').val().trim(),"7","","","");
-        }
-        if($(document.getElementById('tx1PRO2')).parent().hasClass('has-success')){
-            agregarComponente($('#tx1PRO2').val().trim(),"7","","","");
-        }
-        if($(document.getElementById('tx1MAX1')).parent().hasClass('has-success')){
-            agregarComponente($('#tx1MAX1').val().trim(),"9","","","");
-        }
-        if($(document.getElementById('tx1MAX2')).parent().hasClass('has-success')){
-            agregarComponente($('#tx1MAX2').val().trim(),"9","","","");
-        }
+
         crearBarraBase($('#serieTX1').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
             $('#txtFecha').val().trim(),'1');
-
-        crearBarraTX1($('#serieTX1').val().trim(),$('#8kTX1').val().trim(),$('#modemTX1').val().trim(),
-            $('#tx1PRO1').val().trim(),$('#tx1PRO2').val().trim(),$('#tx1MAX1').val().trim(),
-            $('#tx1MAX2').val().trim());
-
+        crearBarraTX1($('#serieTX1').val().trim());
+        componentesTX1();
     }
 
     if(document.getElementById('serieRX1').value.trim() != ""){
-        if($(document.getElementById('duplex1RX1')).parent().hasClass('has-success')){
-            agregarComponente($('#duplex1RX1').val().trim(),"6","","","");
-        }
-        if($(document.getElementById('duplex2RX1')).parent().hasClass('has-success')){
-            agregarComponente($('#duplex2RX1').val().trim(),"6","","","");
-        }
-        if($(document.getElementById('proRX1')).parent().hasClass('has-success')){
-            agregarComponente($('#proRX1').val().trim(),"7","","","");
-        }
-        if($(document.getElementById('centroCargaRX1')).parent().hasClass('has-success')){
-            agregarComponente($('#centroCargaRX1').val().trim(),"1","","","");
-        }
-        if($(document.getElementById('tarRX1')).parent().hasClass('has-success')){
-            agregarComponente($('#tarRX1').val().trim(),"2","","","");
-        }
+
         crearBarraBase($('#serieRX1').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
             $('#txtFecha').val().trim(),'2');
-
-        crearBarraRX($('#serieRX1').val().trim(),$('#duplex1RX1').val().trim(),$('#duplex2RX1').val().trim(),
-            $('#proRX1').val().trim(),$('#centroCargaRX1').val().trim(),$('#tarRX1').val().trim());
-
+        crearBarraRX($('#serieRX1').val().trim());
+        componentesRX1();
     }
 
     if(document.getElementById('serieRX2').value.trim() != ""){
-        if($(document.getElementById('duplex1RX2')).parent().hasClass('has-success')){
-            agregarComponente($('#duplex1RX2').val().trim(),"6","","","");
-        }
-        if($(document.getElementById('duplex2RX2')).parent().hasClass('has-success')){
-            agregarComponente($('#duplex2RX2').val().trim(),"6","","","");
-        }
-        if($(document.getElementById('proRX2')).parent().hasClass('has-success')){
-            agregarComponente($('#proRX2').val().trim(),"7","","","");
-        }
-        if($(document.getElementById('centroCargaRX2')).parent().hasClass('has-success')){
-            agregarComponente($('#centroCargaRX2').val().trim(),"1","","","");
-        }
-        if($(document.getElementById('tarRX2')).parent().hasClass('has-success')){
-            agregarComponente($('#tarRX2').val().trim(),"2","","","");
-        }
+
         crearBarraBase($('#serieRX2').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
             $('#txtFecha').val().trim(),'3');
-
-        crearBarraRX($('#serieRX2').val().trim(),$('#duplex1RX2').val().trim(),$('#duplex2RX2').val().trim(),
-            $('#proRX2').val().trim(),$('#centroCargaRX2').val().trim(),$('#tarRX2').val().trim());
-
+        crearBarraRX($('#serieRX2').val().trim());
+        componentesRX2();
     }
 
     if(document.getElementById('serieTX3').value.trim() != ""){
-        if($(document.getElementById('pro1TX3')).parent().hasClass('has-success')){
-            agregarComponente($('#pro1TX3').val().trim(),"6","","","");
-        }
-        if($(document.getElementById('pro2TX3')).parent().hasClass('has-success')){
-            agregarComponente($('#pro2TX3').val().trim(),"6","","","");
-        }
+
 
         crearBarraBase($('#serieTX3').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
             $('#txtFecha').val().trim(),'4');
-
-        crearBarraTX3($('#serieTX3').val().trim(),$('#pro1TX3').val().trim(),$('#pro2TX3').val().trim());
+        crearBarraTX3($('#serieTX3').val().trim());
+        componentesTX3();
 
     }
     crearKit($('#numKit').val().trim(),$('#serieTX1').val().trim(),$('#serieRX1').val().trim(),
         $('#serieRX2').val().trim(),$('#serieTX3').val().trim());
-    limpiar();
     tablaKit.ajax.reload();
+    limpiar();
+    
+}
+
+function componentesTX1(){
+    if($(document.getElementById('8kTX1')).parent().hasClass('has-success')){
+        agregarComponente($('#8kTX1').val().trim(),"3","",$('#claveCortaTX1').val().trim(),
+            $('#claveLargaTX1').val().trim());
+    }
+    if($(document.getElementById('modemTX1')).parent().hasClass('has-success')){
+        agregarComponente($('#modemTX1').val().trim(),"8",$('#imeiModem').val().trim(),"","");
+    }
+    if($(document.getElementById('tx1PRO1')).parent().hasClass('has-success')){
+        agregarComponente($('#tx1PRO1').val().trim(),"7","","","");
+    }
+    if($(document.getElementById('tx1PRO2')).parent().hasClass('has-success')){
+        agregarComponente($('#tx1PRO2').val().trim(),"7","","","");
+    }
+    if($(document.getElementById('tx1MAX1')).parent().hasClass('has-success')){
+        agregarComponente($('#tx1MAX1').val().trim(),"9","","","");
+    }
+    if($(document.getElementById('tx1MAX2')).parent().hasClass('has-success')){
+        agregarComponente($('#tx1MAX2').val().trim(),"9","","","");
+    }
+    editarBarraTX1($('#serieTX1').val().trim(),$('#8kTX1').val().trim(),$('#modemTX1').val().trim(),
+        $('#tx1PRO1').val().trim(),$('#tx1PRO2').val().trim(),$('#tx1MAX1').val().trim(),
+        $('#tx1MAX2').val().trim());
+}
+
+function componentesRX1(){
+    if($(document.getElementById('duplex1RX1')).parent().hasClass('has-success')){
+        agregarComponente($('#duplex1RX1').val().trim(),"6","","","");
+    }
+    if($(document.getElementById('duplex2RX1')).parent().hasClass('has-success')){
+        agregarComponente($('#duplex2RX1').val().trim(),"6","","","");
+    }
+    if($(document.getElementById('proRX1')).parent().hasClass('has-success')){
+        agregarComponente($('#proRX1').val().trim(),"7","","","");
+    }
+    if($(document.getElementById('centroCargaRX1')).parent().hasClass('has-success')){
+        agregarComponente($('#centroCargaRX1').val().trim(),"1","","","");
+    }
+    if($(document.getElementById('tarRX1')).parent().hasClass('has-success')){
+        agregarComponente($('#tarRX1').val().trim(),"2","","","");
+    }
+    editarBarraRX($('#serieRX1').val().trim(),$('#duplex1RX1').val().trim(),$('#duplex2RX1').val().trim(),
+            $('#proRX1').val().trim(),$('#centroCargaRX1').val().trim(),$('#tarRX1').val().trim());
+}
+
+function componentesRX2(){
+    if($(document.getElementById('duplex1RX2')).parent().hasClass('has-success')){
+        agregarComponente($('#duplex1RX2').val().trim(),"6","","","");
+    }
+    if($(document.getElementById('duplex2RX2')).parent().hasClass('has-success')){
+        agregarComponente($('#duplex2RX2').val().trim(),"6","","","");
+    }
+    if($(document.getElementById('proRX2')).parent().hasClass('has-success')){
+        agregarComponente($('#proRX2').val().trim(),"7","","","");
+    }
+    if($(document.getElementById('centroCargaRX2')).parent().hasClass('has-success')){
+        agregarComponente($('#centroCargaRX2').val().trim(),"1","","","");
+    }
+    if($(document.getElementById('tarRX2')).parent().hasClass('has-success')){
+        agregarComponente($('#tarRX2').val().trim(),"2","","","");
+    }
+    editarBarraRX($('#serieRX2').val().trim(),$('#duplex1RX2').val().trim(),$('#duplex2RX2').val().trim(),
+            $('#proRX2').val().trim(),$('#centroCargaRX2').val().trim(),$('#tarRX2').val().trim());
+}
+
+function componentesTX3(){
+    if($(document.getElementById('pro1TX3')).parent().hasClass('has-success')){
+        agregarComponente($('#pro1TX3').val().trim(),"6","","","");
+    }
+    if($(document.getElementById('pro2TX3')).parent().hasClass('has-success')){
+        agregarComponente($('#pro2TX3').val().trim(),"6","","","");
+    }
+    editarBarraTX3($('#serieTX3').val().trim(),$('#pro1TX3').val().trim(),$('#pro2TX3').val().trim());
 }
 
 function agregarComponente(codigo,tipo,IMEI,claveCorta,claveLarga){
@@ -381,14 +418,18 @@ function agregarComponente(codigo,tipo,IMEI,claveCorta,claveLarga){
     };
     console.log(parametros);
     // Realizar la petición
-    var post = $.post(
-                          "php/componentes.php",    // Script que se ejecuta en el servidor
-                          parametros,                              
-                          componenteAgregado    // Función que se ejecuta cuando el servidor responde
-                          ).fail(function(xhr, status, error) {
-                            alert("Error al agregar componente");
-                        });
 
+
+    var post = $.ajax({
+              type: 'POST',
+              url: "php/componentes.php",
+              data: parametros,
+              success: barraTX1Editada,
+              error:function(xhr, status, error) {
+                            alert("Error al agregar componente");
+                        },
+              async:false
+            });
     }
 
 function componenteAgregado(r){
@@ -407,11 +448,16 @@ function crearBarraBase(pSerie,pKit,pLote,pFecha,pTipo){
     };
     console.log(parametros);
     // Realizar la petición
-    var post = $.post(
-                          "php/kit.php",    // Script que se ejecuta en el servidor
-                          parametros,                              
-                          barraCreada    // Función que se ejecuta cuando el servidor responde
-                          );
+
+
+
+    var post = $.ajax({
+          type: 'POST',
+          url: "php/kit.php",
+          data: parametros,
+          success: barraCreada,
+          async:false
+        });
     }
 
 function barraCreada(r){
@@ -419,9 +465,9 @@ function barraCreada(r){
         
 }
 
-function crearBarraTX1(pSerie,pKTX,pModem,pPro1,pPro2,pMax1,pMax2){
+function editarBarraTX1(pSerie,pKTX,pModem,pPro1,pPro2,pMax1,pMax2){
     var parametros = {
-        opcion : "agregarTX1",
+        opcion : "editarTX1",
         serie: pSerie,
         ktx: pKTX,
         modem: pModem,
@@ -430,6 +476,77 @@ function crearBarraTX1(pSerie,pKTX,pModem,pPro1,pPro2,pMax1,pMax2){
         max1: pMax1,
         max2:pMax2
     };
+    console.log("Editar barra");
+    console.log(parametros);
+    // Realizar la petición
+    var post = $.ajax({
+              type: 'POST',
+              url: "php/kit.php",
+              data: parametros,
+              success: barraTX1Editada,
+              async:false
+            });
+    }
+
+function barraTX1Editada(r){
+        alert(r);
+        
+}
+
+
+function editarBarraRX(pSerie,pDuplex1,pDuplex2,pPro,pCentroCarga,pTar){
+    var parametros = {
+        opcion : "editarRX",
+        serie: pSerie,
+        duplex1: pDuplex1,
+        duplex2: pDuplex2,
+        pro: pPro,
+        centroCarga: pCentroCarga,
+        tar: pTar
+    };
+    console.log(parametros);
+    // Realizar la petición
+    var post = $.post(
+                          "php/kit.php",    // Script que se ejecuta en el servidor
+                          parametros,                              
+                          barraRXEditada    // Función que se ejecuta cuando el servidor responde
+                          );
+    }
+
+function barraRXEditada(r){
+        alert(r);
+        
+}
+
+
+function editarBarraTX3(pSerie,pPro1,pPro2){
+    var parametros = {
+        opcion : "editarTX3",
+        serie: pSerie,
+        pro1: pPro1,
+        pro2: pPro2
+    };
+    console.log(parametros);
+    // Realizar la petición
+    var post = $.post(
+                          "php/kit.php",    // Script que se ejecuta en el servidor
+                          parametros,                              
+                          barraTX3Editada    // Función que se ejecuta cuando el servidor responde
+                          );
+    }
+
+function barraTX3Editada(r){
+        alert(r);
+        
+}
+
+
+function crearBarraTX1(pSerie){
+    var parametros = {
+        opcion : "agregarTX1",
+        serie: pSerie
+    };
+    console.log("crear barra");
     console.log(parametros);
     // Realizar la petición
     var post = $.post(
@@ -445,15 +562,10 @@ function barraTX1Creada(r){
 }
 
 
-function crearBarraRX(pSerie,pDuplex1,pDuplex2,pPro,pCentroCarga,pTar){
+function crearBarraRX(pSerie){
     var parametros = {
         opcion : "agregarRX",
-        serie: pSerie,
-        duplex1: pDuplex1,
-        duplex2: pDuplex2,
-        pro: pPro,
-        centroCarga: pCentroCarga,
-        tar: pTar
+        serie: pSerie
     };
     console.log(parametros);
     // Realizar la petición
@@ -470,12 +582,10 @@ function barraRXCreada(r){
 }
 
 
-function crearBarraTX3(pSerie,pPro1,pPro2){
+function crearBarraTX3(pSerie){
     var parametros = {
         opcion : "agregarTX3",
-        serie: pSerie,
-        pro1: pPro1,
-        pro2: pPro2
+        serie: pSerie
     };
     console.log(parametros);
     // Realizar la petición
@@ -490,6 +600,7 @@ function barraTX3Creada(r){
         alert(r);
         
 }
+
 
 
 function crearKit(pKit,pSerieTX1,pSerieRX1,pSerieRX3,pSerieTX3){
@@ -516,62 +627,42 @@ function kitCreado(r){
 }
 
 
-
-function editarComponente(){
-    var tipoComponente = document.getElementById("tipoComponente");
-    var parametros = {
-        opcion : "editarComponente",
-        txtCodigo: $('#txtCodigo').val(),
-        txtFecha: $('#txtFecha').val(),
-        txtEstado: $('#listEstado').val(),
-        txtlote: $('#txtLote').val(),
-        txtIMEI: $('#imeiInput').val(),
-        txtTipoComponente: listTipo[tipoComponente.selectedIndex]
-    };
-    console.log(parametros);
-    // Realizar la petición
-    var post = $.post(
-                          "php/componentes.php",    // Script que se ejecuta en el servidor
-                          parametros,                              
-                          componenteEditado    // Función que se ejecuta cuando el servidor responde
-                          );
-    }
-
-function componenteEditado(r){
-        limpiarTodo();
-        alert(r);
-        tabla.ajax.reload();
-        
-}
-
 function cargarEditarKit(boton){
+    limpiarTodo();
+
+    document.getElementById("btnAgregarBarra").style.display="none";
+    document.getElementById("btnEditarBarra").style.display="inline-block";
+
     var data = tablaKit.row( (boton.closest('tr').rowIndex) -1 ).data();
-    
-    if(data[1]==""){
-        disableDiv("divTX1",true);
-    }else{
-        cargarTX1(data[1]);
-    }       
 
-    if(data[2]==null){
-        disableDiv("divRX1",true);
-    }else{
-        cargarRX1(data[2]);
-    }    
+    document.getElementById('numKit').value = data[0];
+    document.getElementById('numKit').disabled = true;    
     
-    if(data[3]==null){
-        disableDiv("divRX2",true);
-    }else{
-        cargarRX2(data[3]);
-    }
+        if(data[1]==""){
+            disableDiv("divTX1",true);
+        }else{
+            cargarTX1(data[1]);
+        }       
 
-    if(data[4]==null){
-        disableDiv("divTX3",true);
-    }else{
-        cargarTX3(data[4]);
-    }
+        if(data[2]==null){
+            disableDiv("divRX1",true);
+        }else{
+            cargarRX1(data[2]);
+        }    
+        
+        if(data[3]==null){
+            disableDiv("divRX2",true);
+        }else{
+            cargarRX2(data[3]);
+        }
+
+        if(data[4]==null){
+            disableDiv("divTX3",true);
+        }else{
+            cargarTX3(data[4]);
+        }
     
-
+        editar =  true;
     }
 
 
@@ -595,28 +686,42 @@ function tx1Cargada(r){
     console.log(doc);
     if(doc.length>0){
         document.getElementById('serieTX1').value = doc[0].barraSerie;
+        document.getElementById('serieTX1').disabled = true;
+        document.getElementById('txtLote').value = doc[0].kit;
+        document.getElementById('txtLote').disabled = true;
+        document.getElementById('txtFecha').value = doc[0].fecha;
+        document.getElementById('txtFecha').disabled = true;
     }
     for (var i = 0; i < doc.length; i++) {
         var obj = doc[i];
         if(obj.componenteCod != null){
+            componentesAct.push(obj.componenteCod);
             switch(obj.pos) {
             case '1':
                 document.getElementById('8kTX1').value = String(obj.componenteCod);
+                $('#8kTX1').parent().addClass('has-warning');
+                revisar8K(document.getElementById('8kTX1'));
                 break;
             case '2':
                 document.getElementById('modemTX1').value = String(obj.componenteCod);
+                $('#modemTX1').parent().addClass('has-warning');
+                revisarIMEI(document.getElementById('modemTX1'));
                 break;
             case '3':
                 document.getElementById('tx1PRO1').value = String(obj.componenteCod);
+                $('#tx1PRO1').parent().addClass('has-warning');
                 break;
             case '4':
                 document.getElementById('tx1PRO2').value = String(obj.componenteCod);
+                $('#tx1PRO2').parent().addClass('has-warning');
                 break;
             case '5':
                 document.getElementById('tx1MAX1').value = String(obj.componenteCod);
+                $('#tx1MAX1').parent().addClass('has-warning');
                 break;
             case '6':
                 document.getElementById('tx1MAX2').value = String(obj.componenteCod);
+                $('#tx1MAX2').parent().addClass('has-warning');
                 break;
             }
         }
@@ -643,25 +748,36 @@ function RX1Cargada(r){
     console.log(doc);
     if(doc.length>0){
         document.getElementById('serieRX1').value = doc[0].barraSerie;
+        document.getElementById('serieRX1').disabled = true;
+        document.getElementById('txtLote').value = doc[0].kit;
+        document.getElementById('txtLote').disabled = true;
+        document.getElementById('txtFecha').value = doc[0].fecha;
+        document.getElementById('txtFecha').disabled = true;
     }
     for (var i = 0; i < doc.length; i++) {
         var obj = doc[i];
         if(obj.componenteCod != null){
+            componentesAct.push(obj.componenteCod);
             switch(obj.pos) {
             case '1':
                 document.getElementById('duplex1RX1').value = String(obj.componenteCod);
+                $('#duplex1RX1').parent().addClass('has-warning');
                 break;
             case '2':
                 document.getElementById('duplex2RX1').value = String(obj.componenteCod);
+                $('#duplex2RX1').parent().addClass('has-warning');
                 break;
             case '3':
                 document.getElementById('proRX1').value = String(obj.componenteCod);
+                $('#proRX1').parent().addClass('has-warning');
                 break;
             case '4':
                 document.getElementById('centroCargaRX1').value = String(obj.componenteCod);
+                $('#centroCargaRX1').parent().addClass('has-warning');
                 break;
             case '5':
                 document.getElementById('tarRX1').value = String(obj.componenteCod);
+                $('#tarRX1').parent().addClass('has-warning');
                 break;
             }
         }
@@ -688,25 +804,36 @@ function RX2Cargada(r){
     console.log(doc);
     if(doc.length>0){
         document.getElementById('serieRX2').value = doc[0].barraSerie;
+        document.getElementById('serieRX2').disabled = true;        
+        document.getElementById('txtLote').value = doc[0].kit;
+        document.getElementById('txtLote').disabled = true;
+        document.getElementById('txtFecha').value = doc[0].fecha;
+        document.getElementById('txtFecha').disabled = true;
     }
     for (var i = 0; i < doc.length; i++) {
         var obj = doc[i];
         if(obj.componenteCod != null){
+            componentesAct.push(obj.componenteCod);
             switch(obj.pos) {
             case '1':
                 document.getElementById('duplex1RX2').value = String(obj.componenteCod);
+                $('#duplex1RX2').parent().addClass('has-warning');
                 break;
             case '2':
                 document.getElementById('duplex2RX2').value = String(obj.componenteCod);
+                $('#duplex2RX2').parent().addClass('has-warning');
                 break;
             case '3':
                 document.getElementById('proRX2').value = String(obj.componenteCod);
+                $('#proRX2').parent().addClass('has-warning');
                 break;
             case '4':
                 document.getElementById('centroCargaRX2').value = String(obj.componenteCod);
+                $('#centroCargaRX2').parent().addClass('has-warning');
                 break;
             case '5':
                 document.getElementById('tarRX2').value = String(obj.componenteCod);
+                $('#tarRX2').parent().addClass('has-warning');
                 break;
             }
         }
@@ -735,16 +862,24 @@ function TX3Cargada(r){
     console.log(doc);
     if(doc.length>0){
         document.getElementById('serieTX3').value = doc[0].barraSerie;
+        document.getElementById('serieTX3').disabled = true;
+        document.getElementById('txtLote').value = doc[0].kit;
+        document.getElementById('txtLote').disabled = true;
+        document.getElementById('txtFecha').value = doc[0].fecha;
+        document.getElementById('txtFecha').disabled = true;
     }
     for (var i = 0; i < doc.length; i++) {
         var obj = doc[i];
         if(obj.componenteCod != null){
+            componentesAct.push(obj.componenteCod);
             switch(obj.pos) {
             case '1':
                 document.getElementById('pro1TX3').value = String(obj.componenteCod);
+                $('#pro1TX3').parent().addClass('has-warning');
                 break;
             case '2':
                 document.getElementById('pro2TX3').value = String(obj.componenteCod);
+                $('#pro2TX3').parent().addClass('has-warning');
                 break;
             }
         }
@@ -784,36 +919,36 @@ function disableDiv(divEntrada,boolEntrada){
 }
 
 function limpiar(){
-    $('#8kTX1').parent().removeClass('has-error has-edit has-success');
-    $('#modemTX1').parent().removeClass('has-error has-edit has-success');
-    $('#tx1PRO1').parent().removeClass('has-error has-edit has-success');
-    $('#tx1PRO2').parent().removeClass('has-error has-edit has-success');
-    $('#tx1MAX1').parent().removeClass('has-error has-edit has-success');
-    $('#tx1MAX2').parent().removeClass('has-error has-edit has-success');
+    $('#8kTX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#modemTX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#tx1PRO1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#tx1PRO2').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#tx1MAX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#tx1MAX2').parent().removeClass('has-error has-edit has-success has-warning');
 
-    $('#duplex1RX1').parent().removeClass('has-error has-edit has-success');
-    $('#duplex2RX1').parent().removeClass('has-error has-edit has-success');
-    $('#proRX1').parent().removeClass('has-error has-edit has-success');
-    $('#centroCargaRX1').parent().removeClass('has-error has-edit has-success');
-    $('#tarRX1').parent().removeClass('has-error has-edit has-success');
+    $('#duplex1RX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#duplex2RX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#proRX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#centroCargaRX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#tarRX1').parent().removeClass('has-error has-edit has-success has-warning');
 
-    $('#duplex1RX2').parent().removeClass('has-error has-edit has-success');
-    $('#duplex2RX2').parent().removeClass('has-error has-edit has-success');
-    $('#proRX2').parent().removeClass('has-error has-edit has-success');
-    $('#centroCargaRX2').parent().removeClass('has-error has-edit has-success');
-    $('#tarRX2').parent().removeClass('has-error has-edit has-success');
+    $('#duplex1RX2').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#duplex2RX2').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#proRX2').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#centroCargaRX2').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#tarRX2').parent().removeClass('has-error has-edit has-success has-warning');
 
-    $('#pro1TX3').parent().removeClass('has-error has-edit has-success');
-    $('#pro2TX3').parent().removeClass('has-error has-edit has-success');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success');
+    $('#pro1TX3').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#pro2TX3').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
+    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
 
     document.getElementById('serieTX1').value = "";
     document.getElementById('8kTX1').value = "";
@@ -846,6 +981,13 @@ function limpiar(){
     document.getElementById('serieTX3').value = "";
     document.getElementById('pro1TX3').value = "";
     document.getElementById('pro2TX3').value = "";
+    disableDiv("divTX1",false);
+    disableDiv("divRX1",false);
+    disableDiv("divRX2",false);
+    disableDiv("divTX3",false);
+    editar = false;
+    componentesAct = [];
+
 }
 
 function limpiarTodo(){
@@ -853,4 +995,9 @@ function limpiarTodo(){
     document.getElementById("txtFecha").value = "";
     document.getElementById("numKit").value = "";
     document.getElementById("txtLote").value = "";
+    document.getElementById("btnAgregarBarra").style.display="inline-block";
+    document.getElementById("btnEditarBarra").style.display="none";
+    document.getElementById("numKit").disabled = false;
+    document.getElementById('txtLote').disabled = false;
+    document.getElementById('txtFecha').disabled = false;
 }

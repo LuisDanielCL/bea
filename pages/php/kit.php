@@ -74,6 +74,23 @@ switch ($opcion) {
 	case 'agregarTX1':
 
 		$serie = $_POST['serie'];
+
+
+		$mysqli->query("SET @serie  = " . "'" . $mysqli->real_escape_string($serie) . "'");
+
+		if(!$mysqli->query("CALL crearBarraTX1(@serie)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Fallo al crear campos a la barra TX1');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Componentes agregados a la barra TX1";
+	break;
+
+	case 'editarTX1':
+
+		$serie = $_POST['serie'];
 		$ktx = $_POST['ktx'];
 		$modem = $_POST['modem'];
 		$pro1 = $_POST['pro1'];
@@ -82,54 +99,55 @@ switch ($opcion) {
 		$max2 = $_POST['max2'];
 
 		$mysqli->query("SET @serie  = " . "'" . $mysqli->real_escape_string($serie) . "'");
-
+		
 		if($ktx ==""){
-			$mysqli->query("SET @ktx  = NULL");
+			$mysqli->query("SET @ktx  = null");
 		}else{
 			$mysqli->query("SET @ktx  = " . "'" . $mysqli->real_escape_string($ktx) . "'");
 		}
 
 		if($modem ==""){
-			$mysqli->query("SET @modem  = NULL");
+			$mysqli->query("SET @modem  = null");
 		}else{
 			$mysqli->query("SET @modem  = " . "'" . $mysqli->real_escape_string($modem) . "'");
 		}
 
 		if($pro1 ==""){
-			$mysqli->query("SET @pro1  = NULL");
+			$mysqli->query("SET @pro1  = null");
 		}else{
 			$mysqli->query("SET @pro1  = " . "'" . $mysqli->real_escape_string($pro1) . "'");
 		}
 
 		if($pro2 ==""){
-			$mysqli->query("SET @pro2  = NULL");
+			$mysqli->query("SET @pro2  = null");
 		}else{
 			$mysqli->query("SET @pro2  = " . "'" . $mysqli->real_escape_string($pro2) . "'");
 		}
 
 		if($max1 ==""){
-			$mysqli->query("SET @max1  = NULL");
+			$mysqli->query("SET @max1  = null");
 		}else{
 			$mysqli->query("SET @max1  = " . "'" . $mysqli->real_escape_string($max1) . "'");
 		}
 
 		if($max2 ==""){
-			$mysqli->query("SET @max2  = NULL");
+			$mysqli->query("SET @max2  = null");
 		}else{
 			$mysqli->query("SET @max2  = " . "'" . $mysqli->real_escape_string($max2) . "'");
 		}
 
-		if(!$mysqli->query("CALL crearBarraTX1(@serie,@ktx,@modem,@pro1,@pro2,@max1,@max2)"))
+		if(!$mysqli->query("CALL editarTX1(@serie,@ktx,@modem,@pro1,@pro2,@max1,@max2)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 Fallo al agregar componetes a la barra');
+    		header('HTTP/1.1 400 Fallo al agregar componetes a la barra TX1');
     		die();
 		}
 		if($mysqli) $mysqli->close();
-		echo "Componentes agregados a la barra";
+		echo "Componentes agregados a la barra TX1";
 	break;
 
-	case 'agregarRX':
+
+	case 'editarRX':
 		$serie = $_POST['serie'];
 		$duplex1 = $_POST['duplex1'];
 		$duplex2 = $_POST['duplex2'];
@@ -169,7 +187,7 @@ switch ($opcion) {
 			$mysqli->query("SET @tar  = " . "'" . $mysqli->real_escape_string($tar) . "'");
 		}
 
-		if(!$mysqli->query("CALL crearBarraRX(@serie,@duplex1,@duplex2,@pro,@centroCarga,@tar)"))
+		if(!$mysqli->query("CALL editarRX(@serie,@duplex1,@duplex2,@pro,@centroCarga,@tar)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
     		header('HTTP/1.1 400 Fallo al agregar componetes a la barra');
@@ -178,7 +196,24 @@ switch ($opcion) {
 		if($mysqli) $mysqli->close();
 		echo "Componentes agregados a la barra";
 	break;
-	case 'agregarTX3':
+
+	case 'agregarRX':
+		$serie = $_POST['serie'];
+
+		$mysqli->query("SET @serie  = " . "'" . $mysqli->real_escape_string($serie) . "'");
+
+		if(!$mysqli->query("CALL crearBarraRX(@serie)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400  Fallo al crear campos a la barra');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Componentes agregados a la barra";
+	break;
+
+
+	case 'editarTX3':
 
 		$serie = $_POST['serie'];
 		$pro1 = $_POST['pro1'];
@@ -199,10 +234,27 @@ switch ($opcion) {
 		}
 
 
-		if(!$mysqli->query("CALL crearBarraTX3(@serie,@pro1,@pro2)"))
+		if(!$mysqli->query("CALL editarTX3(@serie,@pro1,@pro2)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
     		header('HTTP/1.1 400 Fallo al agregar componetes a la barra');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Componentes agregados a la barra";
+	break;
+
+	case 'agregarTX3':
+
+		$serie = $_POST['serie'];
+
+		$mysqli->query("SET @serie  = " . "'" . $mysqli->real_escape_string($serie) . "'");
+
+
+		if(!$mysqli->query("CALL crearBarraTX3(@serie)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Fallo al crear campos a la barra');
     		die();
 		}
 		if($mysqli) $mysqli->close();
