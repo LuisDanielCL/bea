@@ -32,7 +32,7 @@ $( document ).ready(function() {
             null,
             {
               "data": null,
-              "defaultContent": '<button type="button" class="btn btn-primary" onclick="cargarEditarKit(this)" >Editar</button><button class="btn btn-danger" onclick="eliminarComponente(this)" >Eliminar</button>'
+              "defaultContent": '<button type="button" class="btn btn-primary" onclick="cargarEditarKit(this)" >Editar</button>'
             }
         ],
         "processing": true,
@@ -281,11 +281,29 @@ $( "#kitForm" ).submit(function( event ) {
     if(editarBoton=="none"){
         agregarKit();
     }else{
-
+        editarKit();
     }
     return false;
 });
 
+
+function editarKit(){
+    if ($('#serieTX1').val().trim() != ""){
+        componentesTX1();
+    }
+    if ($('#serieRX1').val().trim() != ""){
+        componentesRX1();
+    }
+    if ($('#serieRX2').val().trim() != ""){
+        componentesRX2();
+    }
+    if ($('#serieTX3').val().trim() != ""){
+        componentesTX3();
+    }
+    limpiarTodo();
+
+
+}
 
 function agregarKit(){
     
