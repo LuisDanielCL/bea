@@ -30,7 +30,7 @@ $( document ).ready(function() {
             null,
             {
               "data": null,
-              "defaultContent": '<button class="btn btn-primary" onclick="cargarEditar(this)" >Editar</button><button class="btn btn-danger" onclick="eliminarComponente(this)" >Eliminar</button>'
+              "defaultContent": '<button type="button" class="btn btn-primary" onclick="cargarEditarKit(this)" >Editar</button><button class="btn btn-danger" onclick="eliminarComponente(this)" >Eliminar</button>'
             }
         ],
         "processing": true,
@@ -216,23 +216,6 @@ function respuestaObtenerIMEI(r){
     }
 }
 
-function cargarEditar(boton){
-    var data = tabla.row( (boton.closest('tr').rowIndex) -1 ).data();
-    console.log(data);
-    document.getElementById('txtCodigo').value = data[0];
-    document.getElementById("txtLote").value = data[2];
-    document.getElementById("txtFecha").value = data[3];
-    document.getElementById("imeiInput").value = data[5];
-    revisarTipoTexto(data[1]);
-    revisarEstado(data[4]);
-    document.getElementById('txtCodigo').disabled = true;
-    document.getElementById("btnAgregarComponente").style.display="none";
-    document.getElementById("btnEditarComponente").style.display="inline-block";
-
-
-    alert("editar")
-}
-
 function revisarTipo(){
     var tipo = document.getElementById("tipoComponente");
     var codigoTexto = document.getElementById("txtCodigo").value;
@@ -308,7 +291,7 @@ function agregarKit(){
             agregarComponente($('#tx1MAX2').val().trim(),"9","","","");
         }
         crearBarraBase($('#serieTX1').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
-            $('#txtFecha').val().trim());
+            $('#txtFecha').val().trim(),'1');
 
         crearBarraTX1($('#serieTX1').val().trim(),$('#8kTX1').val().trim(),$('#modemTX1').val().trim(),
             $('#tx1PRO1').val().trim(),$('#tx1PRO2').val().trim(),$('#tx1MAX1').val().trim(),
@@ -333,7 +316,7 @@ function agregarKit(){
             agregarComponente($('#tarRX1').val().trim(),"2","","","");
         }
         crearBarraBase($('#serieRX1').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
-            $('#txtFecha').val().trim());
+            $('#txtFecha').val().trim(),'2');
 
         crearBarraRX($('#serieRX1').val().trim(),$('#duplex1RX1').val().trim(),$('#duplex2RX1').val().trim(),
             $('#proRX1').val().trim(),$('#centroCargaRX1').val().trim(),$('#tarRX1').val().trim());
@@ -357,7 +340,7 @@ function agregarKit(){
             agregarComponente($('#tarRX2').val().trim(),"2","","","");
         }
         crearBarraBase($('#serieRX2').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
-            $('#txtFecha').val().trim());
+            $('#txtFecha').val().trim(),'3');
 
         crearBarraRX($('#serieRX2').val().trim(),$('#duplex1RX2').val().trim(),$('#duplex2RX2').val().trim(),
             $('#proRX2').val().trim(),$('#centroCargaRX2').val().trim(),$('#tarRX2').val().trim());
@@ -373,7 +356,7 @@ function agregarKit(){
         }
 
         crearBarraBase($('#serieTX3').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
-            $('#txtFecha').val().trim());
+            $('#txtFecha').val().trim(),'4');
 
         crearBarraTX3($('#serieTX3').val().trim(),$('#pro1TX3').val().trim(),$('#pro2TX3').val().trim());
 
@@ -413,13 +396,14 @@ function componenteAgregado(r){
         
 }
 
-function crearBarraBase(pSerie,pKit,pLote,pFecha){
+function crearBarraBase(pSerie,pKit,pLote,pFecha,pTipo){
     var parametros = {
         opcion : "agregarBarraBase",
         serie: pSerie,
         kit: pKit,
         lote: pLote,
-        fecha: pFecha
+        fecha: pFecha,
+        tipo: pTipo
     };
     console.log(parametros);
     // Realizar la petición
@@ -560,12 +544,33 @@ function componenteEditado(r){
         
 }
 
-function editarKit(boton){
+function cargarEditarKit(boton){
     var data = tablaKit.row( (boton.closest('tr').rowIndex) -1 ).data();
-    cargarTX1(data[1]);
-    cargarRX1(data[2]);
-    cargarRX3(data[3]);
-    cargarTX3(data[4]);
+    
+    if(data[1]==""){
+        $("#divTX1").children().prop('disabled',true);
+    }else{
+        cargarTX1(data[1]);
+    }       
+
+    if(data[2]==""){
+        $("#divRX1").children().prop('disabled',true);
+    }else{
+        cargarRX1(data[2]);
+    }    
+    
+    if(data[3]==""){
+        $("#divRX2").children().prop('disabled',true);
+    }else{
+        cargarRX2(data[3]);
+    }
+
+    if(data[4]==""){
+        $("#divTX3").children().prop('disabled',true);
+    }else{
+        cargarTX3(data[4]);
+    }
+    
 
     }
 
@@ -581,9 +586,164 @@ function cargarTX1(pSerie){
     var post = $.post(
                           "php/kit.php",    // Script que se ejecuta en el servidor
                           parametros,                              
-                          barraCargada    // Función que se ejecuta cuando el servidor responde
+                          tx1Cargada    // Función que se ejecuta cuando el servidor responde
                           );
 }
+
+function tx1Cargada(r){
+    var doc = JSON.parse(r);
+    console.log(doc);
+    if(doc.length>0){
+        document.getElementById('serieTX1').value = doc[0].barraSerie;
+    }
+    for (var i = 0; i < doc.length; i++) {
+        var obj = doc[i];
+        switch(obj.pos) {
+        case '1':
+            document.getElementById('8kTX1').value = String(obj.componenteCod);
+            break;
+        case '2':
+            document.getElementById('modemTX1').value = String(obj.componenteCod);
+            break;
+        case '3':
+            document.getElementById('tx1PRO1').value = String(obj.componenteCod);
+            break;
+        case '4':
+            document.getElementById('tx1PRO2').value = String(obj.componenteCod);
+            break;
+        case '5':
+            document.getElementById('tx1MAX1').value = String(obj.componenteCod);
+            break;
+        case '6':
+            document.getElementById('tx1MAX2').value = String(obj.componenteCod);
+            break;
+        }
+    }
+}
+
+function cargarRX1(pSerie){
+
+    var parametros = {
+        opcion : "cargarBarra",
+        serie: pSerie
+    };
+    console.log(parametros);
+    // Realizar la petición
+    var post = $.post(
+                          "php/kit.php",    // Script que se ejecuta en el servidor
+                          parametros,                              
+                          RX1Cargada    // Función que se ejecuta cuando el servidor responde
+                          );
+}
+
+function RX1Cargada(r){
+    var doc = JSON.parse(r);
+    console.log(doc);
+    if(doc.length>0){
+        document.getElementById('serieRX1').value = doc[0].barraSerie;
+    }
+    for (var i = 0; i < doc.length; i++) {
+        var obj = doc[i];
+        switch(obj.pos) {
+        case '1':
+            document.getElementById('duplex1RX1').value = String(obj.componenteCod);
+            break;
+        case '2':
+            document.getElementById('duplex2RX1').value = String(obj.componenteCod);
+            break;
+        case '3':
+            document.getElementById('proRX1').value = String(obj.componenteCod);
+            break;
+        case '4':
+            document.getElementById('centroCargaRX1').value = String(obj.componenteCod);
+            break;
+        case '5':
+            document.getElementById('tarRX1').value = String(obj.componenteCod);
+            break;
+        }
+    }
+}
+
+function cargarRX2(pSerie){
+
+    var parametros = {
+        opcion : "cargarBarra",
+        serie: pSerie
+    };
+    console.log(parametros);
+    // Realizar la petición
+    var post = $.post(
+                          "php/kit.php",    // Script que se ejecuta en el servidor
+                          parametros,                              
+                          RX2Cargada    // Función que se ejecuta cuando el servidor responde
+                          );
+}
+
+function RX2Cargada(r){
+    var doc = JSON.parse(r);
+    console.log(doc);
+    if(doc.length>0){
+        document.getElementById('serieRX2').value = doc[0].barraSerie;
+    }
+    for (var i = 0; i < doc.length; i++) {
+        var obj = doc[i];
+        switch(obj.pos) {
+        case '1':
+            document.getElementById('duplex1RX2').value = String(obj.componenteCod);
+            break;
+        case '2':
+            document.getElementById('duplex2RX2').value = String(obj.componenteCod);
+            break;
+        case '3':
+            document.getElementById('proRX2').value = String(obj.componenteCod);
+            break;
+        case '4':
+            document.getElementById('centroCargaRX2').value = String(obj.componenteCod);
+            break;
+        case '5':
+            document.getElementById('tarRX2').value = String(obj.componenteCod);
+            break;
+        }
+    }
+}
+
+
+
+function cargarTX3(pSerie){
+
+    var parametros = {
+        opcion : "cargarBarra",
+        serie: pSerie
+    };
+    console.log(parametros);
+    // Realizar la petición
+    var post = $.post(
+                          "php/kit.php",    // Script que se ejecuta en el servidor
+                          parametros,                              
+                          TX3Cargada    // Función que se ejecuta cuando el servidor responde
+                          );
+}
+
+function TX3Cargada(r){
+    var doc = JSON.parse(r);
+    console.log(doc);
+    if(doc.length>0){
+        document.getElementById('serieTX3').value = doc[0].barraSerie;
+    }
+    for (var i = 0; i < doc.length; i++) {
+        var obj = doc[i];
+        switch(obj.pos) {
+        case '1':
+            document.getElementById('pro1TX3').value = String(obj.componenteCod);
+            break;
+        case '2':
+            document.getElementById('pro2TX3').value = String(obj.componenteCod);
+            break;
+        }
+    }
+}
+
+
 
 function eliminarComponente(boton){
     var tipoComponente = document.getElementById("tipoComponente");

@@ -52,13 +52,16 @@ switch ($opcion) {
 		$kit = $_POST['kit'];
 		$lote = $_POST['lote'];
 		$fecha = $_POST['fecha'];
+		$tipo = $_POST['tipo'];
 
 		$mysqli->query("SET @serie  = " . "'" . $mysqli->real_escape_string($serie) . "'");
 		$mysqli->query("SET @kit  = " . "'" . $mysqli->real_escape_string($kit) . "'");
 		$mysqli->query("SET @lote  = " . "'" . $mysqli->real_escape_string($lote) . "'");
 		$mysqli->query("SET @fecha  = " . "'" . $mysqli->real_escape_string($fecha) . "'");
+		$mysqli->query("SET @tipo  = " . "'" . $mysqli->real_escape_string($tipo) . "'");
 
-		if(!$mysqli->query("CALL crearBarraBase(@serie,@kit,@lote,@fecha)"))
+
+		if(!$mysqli->query("CALL crearBarraBase(@serie,@kit,@lote,@fecha,@tipo)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
     		header('HTTP/1.1 400 Fallo al agregar barra');
@@ -246,6 +249,16 @@ switch ($opcion) {
 		}
 		if($mysqli) $mysqli->close();
 		echo "Componentes agregados a la barra";
+	break;
+	case  'cargarBarra':
+		$serie = $_POST['serie'];
+		$mysqli->query("SET @serie  = " . "'" . $mysqli->real_escape_string($serie) . "'");
+		$resultado = $mysqli->query("CALL cargarBarra(@serie)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
 	break;
 	default:
 		# code...
