@@ -548,25 +548,25 @@ function cargarEditarKit(boton){
     var data = tablaKit.row( (boton.closest('tr').rowIndex) -1 ).data();
     
     if(data[1]==""){
-        $("#divTX1").children().prop('disabled',true);
+        disableDiv("divTX1",true);
     }else{
         cargarTX1(data[1]);
     }       
 
-    if(data[2]==""){
-        $("#divRX1").children().prop('disabled',true);
+    if(data[2]==null){
+        disableDiv("divRX1",true);
     }else{
         cargarRX1(data[2]);
     }    
     
-    if(data[3]==""){
-        $("#divRX2").children().prop('disabled',true);
+    if(data[3]==null){
+        disableDiv("divRX2",true);
     }else{
         cargarRX2(data[3]);
     }
 
-    if(data[4]==""){
-        $("#divTX3").children().prop('disabled',true);
+    if(data[4]==null){
+        disableDiv("divTX3",true);
     }else{
         cargarTX3(data[4]);
     }
@@ -598,25 +598,27 @@ function tx1Cargada(r){
     }
     for (var i = 0; i < doc.length; i++) {
         var obj = doc[i];
-        switch(obj.pos) {
-        case '1':
-            document.getElementById('8kTX1').value = String(obj.componenteCod);
-            break;
-        case '2':
-            document.getElementById('modemTX1').value = String(obj.componenteCod);
-            break;
-        case '3':
-            document.getElementById('tx1PRO1').value = String(obj.componenteCod);
-            break;
-        case '4':
-            document.getElementById('tx1PRO2').value = String(obj.componenteCod);
-            break;
-        case '5':
-            document.getElementById('tx1MAX1').value = String(obj.componenteCod);
-            break;
-        case '6':
-            document.getElementById('tx1MAX2').value = String(obj.componenteCod);
-            break;
+        if(obj.componenteCod != null){
+            switch(obj.pos) {
+            case '1':
+                document.getElementById('8kTX1').value = String(obj.componenteCod);
+                break;
+            case '2':
+                document.getElementById('modemTX1').value = String(obj.componenteCod);
+                break;
+            case '3':
+                document.getElementById('tx1PRO1').value = String(obj.componenteCod);
+                break;
+            case '4':
+                document.getElementById('tx1PRO2').value = String(obj.componenteCod);
+                break;
+            case '5':
+                document.getElementById('tx1MAX1').value = String(obj.componenteCod);
+                break;
+            case '6':
+                document.getElementById('tx1MAX2').value = String(obj.componenteCod);
+                break;
+            }
         }
     }
 }
@@ -644,22 +646,24 @@ function RX1Cargada(r){
     }
     for (var i = 0; i < doc.length; i++) {
         var obj = doc[i];
-        switch(obj.pos) {
-        case '1':
-            document.getElementById('duplex1RX1').value = String(obj.componenteCod);
-            break;
-        case '2':
-            document.getElementById('duplex2RX1').value = String(obj.componenteCod);
-            break;
-        case '3':
-            document.getElementById('proRX1').value = String(obj.componenteCod);
-            break;
-        case '4':
-            document.getElementById('centroCargaRX1').value = String(obj.componenteCod);
-            break;
-        case '5':
-            document.getElementById('tarRX1').value = String(obj.componenteCod);
-            break;
+        if(obj.componenteCod != null){
+            switch(obj.pos) {
+            case '1':
+                document.getElementById('duplex1RX1').value = String(obj.componenteCod);
+                break;
+            case '2':
+                document.getElementById('duplex2RX1').value = String(obj.componenteCod);
+                break;
+            case '3':
+                document.getElementById('proRX1').value = String(obj.componenteCod);
+                break;
+            case '4':
+                document.getElementById('centroCargaRX1').value = String(obj.componenteCod);
+                break;
+            case '5':
+                document.getElementById('tarRX1').value = String(obj.componenteCod);
+                break;
+            }
         }
     }
 }
@@ -687,22 +691,24 @@ function RX2Cargada(r){
     }
     for (var i = 0; i < doc.length; i++) {
         var obj = doc[i];
-        switch(obj.pos) {
-        case '1':
-            document.getElementById('duplex1RX2').value = String(obj.componenteCod);
-            break;
-        case '2':
-            document.getElementById('duplex2RX2').value = String(obj.componenteCod);
-            break;
-        case '3':
-            document.getElementById('proRX2').value = String(obj.componenteCod);
-            break;
-        case '4':
-            document.getElementById('centroCargaRX2').value = String(obj.componenteCod);
-            break;
-        case '5':
-            document.getElementById('tarRX2').value = String(obj.componenteCod);
-            break;
+        if(obj.componenteCod != null){
+            switch(obj.pos) {
+            case '1':
+                document.getElementById('duplex1RX2').value = String(obj.componenteCod);
+                break;
+            case '2':
+                document.getElementById('duplex2RX2').value = String(obj.componenteCod);
+                break;
+            case '3':
+                document.getElementById('proRX2').value = String(obj.componenteCod);
+                break;
+            case '4':
+                document.getElementById('centroCargaRX2').value = String(obj.componenteCod);
+                break;
+            case '5':
+                document.getElementById('tarRX2').value = String(obj.componenteCod);
+                break;
+            }
         }
     }
 }
@@ -732,13 +738,15 @@ function TX3Cargada(r){
     }
     for (var i = 0; i < doc.length; i++) {
         var obj = doc[i];
-        switch(obj.pos) {
-        case '1':
-            document.getElementById('pro1TX3').value = String(obj.componenteCod);
-            break;
-        case '2':
-            document.getElementById('pro2TX3').value = String(obj.componenteCod);
-            break;
+        if(obj.componenteCod != null){
+            switch(obj.pos) {
+            case '1':
+                document.getElementById('pro1TX3').value = String(obj.componenteCod);
+                break;
+            case '2':
+                document.getElementById('pro2TX3').value = String(obj.componenteCod);
+                break;
+            }
         }
     }
 }
@@ -768,6 +776,12 @@ function componenteEliminado(r){
         
 }
 
+function disableDiv(divEntrada,boolEntrada){
+    var nodes = document.getElementById(divEntrada).getElementsByTagName('*');
+    for(var i = 0; i < nodes.length; i++){
+         nodes[i].disabled = boolEntrada;
+    }
+}
 
 function limpiar(){
     $('#8kTX1').parent().removeClass('has-error has-edit has-success');
