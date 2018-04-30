@@ -133,26 +133,25 @@ function siRespuesta4(r){
         tablaKit.clear();
         var obj = doc[0];
         codigoKit = obj.codigoKit;
-        alert(obj.RX3);
         tablaKit.row.add([
                 'TX1',
                 obj.TX1,
-                '<button class="btn btn-danger" onclick="mostrarBarra('+obj.TX1+')" >Mostrar</button>'
+                '<button class="btn btn-danger" onclick="mostrarBarra(\''+obj.TX1+'\')" >Mostrar</button>'
             ]).draw(false);
         tablaKit.row.add([
                 'RX1',
                 obj.RX1,
-                '<button class="btn btn-danger" onclick="mostrarBarra('+obj.RX1+')" >Mostrar</button>'
+                '<button class="btn btn-danger" onclick="mostrarBarra(\''+obj.RX1+'\')" >Mostrar</button>'
             ]).draw(false);
         tablaKit.row.add([
                 'RX2',
                 obj.RX3,
-                '<button class="btn btn-danger" onclick="mostrarBarra('+obj.RX3+')" >Mostrar</button>'
+                '<button class="btn btn-danger" onclick="mostrarBarra(\''+obj.RX3+'\')" >Mostrar</button>'
             ]).draw(false);
         tablaKit.row.add([
                 'TX3',
                 obj.TX3,
-                '<button class="btn btn-danger" onclick="mostrarBarra('+obj.TX3+')" >Mostrar</button>'
+                '<button class="btn btn-danger" onclick="mostrarBarra(\''+obj.TX3+'\')" >Mostrar</button>'
             ]).draw(false);
     }catch(e){
         alert("El bus con placa "+ arrayBus[document.getElementById('sBus').selectedIndex-1] + " no tiene kit asignado");
