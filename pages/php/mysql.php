@@ -256,6 +256,16 @@ switch ($opcion) {
 		echo json_encode($json) ;
 	break;
 
+	case  'cargarBarra':
+		$barra = $_POST['barra'];
+		$mysqli->query("SET @barra  = " . "'" . $mysqli->real_escape_string($barra) . "'");
+		$resultado = $mysqli->query("CALL cargarBarra (@barra)");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
 	default:
 		# code...
 		break;
