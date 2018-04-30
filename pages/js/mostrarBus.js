@@ -133,6 +133,7 @@ function siRespuesta4(r){
         tablaKit.clear();
         var obj = doc[0];
         codigoKit = obj.codigoKit;
+        alert(obj.RX3);
         tablaKit.row.add([
                 'TX1',
                 obj.TX1,
@@ -144,7 +145,7 @@ function siRespuesta4(r){
                 '<button class="btn btn-danger" onclick="mostrarBarra('+obj.RX1+')" >Mostrar</button>'
             ]).draw(false);
         tablaKit.row.add([
-                'RX3',
+                'RX2',
                 obj.RX3,
                 '<button class="btn btn-danger" onclick="mostrarBarra('+obj.RX3+')" >Mostrar</button>'
             ]).draw(false);
@@ -208,7 +209,8 @@ function limpiar(r){
 }
 
 function mostrarBarra(barraID){
+    alert(barraID);
     localStorage.setItem("barraCodigo",barraID);
-    localStorage.setItem("kitCodigo",codigoKit);
+    localStorage.setItem("kitCodigo",codigoKit); 
     setTimeout("location.href='mostrarBarra.html'",0);
 }
