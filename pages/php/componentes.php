@@ -40,18 +40,22 @@ switch ($opcion) {
 		$estado = $_POST['txtEstado'];
 		$lote = $_POST['txtlote'];
 		$imei = $_POST['txtIMEI'];
+		$claveCorta = $_POST['claveCorta'];
+		$claveLarga = $_POST['claveLarga'];
 		$tipo = $_POST['txtTipoComponente'];
 		$mysqli->query("SET @codigo  = " . "'" . $mysqli->real_escape_string($codigo) . "'");
 		$mysqli->query("SET @fecha  = " . "'" . $mysqli->real_escape_string($fecha) . "'");
 		$mysqli->query("SET @estado  = " . "'" . $mysqli->real_escape_string($estado) . "'");
 		$mysqli->query("SET @lote  = " . "'" . $mysqli->real_escape_string($lote) . "'");
 		$mysqli->query("SET @imei  = " . "'" . $mysqli->real_escape_string($imei) . "'");
+		$mysqli->query("SET @claveCorta  = " . "'" . $mysqli->real_escape_string($claveCorta) . "'");
+		$mysqli->query("SET @claveLarga  = " . "'" . $mysqli->real_escape_string($claveLarga) . "'");
 		$mysqli->query("SET @tipo  = " . "'" . $mysqli->real_escape_string($tipo) . "'");
 
-		if(!$mysqli->query("CALL agregarComponente(@codigo,@estado,@fecha,@lote,@tipo,@imei)"))
+		if(!$mysqli->query("CALL agregarComponente(@codigo,@estado,@fecha,@lote,@tipo,@imei,@claveCorta,@claveLarga)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 El componente ya existe');
+    		header('HTTP/1.1 400 El componente '. $codigo .' ya existe');
     		die();
 		}
 		if($mysqli) $mysqli->close();

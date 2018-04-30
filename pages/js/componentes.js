@@ -183,6 +183,8 @@ function agregarComponente(){
         txtEstado: $('#listEstado').val(),
         txtlote: $('#txtLote').val(),
         txtIMEI: $('#imeiInput').val(),
+        claveCorta: "",
+        claveLarga: "",
         txtTipoComponente: listTipo[tipoComponente.selectedIndex]
     };
     console.log(parametros);

@@ -6,21 +6,6 @@ var editar = false;
 var componentesAct = [];
 $( document ).ready(function() {
 
-    tablaComponente = $('#tablaComponentes').DataTable( {
-        "scrollX": true,
-        "columnDefs": [
-            {
-                "targets": [ 6 ],
-                "visible": false,
-                "searchable": false
-            }
-        ],
-        "processing": true,
-        "serverSide": true,
-        "ajax": "php/tablas/tablaComponentes.php"
-        
-    } );
-
 
     tablaKit = $('#tablKits').DataTable( {
         "scrollX": true,
@@ -43,6 +28,25 @@ $( document ).ready(function() {
 
 });
 
+
+function cambiarBarra(listaBarra){
+    var tipoSeleccionado = listaBarra.selectedIndex;
+    document.getElementById("divTX1").style.display = "none";
+    document.getElementById("divRX").style.display = "none";
+    document.getElementById("divTX3").style.display = "none";
+    switch(tipoSeleccionado) {
+        case 1:
+            document.getElementById("divTX1").style.display ="inline-block";
+            break;
+        case 2:
+            document.getElementById("divRX").style.display ="inline-block";
+            break;
+        case 3:
+            document.getElementById("divTX3").style.display ="inline-block";
+            break;
+
+    }
+}
 
 
 function revisarComponente(inputComponente){
