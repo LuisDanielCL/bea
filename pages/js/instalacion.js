@@ -9,7 +9,7 @@ var arrayEmpresaNombre = [];
 var arrayBus = [];
 var arrayUser = [];
 var arrayKit = [];
-
+var tablaKits;
 function cargarEmpresas(){
     var parametros = {
         opcion : "cargarEmpresas"
@@ -133,22 +133,28 @@ function cargarKits(){
 
 function siRespuesta4(r){
     try{
-        removeOptions('sKit');
-        var doc = JSON.parse(r);
-        var salida = '<select class="form-control" tabindex="-1" id="sKit">';                   
-        $("#cbKit").html("");
+        var doc = JSON.parse(r);             
+        tablaKits = $('#tablaKits').DataTable();
+        tablaKits.clear();
         for (var i = 0; i < doc.length; i++) {
-            var j = i;
-            var obj = doc[i];
-            salida += '<option value="'+i+'">'+obj.codigoKit+'</option>';
+            var obj = doc[i]; 
             arrayKit[i] = obj.codigoKit;
-            //console.log(arrayfamiliaridad[i]);
+            tablaKits.row.add([
+                obj.codigoKit,
+                obj.TX1,
+                obj.RX1,
+                obj.RX3,
+                obj.TX3,
+                '<button class="btn btn-danger" onclick="seleccionarKit('+obj.codigoKit+')" >Usar</button>'
+            ]).draw(false);
         }
-        salida += "</select>";
-        $("#cbKit").html(salida);
     }catch(e){
-        alert("No hay kits disponibles");
+        alert("No hay kits disponibles");;
     }
+}
+
+function seleccionarKit(codigoKit){
+    document.getElementById('txtKit').value = codigoKit;
 }
 
 function cargarUsuarios(){
@@ -179,13 +185,12 @@ function siRespuesta5(r){
 
 function programarInstalacion(){
     var placa = arrayBus[document.getElementById('sBus').selectedIndex];
-    var kit = arrayKit[document.getElementById('sKit').selectedIndex];
     var tecnico = arrayUser[document.getElementById('sUser').selectedIndex];
     var parametros = {
         opcion : "programarInstalacion",
         txtFecha: $('#txtFecha').val(),
         placa: placa,
-        kit: kit,
+        kit: $('#txtKit').val(),
         tecnico: tecnico
     }
 
