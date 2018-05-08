@@ -138,6 +138,24 @@ switch ($opcion) {
 		echo json_encode($json) ;
 	break;
 
+	case  'filtrarBusesNoKit':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL filtrarBusesNoKit (@id)");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case  'obtenerBusesNoKit':
+		$resultado = $mysqli->query("CALL obtenerBusesNoKit ()");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
 	case  'obtenerPass':
 		$user = $_POST['txtUser'];
 		$pass = $_POST['txtPass'];
@@ -275,6 +293,56 @@ switch ($opcion) {
 			$json[] = $row;
 		}
 	    echo json_encode($json);
+	break;
+
+	case  'cargarKitsDisponibles':
+		$resultado = $mysqli->query("CALL obtenerKitsDisponibles ()");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case  'cargarUsuarios':
+		$resultado = $mysqli->query("CALL obtenerUsuarios ()");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case 'programarInstalacion':
+		$placa = $_POST['placa'];
+		$kit = $_POST['kit'];
+		$tecnico = $_POST['tecnico'];
+		$txtFecha = $_POST['txtFecha'];
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$mysqli->query("SET @kit  = " . "'" . $mysqli->real_escape_string($kit) . "'");
+		$mysqli->query("SET @tecnico  = " . "'" . $mysqli->real_escape_string($tecnico) . "'");
+		$mysqli->query("SET @txtFecha  = " . "'" . $mysqli->real_escape_string($txtFecha) . "'");
+		if(!$mysqli->query("CALL programarInstalacion (@placa,@kit,@tecnico,@txtFecha)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Instalacion Programada";
+	break;
+
+	case 'asignarKit':
+		$placa = $_POST['placa'];
+		$kit = $_POST['kit'];
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$mysqli->query("SET @kit  = " . "'" . $mysqli->real_escape_string($kit) . "'");
+		if(!$mysqli->query("CALL asignarBus (@placa,@kit)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Instalacion Programada";
 	break;
 
 	default:

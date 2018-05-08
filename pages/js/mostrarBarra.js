@@ -29,51 +29,58 @@ function cargarBarra(){
 }
 
 function siRespuesta(r){
-	var doc = JSON.parse(r);
-	var tipoID = doc[0].tipoBarra;
-	document.getElementById('txtKit').value = codigoKit;
-	switch(tipoID){
-		case '1':
-			$("#panelBarra").html(salidaTX1);
-			document.getElementById('serieTX1').value = barraID;
-			document.getElementById('8kTX1').value = doc[0].componenteCod;
-			obtenerClaves(doc[0].componenteCod);
-			document.getElementById('modemTX1').value = doc[1].componenteCod;
-			obtenerIMEI(doc[1].componenteCod);
-			document.getElementById('pro').value = doc[2].componenteCod;
-			document.getElementById('pro2').value = doc[3].componenteCod;	
-			document.getElementById('inputMAX').value = doc[4].componenteCod;	
-			document.getElementById('inputMAX2').value = doc[5].componenteCod;
-			break;
-		case '2':
-			$("#panelBarra").html(salidaRX1);
-			document.getElementById('serieRX1').value = barraID;
-			document.getElementById('duplex1RX1').value = doc[0].componenteCod;
-			document.getElementById('duplex2RX1').value = doc[1].componenteCod;
-			document.getElementById('proRX1').value = doc[2].componenteCod;
-			document.getElementById('centroCargaRX1').value = doc[3].componenteCod;
-			document.getElementById('tarRX1').value = doc[4].componenteCod;
-			break;
-		case '3':
-			$("#panelBarra").html(salidaRX2);
-			document.getElementById('serieRX2').value = barraID;
-			document.getElementById('duplex1RX2').value = doc[0].componenteCod;
-			document.getElementById('duplex2RX2').value = doc[1].componenteCod;
-			document.getElementById('proRX2').value = doc[2].componenteCod;
-			document.getElementById('centroCargaRX2').value = doc[3].componenteCod;
-			document.getElementById('tarRX2').value = doc[4].componenteCod;
-			break;
-		case '4':
-			$("#panelBarra").html(salidaTX3);
-			document.getElementById('serieTX3').value = barraID;
-			document.getElementById('pro1TX3').value = doc[0].componenteCod;
-			document.getElementById('pro2TX3').value = doc[1].componenteCod;
-			break;
-	}
+	try{
+		var doc = JSON.parse(r);
+		var tipoID = doc[0].tipoBarra;
+		document.getElementById('txtKit').value = codigoKit;
+		switch(tipoID){
+			case '1':
+				$("#panelBarra").html(salidaTX1);
+				document.getElementById('serieTX1').value = barraID;
+				document.getElementById('8kTX1').value = doc[0].componenteCod;
+				obtenerClaves(doc[0].componenteCod);
+				document.getElementById('modemTX1').value = doc[1].componenteCod;
+				obtenerIMEI(doc[1].componenteCod);
+				document.getElementById('pro').value = doc[2].componenteCod;
+				document.getElementById('pro2').value = doc[3].componenteCod;	
+				document.getElementById('inputMAX').value = doc[4].componenteCod;	
+				document.getElementById('inputMAX2').value = doc[5].componenteCod;
+				break;
+			case '2':
+				$("#panelBarra").html(salidaRX1);
+				document.getElementById('serieRX1').value = barraID;
+				document.getElementById('duplex1RX1').value = doc[0].componenteCod;
+				document.getElementById('duplex2RX1').value = doc[1].componenteCod;
+				document.getElementById('proRX1').value = doc[2].componenteCod;
+				document.getElementById('centroCargaRX1').value = doc[3].componenteCod;
+				document.getElementById('tarRX1').value = doc[4].componenteCod;
+				break;
+			case '3':
+				$("#panelBarra").html(salidaRX2);
+				document.getElementById('serieRX2').value = barraID;
+				document.getElementById('duplex1RX2').value = doc[0].componenteCod;
+				document.getElementById('duplex2RX2').value = doc[1].componenteCod;
+				document.getElementById('proRX2').value = doc[2].componenteCod;
+				document.getElementById('centroCargaRX2').value = doc[3].componenteCod;
+				document.getElementById('tarRX2').value = doc[4].componenteCod;
+				break;
+			case '4':
+				$("#panelBarra").html(salidaTX3);
+				document.getElementById('serieTX3').value = barraID;
+				document.getElementById('pro1TX3').value = doc[0].componenteCod;
+				document.getElementById('pro2TX3').value = doc[1].componenteCod;
+				break;
+		}
+	}catch(e){
+		if (barraID !="") {
+			alert("No hay una barra registrada en la base de datos con el codigo: "+barraID);
+			$("#panelBarra").html("");
+		}
+	} 
 	barraID = "";
 	codigoKit = "";
 	localStorage.setItem("barraCodigo","");
-    localStorage.setItem("kitCodigo",""); 
+    localStorage.setItem("kitCodigo","");
 }
 
 function obtenerClaves(codigoComponente){
