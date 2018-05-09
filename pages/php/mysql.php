@@ -345,6 +345,14 @@ switch ($opcion) {
 		echo "Instalacion Programada";
 	break;
 
+	case  'cargarComponentes':
+		$resultado = $mysqli->query("CALL obtenerComponentesDisponibles ()");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
 	default:
 		# code...
 		break;
