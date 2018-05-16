@@ -11,6 +11,9 @@ var arrayUser = [];
 var arrayKit = [];
 var arrayComponente = [];
 var tablaComponentes;
+var barra = 1;
+var componenteViejo;
+var componenteNuevo;
 
 function cargarEmpresas(){
     var parametros = {
@@ -177,11 +180,115 @@ function siRespuesta5(r){
                 obj.IMEI,
                 obj.claveCorta,
                 obj.claveLarga,
-                '<button class="btn btn-danger" onclick="seleccionarKit('+obj.codigoKit+')" >Usar</button>'
+                '<button class="btn btn-danger" onclick="seleccionarComponente(\''+obj.cod+'\')" >Usar</button>'
             ]).draw(false);
         }
     }catch(e){
-        alert("No hay componentes disponibles");;
+        alert("No hay componentes disponibles");
+    }
+}
+
+function seleccionarComponente(cod){
+    componenteNuevo = cod;
+    switch(barra){
+        case 1:
+            if (document.getElementById("componenteRadio1").checked) {
+                componenteViejo = document.getElementById("8kTX1").value;
+                document.getElementById("8kTX1").value = cod;
+                obtenerClaves(cod);
+            } else {
+                if (document.getElementById("componenteRadio2").checked) {
+                    componenteViejo = document.getElementById("modemTX1").value; 
+                    document.getElementById("modemTX1").value = cod;
+                    obtenerIMEI(cod);
+                } else {
+                    if (document.getElementById("componenteRadio3").checked) {
+                        componenteViejo = document.getElementById("pro").value;
+                        document.getElementById("pro").value = cod;
+                    } else {
+                        if (document.getElementById("componenteRadio4").checked) {
+                            componenteViejo = document.getElementById("pro2").value;
+                            document.getElementById("pro2").value = cod;
+                        } else {
+                            if (document.getElementById("componenteRadio5").checked) {
+                                componenteViejo = document.getElementById("inputMAX").value;
+                                document.getElementById("inputMAX").value = cod;
+                            } else {
+                                if (document.getElementById("componenteRadio6").checked) {
+                                    componenteViejo = document.getElementById("inputMAX2").value;
+                                    document.getElementById("inputMAX2").value = cod;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            break;
+        case 2:
+            if (document.getElementById("componenteRadio7").checked) {
+                componenteViejo = document.getElementById("duplex1RX1").value;
+                document.getElementById("duplex1RX1").value = cod;
+            } else {
+                if (document.getElementById("componenteRadio8").checked) {
+                    componenteViejo = document.getElementById("duplex2RX1").value;
+                    document.getElementById("duplex2RX1").value = cod;
+                } else {
+                    if (document.getElementById("componenteRadio9").checked) {
+                        componenteViejo = document.getElementById("proRX1").value;
+                        document.getElementById("proRX1").value = cod;
+                    } else {
+                        if (document.getElementById("componenteRadio10").checked) {
+                            componenteViejo = document.getElementById("centroCargaRX1").value;
+                            document.getElementById("centroCargaRX1").value = cod;
+                        } else {
+                            if (document.getElementById("componenteRadio11").checked) {
+                                componenteViejo = document.getElementById("tarRX1").value;
+                                document.getElementById("tarRX1").value = cod;
+                            }
+                        }
+                    }
+                }
+            }
+            break;
+        case 3:
+            if (document.getElementById("componenteRadio12").checked) {
+                componenteViejo = document.getElementById("duplex1RX2").value;
+                document.getElementById("duplex1RX2").value = cod;
+            } else {
+                if (document.getElementById("componenteRadio13").checked) {
+                    componenteViejo = document.getElementById("duplex2RX2").value;
+                    document.getElementById("duplex2RX2").value = cod;
+                } else {
+                    if (document.getElementById("componenteRadio14").checked) {
+                        componenteViejo = document.getElementById("proRX2").value;
+                        document.getElementById("proRX2").value = cod;
+                    } else {
+                        if (document.getElementById("componenteRadio15").checked) {
+                            componenteViejo = document.getElementById("centroCargaRX2").value;
+                            document.getElementById("centroCargaRX2").value = cod;
+                        } else {
+                            if (document.getElementById("componenteRadio16").checked) {
+                                componenteViejo = document.getElementById("tarRX2").value;
+                                document.getElementById("tarRX2").value = cod;
+                            }
+                        }
+                    }
+                }
+            }
+            break;
+        case 4:
+            if (document.getElementById("componenteRadio17").checked) {
+                componenteViejo = document.getElementById("pro1TX3").value;
+                document.getElementById("pro1TX3").value = cod;
+            } else {
+                if (document.getElementById("componenteRadio18").checked) {
+                    componenteViejo = document.getElementById("pro2TX3").value;
+                    document.getElementById("pro2TX3").value = cod;
+                }
+            }
+            break;
+        default:
+            break;
     }
 }
 
@@ -315,7 +422,12 @@ function respuestaObtenerIMEI(r){
     document.getElementById('imeiModem').value = doc[0].IMEI;
 }
 
+function selectBarra(ID){
+    barra = ID;
+}
+
 function limpiar(){
+    barra = 1;
     cargarEmpresas();
     cargarComponentes();
 }

@@ -2,6 +2,7 @@ $( document ).ready(function() {
     cargarEmpresas();
     cargarKits();
     cargarUsuarios();
+    cargarSim();
 });
 
 var arrayEmpresa = [];
@@ -9,7 +10,10 @@ var arrayEmpresaNombre = [];
 var arrayBus = [];
 var arrayUser = [];
 var arrayKit = [];
+var arraySim = [];
 var tablaKits;
+var tablaSim;
+
 function cargarEmpresas(){
     var parametros = {
         opcion : "cargarEmpresas"
@@ -208,11 +212,10 @@ function siRespuesta6(r){
 
 function asignarKit(){
     var placa = arrayBus[document.getElementById('sBus').selectedIndex];
-    var kit = arrayKit[document.getElementById('sKit').selectedIndex];
     var parametros = {
         opcion : "asignarKit",
         placa: placa,
-        kit: kit
+        kit: $('#txtKit').val()
     }
 
     var post = $.post(
@@ -223,11 +226,70 @@ function asignarKit(){
 }
 
 function siRespuesta7(){
+    asignarSim();
+}
+
+function cargarSim(){
+    var parametros = {
+        opcion : "cargarSimDisponibles"
+    }
+
+    var post = $.post(
+                         "php/mysql.php",    // Script que se ejecuta en el servidor
+                         parametros,                               
+                         siRespuesta8    // Función que se ejecuta cuando el servidor responde
+                         );
+}
+
+function siRespuesta8(r){
+    try{
+        var doc = JSON.parse(r);             
+        tablaSim = $('#tablaSim').DataTable();
+        tablaSim.clear();
+        for (var i = 0; i < doc.length; i++) {
+            var obj = doc[i]; 
+            arraySim[i] = obj.numeroTelefono;
+            tablaSim.row.add([
+                obj.numeroTelefono,
+                obj.pin,
+                obj.puk,
+                obj.codigo,
+                obj.fechaRegistro,
+                obj.Estado,
+                '<button class="btn btn-danger" onclick="seleccionarSim('+obj.numeroTelefono+')" >Usar</button>'
+            ]).draw(false);
+        }
+    }catch(e){
+        alert("No hay SIM disponibles");;
+    }
+}
+
+function seleccionarSim(sim){
+    document.getElementById('txtSim').value = sim;
+}
+
+function asignarSim(){
+    var placa = arrayBus[document.getElementById('sBus').selectedIndex];
+    var parametros = {
+        opcion : "asignarSim",
+        placa: placa,
+        sim: $('#txtSim').val()
+    }
+
+    var post = $.post(
+                         "php/mysql.php",    // Script que se ejecuta en el servidor
+                         parametros,                               
+                         siRespuesta9    // Función que se ejecuta cuando el servidor responde
+                         );
+}
+
+function siRespuesta9(){
     limpiar();
 }
 
 function limpiar(){
     cargarEmpresas();
     cargarKits();
+    cargarSim();
     document.getElementById('txtFecha').value = "";
 }

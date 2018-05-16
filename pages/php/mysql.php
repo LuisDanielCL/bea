@@ -353,6 +353,29 @@ switch ($opcion) {
 		echo json_encode($json) ;
 	break;
 
+	case  'cargarSimDisponibles':
+		$resultado = $mysqli->query("CALL obtenerSimDisponible ()");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case 'asignarSim':
+		$placa = $_POST['placa'];
+		$sim = $_POST['sim'];
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$mysqli->query("SET @sim  = " . "'" . $mysqli->real_escape_string($sim) . "'");
+		if(!$mysqli->query("CALL asignarBus (@placa,@sim)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Instalacion Programada";
+	break;
+
 	default:
 		# code...
 		break;
