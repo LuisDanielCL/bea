@@ -75,18 +75,19 @@
                                         </span>
                                     </div>
                                 </div>
+                                <label>__________________________________________________________________________________________</label>
                                 <div class="form-group">
                                     <label>Kit</label>
                                     <div class="panel-body">
                             <!-- Nav tabs -->
                                         <ul class="nav nav-pills">
-                                            <li class="active"><a href="#tabTX1" data-toggle="tab" onclick="selectBarra(1)">TX1</a>
+                                            <li class="active"><a href="#tabTX1" data-toggle="tab" onclick="selectBarra('TX1');">TX1</a>
                                             </li>
-                                            <li><a href="#tabRX1" data-toggle="tab" onclick="selectBarra(2)">RX1</a>
+                                            <li><a href="#tabRX1" data-toggle="tab" onclick="selectBarra('RX1');">RX1</a>
                                             </li>
-                                            <li><a href="#tabRX3" data-toggle="tab" onclick="selectBarra(3)">RX3</a>
+                                            <li><a href="#tabRX3" data-toggle="tab" onclick="selectBarra('RX3');">RX3</a>
                                             </li>
-                                            <li><a href="#tabTX3" data-toggle="tab" onclick="selectBarra(4)">TX3</a>
+                                            <li><a href="#tabTX3" data-toggle="tab" onclick="selectBarra('TX3');">TX3</a>
                                             </li>
                                         </ul>
 
@@ -96,7 +97,7 @@
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-lg-offset-2 col-lg-8">
-                                                            <form id="componentesForm">
+                                                            <div id="componentesForm">
                                                                 <div class="form-group row ">
                                                                     <label for="inputPassword" class="col-sm-2 col-form-label">Serie</label>
                                                                     <div class="col-sm-10">
@@ -104,10 +105,11 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio1" value="componente1" checked>8KTX1
-                                                                    </label>
-                                                                    <input class="form-control" id="8kTX1" disabled>
+                                                                    <label class="col-sm-2 col-form-label">8KTX1</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input class="form-control" id="8kTX1" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btn8kTX1" onclick="cambiarComponente('8kTX1','8kTX1');">Cambiar</button>
                                                                 </div>
                                                                 <div class="col-lg-offset-2">
                                                                     <div class="form-group row">
@@ -124,10 +126,11 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio2" value="componente2" onauxclick="cargarKit();">MODEM
-                                                                    </label>
-                                                                    <input class="form-control" id="modemTX1" disabled> 
+                                                                    <label  class="col-sm-2 col-form-label">MODEM</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input class="form-control" id="modemTX1" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnmodemTX1" onclick="cambiarComponente('MODEM','MODEM');">Cambiar</button>  
                                                                 </div>
                                                                 <div class="col-lg-offset-2">
                                                                     <div class="form-group row">
@@ -138,31 +141,35 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio3" value="componente3">PRO
-                                                                    </label>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">PRO</label>
+                                                                    <div class="col-sm-7">
                                                                         <input class="form-control" id="pro" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnprotx1" onclick="cambiarComponente('PRO','PROTX1');">Cambiar</button>  
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio4" value="componente4">PRO2
-                                                                    </label>
-                                                                    <input class="form-control" id="pro2" disabled>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">PRO2</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input class="form-control" id="pro2" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnpro2tx1" onclick="cambiarComponente('PRO2','PRO2TX1');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio5" value="componente5">MAX
-                                                                    </label>
-                                                                    <input class="form-control" id="inputMAX" disabled>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">MAX</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input class="form-control" id="inputMAX" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btninputMAX" onclick="cambiarComponente('MAX','MAX');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio6" value="componente6">MAX2
-                                                                    </label>
-                                                                    <input class="form-control" id="inputMAX2" disabled>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">MAX2</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input class="form-control" id="inputMAX2" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btninputMAX2" onclick="cambiarComponente('MAX2','MAX2');">Cambiar</button>
                                                                 </div>
                                                                 <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
-                                                            </form>
+                                                            </div>
                                                         </div><!-- /.col-lg-6 (nested) -->
                                                     </div><!-- /.row (nested) -->
                                                 </div>';
@@ -171,7 +178,7 @@
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-lg-offset-2 col-lg-8">
-                                                            <form id="componentesForm">
+                                                            <div id="componentesForm">
                                                                 <div class="form-group row">
                                                                     <label for="inputPassword" class="col-sm-2 col-form-label">Serie</label>
                                                                     <div class="col-sm-10">
@@ -179,37 +186,42 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio7" value="componente7">Duplex
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="duplex1RX1" disabled>
+                                                                    <label class="col-sm-2 col-form-label">Duplex</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="duplex1RX1" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnDuplex1RX1" onclick="cambiarComponente('Duplex','Duplex1RX1');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio8" value="componente8">Duplex2
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="duplex2RX1" disabled>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">Duplex2</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="duplex2RX1" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnDuplex2RX1" onclick="cambiarComponente('Duplex2','Duplex2RX1');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio9" value="componente9">PRO
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="proRX1" disabled>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">PRO</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="proRX1" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnproRX1" onclick="cambiarComponente('PRO','PRORX1');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio10" value="componente10">Centro carga
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="centroCargaRX1" disabled>
+                                                                    <label  class="col-sm-2 col-form-label">Centro carga</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="centroCargaRX1" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btncentrocargaRX1" onclick="cambiarComponente('Centro carga','centroCargaRX1');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio11" value="componente11">TAR
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="tarRX1" disabled>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">TAR</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="tarRX1" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btntarRX1" onclick="cambiarComponente('TAR','tarRX1');">Cambiar</button>
                                                                 </div>
                                                                 <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
-                                                            </form>
+                                                            </div>
                                                         </div><!-- /.col-lg-6 (nested) -->
                                                     </div><!-- /.row (nested) -->
                                                 </div>
@@ -218,7 +230,7 @@
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-lg-offset-2 col-lg-8">
-                                                            <form id="componentesForm">
+                                                            <div id="componentesForm">
                                                                 <div class="form-group row">
                                                                     <label for="inputPassword" class="col-sm-2 col-form-label">Serie</label>
                                                                     <div class="col-sm-10">
@@ -226,37 +238,42 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio12" value="componente12">Duplex
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="duplex1RX2" disabled>
+                                                                    <label class="col-sm-2 col-form-label">Duplex</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="duplex1RX2" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnDuplex1RX2" onclick="cambiarComponente('Duplex','Duplex1RX2');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio13" value="componente13">Duplex2
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="duplex2RX2" disabled>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">Duplex2</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="duplex2RX2" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnDuplex2RX2" onclick="cambiarComponente('Duplex','Duplex2RX2');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio14" value="componente14">PRO
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="proRX2" disabled>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">PRO</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="proRX2" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnproRX2" onclick="cambiarComponente('PRO','PRORX2');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio15" value="componente15">Centro Carga
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="centroCargaRX2" disabled>
+                                                                    <label  class="col-sm-2 col-form-label">Centro carga</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="centroCargaRX2" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btncentrocargaRX2" onclick="cambiarComponente('Centro carga','centroCargaRX2');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio16" value="componente16">TAR
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="tarRX2" disabled>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">TAR</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="tarRX2" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btntarRX2" onclick="cambiarComponente('TAR','tarRX2');">Cambiar</button>
                                                                 </div>
                                                                 <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
-                                                            </form>
+                                                            </div>
                                                         </div><!-- /.col-lg-6 (nested) -->
                                                     </div><!-- /.row (nested) -->
                                                 </div>
@@ -265,7 +282,7 @@
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-lg-offset-2 col-lg-8">
-                                                            <form id="componentesForm">
+                                                            <div id="componentesForm">
                                                                 <div class="form-group row">
                                                                     <label for="inputPassword" class="col-sm-2 col-form-label">Serie</label>
                                                                     <div class="col-sm-10">
@@ -273,29 +290,27 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio17" value="componente17">PRO
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="pro1TX3" disabled>
+                                                                    <label class="col-sm-2 col-form-label">PRO</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="pro1TX3" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnpro1TX3" onclick="cambiarComponente('PRO','PRO1TX3');">Cambiar</button>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label>
-                                                                        <input type="radio" name="componentesRadio" id="componenteRadio18" value="componente18">PRO2
-                                                                    </label>
-                                                                    <input autocomplete="off" class="form-control" id="pro2TX3" disabled>
+                                                                    <label for="inputPassword" class="col-sm-2 col-form-label">PRO2</label>
+                                                                    <div class="col-sm-7">
+                                                                        <input autocomplete="off" class="form-control" id="pro2TX3" disabled>
+                                                                    </div>
+                                                                    <button class="btn btn-success mt-2" type="submit" id="btnpro2TX3" onclick="cambiarComponente('PRO','PRO2TX3');">Cambiar</button>
                                                                 </div>
                                                                 <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
-                                                            </form>
+                                                            </div>
                                                         </div><!-- /.col-lg-6 (nested) -->
                                                     </div><!-- /.row (nested) -->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>____________________________________________________________________________________</label>
-                                    <button class="btn btn-success mt-2" type="submit" id="btnInstalacion" onclick="programarMantenimiento();">Programar</button>
                                 </div>  
                             </div>
                             <div class= "col-lg-6">
@@ -315,6 +330,46 @@
                                     </thead>
                                 </table>
                                 <!-- /.table-responsive -->
+                            </div>
+                            <label>____________________________________________________________________________________________</label>
+                            <div class= "col-lg-6">
+                                <label>Cambio</label>
+                                <div class="col-lg-offset-2">
+                                    <div class="form-group row">
+                                        <label  class="col-sm-2 col-form-label">Barra</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtBarra" disabled>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="col-lg-offset-2">
+                                    <div class="form-group row">
+                                        <label  class="col-sm-2 col-form-label">Tipo componente</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtTipoComponente" disabled>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="col-lg-offset-2">
+                                    <div class="form-group row">
+                                        <label  class="col-sm-2 col-form-label">Componente a cambiar</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtComponenteViejo" disabled required>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="col-lg-offset-2">
+                                    <div class="form-group row">
+                                        <label  class="col-sm-2 col-form-label">Componente a instalar</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtComponenteNuevo" disabled required>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>__________________________________________________________________________________________</label>
+                                    <button class="btn btn-success mt-2" type="submit" id="btnInstalacion" onclick="programarMantenimiento();">Programar</button>
+                                </div>
                             </div>
                                 <!-- /.col-lg-6 (nested) -->
                             <!-- /.row (nested) -->

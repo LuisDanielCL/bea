@@ -342,7 +342,7 @@ switch ($opcion) {
     		die();
 		}
 		if($mysqli) $mysqli->close();
-		echo "Instalacion Programada";
+		echo "Kit asignado";
 	break;
 
 	case  'cargarComponentes':
@@ -373,7 +373,45 @@ switch ($opcion) {
     		die();
 		}
 		if($mysqli) $mysqli->close();
-		echo "Instalacion Programada";
+		echo "Sim asignado";
+	break;
+
+	case 'programarMantenimiento':
+		$tecnico = $_POST['tecnico'];
+		$placa = $_POST['placa'];
+		$barra = $_POST['barra'];
+		$componenteViejo = $_POST['componenteViejo'];
+		$componenteNuevo = $_POST['componenteNuevo'];
+		$fecha = $_POST['fecha'];
+		$mysqli->query("SET @tecnico  = " . "'" . $mysqli->real_escape_string($tecnico) . "'");
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$mysqli->query("SET @barra  = " . "'" . $mysqli->real_escape_string($barra) . "'");
+		$mysqli->query("SET @componenteViejo  = " . "'" . $mysqli->real_escape_string($componenteViejo) . "'");
+		$mysqli->query("SET @componenteNuevo  = " . "'" . $mysqli->real_escape_string($componenteNuevo) . "'");
+		$mysqli->query("SET @fecha  = " . "'" . $mysqli->real_escape_string($fecha) . "'");
+		if(!$mysqli->query("CALL programarMantenimiento (@tecnico,@placa,@barra,@componenteViejo,@componenteNuevo,@fecha)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Mantenimiento Programado";
+	break;
+
+	case 'asignarComponente':
+		$componenteViejo = $_POST['componenteViejo'];
+		$componenteNuevo = $_POST['componenteNuevo'];
+		$mysqli->query("SET @componenteViejo  = " . "'" . $mysqli->real_escape_string($componenteViejo) . "'");
+		$mysqli->query("SET @componenteNuevo  = " . "'" . $mysqli->real_escape_string($componenteNuevo) . "'");
+		if(!$mysqli->query("CALL asignarComponente (@componenteViejo,@componenteNuevo)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Componente asignado";
 	break;
 
 	default:

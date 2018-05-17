@@ -11,9 +11,7 @@ var arrayUser = [];
 var arrayKit = [];
 var arrayComponente = [];
 var tablaComponentes;
-var barra = 1;
-var componenteViejo;
-var componenteNuevo;
+var barra = 'TX1';
 
 function cargarEmpresas(){
     var parametros = {
@@ -139,17 +137,23 @@ function cargarUsuarios(){
 }
 
 function siRespuesta4(r){
-    var doc = JSON.parse(r);
-    var salida = '<select class="form-control" tabindex="-1" id="sUser">';                    
-    $("#cbTecnico").html("");
-    for (var i = 0; i < doc.length; i++) {
-        var j = i;
-        var obj = doc[i];
-        salida += '<option value="'+i+'">'+obj.nombre+" "+obj.apellido1+" "+obj.apellido2+'</option>';
-        arrayUser[i] = obj.user;
+    try{
+        var doc = JSON.parse(r);
+        var salida = '<select class="form-control" tabindex="-1" id="sUser">';   
+        salida += '<option disabled selected value=0>Escoja una opcion</opcion>';                  
+        $("#cbTecnico").html("");
+        for (var i = 0; i < doc.length; i++) {
+            var j = i;
+            var obj = doc[i];
+            salida += '<option value="'+i+'">'+obj.nombre+" "+obj.apellido1+" "+obj.apellido2+'</option>';
+            arrayUser[i] = obj.user;
+        }
+        salida += "</select>";
+        $("#cbTecnico").html(salida);
+    }catch(e){
+        alert('No hay tecnicos registrados en el sistema');
+        document.getElementById('sUser').value = -1;
     }
-    salida += "</select>";
-    $("#cbTecnico").html(salida);
 }
 
 function cargarComponentes(){
@@ -180,7 +184,7 @@ function siRespuesta5(r){
                 obj.IMEI,
                 obj.claveCorta,
                 obj.claveLarga,
-                '<button class="btn btn-danger" onclick="seleccionarComponente(\''+obj.cod+'\')" >Usar</button>'
+                '<button class="btn btn-danger" onclick="usarComponente(\''+obj.cod+'\')" >Usar</button>'
             ]).draw(false);
         }
     }catch(e){
@@ -188,108 +192,130 @@ function siRespuesta5(r){
     }
 }
 
-function seleccionarComponente(cod){
-    componenteNuevo = cod;
-    switch(barra){
-        case 1:
-            if (document.getElementById("componenteRadio1").checked) {
-                componenteViejo = document.getElementById("8kTX1").value;
-                document.getElementById("8kTX1").value = cod;
-                obtenerClaves(cod);
-            } else {
-                if (document.getElementById("componenteRadio2").checked) {
-                    componenteViejo = document.getElementById("modemTX1").value; 
-                    document.getElementById("modemTX1").value = cod;
-                    obtenerIMEI(cod);
-                } else {
-                    if (document.getElementById("componenteRadio3").checked) {
-                        componenteViejo = document.getElementById("pro").value;
-                        document.getElementById("pro").value = cod;
-                    } else {
-                        if (document.getElementById("componenteRadio4").checked) {
-                            componenteViejo = document.getElementById("pro2").value;
-                            document.getElementById("pro2").value = cod;
-                        } else {
-                            if (document.getElementById("componenteRadio5").checked) {
-                                componenteViejo = document.getElementById("inputMAX").value;
-                                document.getElementById("inputMAX").value = cod;
-                            } else {
-                                if (document.getElementById("componenteRadio6").checked) {
-                                    componenteViejo = document.getElementById("inputMAX2").value;
-                                    document.getElementById("inputMAX2").value = cod;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+function cambiarComponente(tipoComponente,cod){
+    document.getElementById('txtBarra').value = barra;
+    document.getElementById('txtTipoComponente').value = tipoComponente;
+    switch(cod){
+        case '8kTX1':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('8kTX1').value;
             break;
-        case 2:
-            if (document.getElementById("componenteRadio7").checked) {
-                componenteViejo = document.getElementById("duplex1RX1").value;
-                document.getElementById("duplex1RX1").value = cod;
-            } else {
-                if (document.getElementById("componenteRadio8").checked) {
-                    componenteViejo = document.getElementById("duplex2RX1").value;
-                    document.getElementById("duplex2RX1").value = cod;
-                } else {
-                    if (document.getElementById("componenteRadio9").checked) {
-                        componenteViejo = document.getElementById("proRX1").value;
-                        document.getElementById("proRX1").value = cod;
-                    } else {
-                        if (document.getElementById("componenteRadio10").checked) {
-                            componenteViejo = document.getElementById("centroCargaRX1").value;
-                            document.getElementById("centroCargaRX1").value = cod;
-                        } else {
-                            if (document.getElementById("componenteRadio11").checked) {
-                                componenteViejo = document.getElementById("tarRX1").value;
-                                document.getElementById("tarRX1").value = cod;
-                            }
-                        }
-                    }
-                }
-            }
+        case 'MODEM':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('modemTX1').value;
             break;
-        case 3:
-            if (document.getElementById("componenteRadio12").checked) {
-                componenteViejo = document.getElementById("duplex1RX2").value;
-                document.getElementById("duplex1RX2").value = cod;
-            } else {
-                if (document.getElementById("componenteRadio13").checked) {
-                    componenteViejo = document.getElementById("duplex2RX2").value;
-                    document.getElementById("duplex2RX2").value = cod;
-                } else {
-                    if (document.getElementById("componenteRadio14").checked) {
-                        componenteViejo = document.getElementById("proRX2").value;
-                        document.getElementById("proRX2").value = cod;
-                    } else {
-                        if (document.getElementById("componenteRadio15").checked) {
-                            componenteViejo = document.getElementById("centroCargaRX2").value;
-                            document.getElementById("centroCargaRX2").value = cod;
-                        } else {
-                            if (document.getElementById("componenteRadio16").checked) {
-                                componenteViejo = document.getElementById("tarRX2").value;
-                                document.getElementById("tarRX2").value = cod;
-                            }
-                        }
-                    }
-                }
-            }
+        case 'PROTX1':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('pro').value;
             break;
-        case 4:
-            if (document.getElementById("componenteRadio17").checked) {
-                componenteViejo = document.getElementById("pro1TX3").value;
-                document.getElementById("pro1TX3").value = cod;
-            } else {
-                if (document.getElementById("componenteRadio18").checked) {
-                    componenteViejo = document.getElementById("pro2TX3").value;
-                    document.getElementById("pro2TX3").value = cod;
-                }
-            }
+        case 'PRO2TX1':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('pro2').value;
+            break;
+        case 'MAXTX1':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('inputMAX').value;
+            break;
+        case 'MAX2TX1':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('inputMAX2').value;
+            break;
+        case 'Duplex1RX1':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('duplex1RX1').value;
+            break;
+        case 'Duplex2RX1':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('duplex2RX1').value;
+            break;
+        case 'PRORX1':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('proRX1').value;
+            break;
+        case 'centroCargaRX1':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('centroCargaRX1').value;
+            break;
+        case 'tarRX1':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('tarRX1').value;
+            break;
+        case 'Duplex1RX2':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('duplex1RX2').value;
+            break;
+        case 'Duplex2RX2':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('duplex2RX2').value;
+            break;
+        case 'PRORX2':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('proRX2').value;
+            break;
+        case 'centroCargaRX2':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('centroCargaRX2').value;
+            break;
+        case 'tarRX2':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('tarRX2').value;
+            break;
+        case 'PRO1TX3':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('pro1TX3').value;
+            break;
+        case 'PRO2TX3':
+            document.getElementById('txtComponenteViejo').value = document.getElementById('pro2TX3').value;
             break;
         default:
             break;
     }
+}
+
+function usarComponente(cod){
+    document.getElementById('txtComponenteNuevo').value = cod;
+}
+
+function programarMantenimiento(){
+    var barraCod;
+    switch (barra){
+        case 'TX1':
+            barraCod = arrayKit[1];
+            break;
+        case 'RX1':
+            barraCod = arrayKit[2];
+            break;
+        case 'RX3':
+            barraCod = arrayKit[3];
+            break;
+        case 'TX3':
+            barraCod = arrayKit[4];
+            break;
+        default:
+            break;
+    }
+
+    var tecnico = arrayUser[document.getElementById('sUser').selectedIndex -1];
+    var placa = arrayBus[document.getElementById('sBus').selectedIndex -1];
+    var parametros = {
+        opcion : "programarMantenimiento",
+        tecnico : tecnico,
+        placa : placa,
+        barra : barraCod,
+        componenteViejo : $('#txtComponenteViejo').val(),
+        componenteNuevo : $('#txtComponenteNuevo').val(),
+        fecha : $('#txtFecha').val()
+    };
+    var post = $.post(
+                              "php/mysql.php",    // Script que se ejecuta en el servidor
+                              parametros,                              
+                              siRespuesta10    // Función que se ejecuta cuando el servidor responde
+                              );
+}
+
+function siRespuesta10(r){
+    alert("El mantenimiento ha sido programado");
+    asignarComponente();
+}
+
+function asignarComponente(){
+    var parametros = {
+        opcion : "asignarComponente",
+        componenteViejo : $('#txtComponenteViejo').val(),
+        componenteNuevo : $('#txtComponenteNuevo').val()
+    };
+    var post = $.post(
+                              "php/mysql.php",    // Script que se ejecuta en el servidor
+                              parametros,                              
+                              siRespuesta11    // Función que se ejecuta cuando el servidor responde
+                              );  
+}
+
+function siRespuesta11(r){
+    limpiar();
 }
 
 function cargarKit(){
@@ -422,12 +448,42 @@ function respuestaObtenerIMEI(r){
     document.getElementById('imeiModem').value = doc[0].IMEI;
 }
 
-function selectBarra(ID){
-    barra = ID;
+function selectBarra(tipo){
+    barra = tipo;
 }
 
 function limpiar(){
-    barra = 1;
+    barra = 'TX1';
+    document.getElementById('txtComponenteViejo').value = "";
+    document.getElementById('txtComponenteNuevo').value = "";
+    document.getElementById('txtBarra').value = "";
+    document.getElementById('txtTipoComponente').value = "";
+    document.getElementById('serieTX1').value = "";
+    document.getElementById('8kTX1').value = "";
+    document.getElementById('claveCortaTX1').value = "";
+    document.getElementById('claveLargaTX1').value = "";
+    document.getElementById('modemTX1').value = "";
+    document.getElementById('imeiModem').value = "";
+    document.getElementById('pro').value = "";
+    document.getElementById('pro2').value = "";   
+    document.getElementById('inputMAX').value = "";   
+    document.getElementById('inputMAX2').value = "";
+    document.getElementById('serieRX1').value = "";
+    document.getElementById('duplex1RX1').value = "";
+    document.getElementById('duplex2RX1').value = "";
+    document.getElementById('proRX1').value = "";
+    document.getElementById('centroCargaRX1').value = "";
+    document.getElementById('tarRX1').value = "";
+    document.getElementById('serieRX2').value = "";
+    document.getElementById('duplex1RX2').value = "";
+    document.getElementById('duplex2RX2').value = "";
+    document.getElementById('proRX2').value = "";
+    document.getElementById('centroCargaRX2').value = "";
+    document.getElementById('tarRX2').value = "";
+    document.getElementById('serieTX3').value = "";
+    document.getElementById('pro1TX3').value = "";
+    document.getElementById('pro2TX3').value = "";
     cargarEmpresas();
     cargarComponentes();
+    cargarUsuarios();
 }
