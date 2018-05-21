@@ -259,41 +259,70 @@ function usarComponente(cod){
     document.getElementById('txtComponenteNuevo').value = cod;
 }
 
-function programarMantenimiento(){
-    var barraCod;
-    switch (barra){
-        case 'TX1':
-            barraCod = arrayKit[1];
-            break;
-        case 'RX1':
-            barraCod = arrayKit[2];
-            break;
-        case 'RX3':
-            barraCod = arrayKit[3];
-            break;
-        case 'TX3':
-            barraCod = arrayKit[4];
-            break;
-        default:
-            break;
+function revisarDatos(){
+    if (document.getElementById('sUser').selectedIndex == 0) {
+        alert("Debe seleccionar un tecnico");
+        return false;
+    }else{
+        if (document.getElementById('sBus').selectedIndex == 0) {
+            alert("Debe seleccionar un bus");
+            return false;
+        }else{
+            if (document.getElementById('txtComponenteViejo').value == "") {
+                alert("Debe seleccionar un componente a cambiar");
+                return false;
+            } else {
+                if (document.getElementById('txtComponenteNuevo').value == "") {
+                    alert("Debe seleccionar un componente a instalar");
+                    return false;
+                }else{
+                    if (document.getElementById('txtFecha').value == "") {
+                        alert("Debe ingresar una fecha");
+                        return false;
+                    }
+                }
+            }
+        }
     }
+    return true;
+}
 
-    var tecnico = arrayUser[document.getElementById('sUser').selectedIndex -1];
-    var placa = arrayBus[document.getElementById('sBus').selectedIndex -1];
-    var parametros = {
-        opcion : "programarMantenimiento",
-        tecnico : tecnico,
-        placa : placa,
-        barra : barraCod,
-        componenteViejo : $('#txtComponenteViejo').val(),
-        componenteNuevo : $('#txtComponenteNuevo').val(),
-        fecha : $('#txtFecha').val()
-    };
-    var post = $.post(
-                              "php/mysql.php",    // Script que se ejecuta en el servidor
-                              parametros,                              
-                              siRespuesta10    // Función que se ejecuta cuando el servidor responde
-                              );
+function programarMantenimiento(){
+    if (revisarDatos()) {
+        var barraCod;
+        switch (barra){
+            case 'TX1':
+                barraCod = arrayKit[1];
+                break;
+            case 'RX1':
+                barraCod = arrayKit[2];
+                break;
+            case 'RX3':
+                barraCod = arrayKit[3];
+                break;
+            case 'TX3':
+                barraCod = arrayKit[4];
+                break;
+            default:
+                break;
+        }
+        var tecnico = arrayUser[document.getElementById('sUser').selectedIndex -1];
+        var placa = arrayBus[document.getElementById('sBus').selectedIndex -1];
+        var parametros = {
+            opcion : "programarMantenimiento",
+            tecnico : tecnico,
+            placa : placa,
+            barra : barraCod,
+            componenteViejo : $('#txtComponenteViejo').val(),
+            componenteNuevo : $('#txtComponenteNuevo').val(),
+            fecha : $('#txtFecha').val()
+        };
+        var post = $.post(
+                                  "php/mysql.php",    // Script que se ejecuta en el servidor
+                                  parametros,                              
+                                  siRespuesta10    // Función que se ejecuta cuando el servidor responde
+                                  );
+    }
 }
 
 function siRespuesta10(r){
