@@ -414,6 +414,28 @@ switch ($opcion) {
 		echo "Componente asignado";
 	break;
 
+	case  'cargarInstalacionesTecnico':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL cargarInstalacionesTecnico(@id)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
+	break;
+
+	case  'cargarInstalacionesEmpresa':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL cargarInstalacionesEmpresa(@id)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
+	break;
+
 	default:
 		# code...
 		break;
