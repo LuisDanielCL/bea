@@ -5,8 +5,8 @@ $( document ).ready(function() {
 var arrayEmpresa = [];
 var arrayEmpresaNombre = [];
 var arrayUser = [];
-var arrayInstalacion = [];
-var tablaInstalacion;
+var arrayMantenimmiento = [];
+var tablaMantenimiento;
 
 function cargarCategorias(){
 	var salida = '<select class="form-control" tabindex="0" id="sCategoria" onclick="cargarOpciones();">';  
@@ -77,7 +77,7 @@ function cargarEmpresas(r){
 function cargarTecnicos(r){
     try{
         var doc = JSON.parse(r);
-        var salida = '<select class="form-control" tabindex="-1" id="sOpciones" onclick="cargarInstalaciones();">';   
+        var salida = '<select class="form-control" tabindex="-1" id="sOpciones" onclick="cargarMantemimientos();">';   
         salida += '<option disabled selected value=0>Escoja una opcion</opcion>';                  
         $("#cbOpcion").html("");
         for (var i = 0; i < doc.length; i++) {
@@ -94,15 +94,15 @@ function cargarTecnicos(r){
     }
 }
 
-function cargarInstalaciones(){
+function cargarMantemimientos(){
 	var opcion;
 	switch (document.getElementById('sCategoria').selectedIndex){
 		case 0:
-			opcion = "cargarInstalacionesTecnico";
+			opcion = "cargarMantenimientosTecnico";
 			id = arrayUser[document.getElementById('sOpciones').selectedIndex -1]
 			break;
 		case 1:
-			opcion = "cargarInstalacionesEmpresa";
+			opcion = "cargarMantenimientosEmpresa";
 			id = arrayEmpresa[document.getElementById('sOpciones').selectedIndex -1]
 			break;
 		default:
@@ -124,21 +124,23 @@ function siRespuesta2(r){
 	if (document.getElementById('sOpciones').selectedIndex != 0) {
 	    var doc = JSON.parse(r); 
 	    if (doc.length != 0) {          
-	        tablaInstalacion = $('#tablaInstalacion').DataTable();
-	        tablaInstalacion.clear();
+	        tablaMantenimiento = $('#tablaMantenimiento').DataTable();
+	        tablaMantenimiento.clear();
 	        for (var i = 0; i < doc.length; i++) {
 	            var obj = doc[i]; 
-	            arrayInstalacion[i] = obj.ID;
-	            tablaInstalacion.row.add([
+	            arrayMantenimmiento[i] = obj.ID;
+	            tablaMantenimiento.row.add([
 	                obj.Tecnico+" "+obj.apellido1+" "+obj.apellido2,
 	                obj.Empresa,
 	                obj.Placa,
-	                obj.codigoKit+" "+obj.TX1+" "+obj.RX1+" "+obj.RX3+" "+obj.TX3,
+	                obj.Barra,
+	                obj.componenteViejo,
+	                obj.componenteNuevo,
 	                obj.Fecha
 	            ]).draw(false);
 	        }
 	    }else{
-	        alert("No hay instalaciones programadas");
+	        alert("No hay mantenimientos programados");
 	        limpiar();
 	    }
 	}
@@ -147,8 +149,8 @@ function siRespuesta2(r){
 function limpiar(){
 	document.getElementById('sOpciones').selectedIndex = -1;
 	try{
-		tablaInstalacion.clear();
-		tablaInstalacion.draw();
+		tablaMantenimiento.clear();
+		tablaMantenimiento.draw();
 	}catch(e){
 
 	}

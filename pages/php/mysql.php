@@ -436,6 +436,28 @@ switch ($opcion) {
 	    echo json_encode($json);
 	break;
 
+	case  'cargarMantenimientosTecnico':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL cargarMantenimientosTecnico(@id)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
+	break;
+
+	case  'cargarMantenimientosEmpresa':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL cargarMantenimientosEmpresa(@id)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
+	break;
+
 	default:
 		# code...
 		break;
