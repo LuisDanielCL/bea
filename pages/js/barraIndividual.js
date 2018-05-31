@@ -9,6 +9,7 @@ $( document ).ready(function() {
 
     tablaKit = $('#tablKits').DataTable( {
         "scrollX": true,
+
         "columns": [
             null,
             null,
@@ -17,12 +18,19 @@ $( document ).ready(function() {
             null,
             {
               "data": null,
-              "defaultContent": '<button type="button" class="btn btn-primary" onclick="cargarEditarKit(this)" >Editar</button>'
+              "defaultContent": '<button type="button" class="btn btn-primary" onclick="cargarEditarBarra(this)" >Editar</button>'
+            }
+        ],
+        "columnDefs": [
+            {
+                "targets": [ 4 ],
+                "visible": false,
+                "searchable": false
             }
         ],
         "processing": true,
         "serverSide": true,
-        "ajax": "php/tablas/tablaKit.php"
+        "ajax": "php/tablas/tablaBarra.php"
         
     } );
 
@@ -31,18 +39,24 @@ $( document ).ready(function() {
 
 function cambiarBarra(listaBarra){
     var tipoSeleccionado = listaBarra.selectedIndex;
+
     document.getElementById("divTX1").style.display = "none";
     document.getElementById("divRX").style.display = "none";
     document.getElementById("divTX3").style.display = "none";
+    limpiar();
+
     switch(tipoSeleccionado) {
         case 1:
             document.getElementById("divTX1").style.display ="inline-block";
+            document.getElementById("serieTX1").required = true;
             break;
         case 2:
             document.getElementById("divRX").style.display ="inline-block";
+            document.getElementById('serieRX1').required = true;
             break;
         case 3:
             document.getElementById("divTX3").style.display ="inline-block";
+            document.getElementById('serieTX3').required = true;
             break;
 
     }
@@ -285,12 +299,13 @@ function revisarEstado(texto){
 
 
 $( "#kitForm" ).submit(function( event ) {
-
     var editarBoton = document.getElementById("btnEditarBarra").style.display;
     console.log(editarBoton);
     if(editarBoton=="none"){
+        console.log("agregar-*-*-");
         agregarKit();
     }else{
+        console.log("editar-*-*-");
         editarKit();
     }
     return false;
@@ -304,9 +319,6 @@ function editarKit(){
     if ($('#serieRX1').val().trim() != ""){
         componentesRX1();
     }
-    if ($('#serieRX2').val().trim() != ""){
-        componentesRX2();
-    }
     if ($('#serieTX3').val().trim() != ""){
         componentesTX3();
     }
@@ -319,7 +331,7 @@ function agregarKit(){
     
     if(document.getElementById('serieTX1').value.trim() != ""){
 
-        crearBarraBase($('#serieTX1').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
+        crearBarraBase($('#serieTX1').val().trim(),$('#txtLote').val().trim(),
             $('#txtFecha').val().trim(),'1');
         crearBarraTX1($('#serieTX1').val().trim());
         componentesTX1();
@@ -327,32 +339,21 @@ function agregarKit(){
 
     if(document.getElementById('serieRX1').value.trim() != ""){
 
-        crearBarraBase($('#serieRX1').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
+        crearBarraBase($('#serieRX1').val().trim(),$('#txtLote').val().trim(),
             $('#txtFecha').val().trim(),'2');
         crearBarraRX($('#serieRX1').val().trim());
         componentesRX1();
     }
 
-    if(document.getElementById('serieRX2').value.trim() != ""){
-
-        crearBarraBase($('#serieRX2').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
-            $('#txtFecha').val().trim(),'3');
-        crearBarraRX($('#serieRX2').val().trim());
-        componentesRX2();
-    }
-
     if(document.getElementById('serieTX3').value.trim() != ""){
 
 
-        crearBarraBase($('#serieTX3').val().trim(),$('#numKit').val().trim(),$('#txtLote').val().trim(),
+        crearBarraBase($('#serieTX3').val().trim(),$('#txtLote').val().trim(),
             $('#txtFecha').val().trim(),'4');
         crearBarraTX3($('#serieTX3').val().trim());
         componentesTX3();
 
     }
-    crearKit($('#numKit').val().trim(),$('#serieTX1').val().trim(),$('#serieRX1').val().trim(),
-        $('#serieRX2').val().trim(),$('#serieTX3').val().trim());
-    tablaKit.ajax.reload();
     limpiar();
     
 }
@@ -402,25 +403,6 @@ function componentesRX1(){
             $('#proRX1').val().trim(),$('#centroCargaRX1').val().trim(),$('#tarRX1').val().trim());
 }
 
-function componentesRX2(){
-    if($(document.getElementById('duplex1RX2')).parent().hasClass('has-success')){
-        agregarComponente($('#duplex1RX2').val().trim(),"6","","","");
-    }
-    if($(document.getElementById('duplex2RX2')).parent().hasClass('has-success')){
-        agregarComponente($('#duplex2RX2').val().trim(),"6","","","");
-    }
-    if($(document.getElementById('proRX2')).parent().hasClass('has-success')){
-        agregarComponente($('#proRX2').val().trim(),"7","","","");
-    }
-    if($(document.getElementById('centroCargaRX2')).parent().hasClass('has-success')){
-        agregarComponente($('#centroCargaRX2').val().trim(),"1","","","");
-    }
-    if($(document.getElementById('tarRX2')).parent().hasClass('has-success')){
-        agregarComponente($('#tarRX2').val().trim(),"2","","","");
-    }
-    editarBarraRX($('#serieRX2').val().trim(),$('#duplex1RX2').val().trim(),$('#duplex2RX2').val().trim(),
-            $('#proRX2').val().trim(),$('#centroCargaRX2').val().trim(),$('#tarRX2').val().trim());
-}
 
 function componentesTX3(){
     if($(document.getElementById('pro1TX3')).parent().hasClass('has-success')){
@@ -465,11 +447,11 @@ function componenteAgregado(r){
         
 }
 
-function crearBarraBase(pSerie,pKit,pLote,pFecha,pTipo){
+function crearBarraBase(pSerie,pLote,pFecha,pTipo){
     var parametros = {
         opcion : "agregarBarraBase",
         serie: pSerie,
-        kit: pKit,
+        kit: "",
         lote: pLote,
         fecha: pFecha,
         tipo: pTipo
@@ -532,13 +514,18 @@ function editarBarraRX(pSerie,pDuplex1,pDuplex2,pPro,pCentroCarga,pTar){
         centroCarga: pCentroCarga,
         tar: pTar
     };
+    console.log("Editar barra");
     console.log(parametros);
     // Realizar la petición
-    var post = $.post(
-                          "php/kit.php",    // Script que se ejecuta en el servidor
-                          parametros,                              
-                          barraRXEditada    // Función que se ejecuta cuando el servidor responde
-                          );
+    var post = $.ajax({
+              type: 'POST',
+              url: "php/kit.php",
+              data: parametros,
+              success: barraRXEditada,
+              async:false
+            });
+    console.log(parametros);
+
     }
 
 function barraRXEditada(r){
@@ -655,7 +642,7 @@ function kitCreado(r){
 }
 
 
-function cargarEditarKit(boton){
+function cargarEditarBarra(boton){
     limpiarTodo();
 
     document.getElementById("btnAgregarBarra").style.display="none";
@@ -663,33 +650,36 @@ function cargarEditarKit(boton){
 
     var data = tablaKit.row( (boton.closest('tr').rowIndex) -1 ).data();
 
-    document.getElementById('numKit').value = data[0];
-    document.getElementById('numKit').disabled = true;    
+    document.getElementById("divTX1").style.display = "none";
+    document.getElementById("divRX").style.display = "none";
+    document.getElementById("divTX3").style.display = "none";
+    limpiar();
+
+    console.log(data[4]);
     
-        if(data[1]==""){
-            disableDiv("divTX1",true);
-        }else{
-            cargarTX1(data[1]);
+        if(data[4]=="1"){
+            document.getElementById("divTX1").style.display ="inline-block";
+            document.getElementById("serieTX1").required = true;
+            cargarTX1(data[0]);
         }       
 
-        if(data[2]==null){
-            disableDiv("divRX1",true);
-        }else{
-            cargarRX1(data[2]);
-        }    
+        if(data[4]=="2"){
+            document.getElementById("divRX").style.display ="inline-block";
+            document.getElementById('serieRX1').required = true;
+            cargarRX1(data[0]);
+        }
         
-        if(data[3]==null){
-            disableDiv("divRX2",true);
-        }else{
-            cargarRX2(data[3]);
+        if(data[4]=="3"){
+            document.getElementById("divRX").style.display ="inline-block";
+            document.getElementById('serieRX1').required = true;
+            cargarRX1(data[0]);
         }
 
-        if(data[4]==null){
-            disableDiv("divTX3",true);
-        }else{
-            cargarTX3(data[4]);
+        if(data[4]=="4"){
+            document.getElementById("divTX3").style.display ="inline-block";
+            document.getElementById('serieTX3').required = true;
+            cargarTX3(data[0]);
         }
-    
         editar =  true;
     }
 
@@ -827,47 +817,6 @@ function cargarRX2(pSerie){
                           );
 }
 
-function RX2Cargada(r){
-    var doc = JSON.parse(r);
-    console.log(doc);
-    if(doc.length>0){
-        document.getElementById('serieRX2').value = doc[0].barraSerie;
-        document.getElementById('serieRX2').disabled = true;        
-        document.getElementById('txtLote').value = doc[0].kit;
-        document.getElementById('txtLote').disabled = true;
-        document.getElementById('txtFecha').value = doc[0].fecha;
-        document.getElementById('txtFecha').disabled = true;
-    }
-    for (var i = 0; i < doc.length; i++) {
-        var obj = doc[i];
-        if(obj.componenteCod != null){
-            componentesAct.push(obj.componenteCod);
-            switch(obj.pos) {
-            case '1':
-                document.getElementById('duplex1RX2').value = String(obj.componenteCod);
-                $('#duplex1RX2').parent().addClass('has-warning');
-                break;
-            case '2':
-                document.getElementById('duplex2RX2').value = String(obj.componenteCod);
-                $('#duplex2RX2').parent().addClass('has-warning');
-                break;
-            case '3':
-                document.getElementById('proRX2').value = String(obj.componenteCod);
-                $('#proRX2').parent().addClass('has-warning');
-                break;
-            case '4':
-                document.getElementById('centroCargaRX2').value = String(obj.componenteCod);
-                $('#centroCargaRX2').parent().addClass('has-warning');
-                break;
-            case '5':
-                document.getElementById('tarRX2').value = String(obj.componenteCod);
-                $('#tarRX2').parent().addClass('has-warning');
-                break;
-            }
-        }
-    }
-}
-
 
 
 function cargarTX3(pSerie){
@@ -960,24 +909,12 @@ function limpiar(){
     $('#centroCargaRX1').parent().removeClass('has-error has-edit has-success has-warning');
     $('#tarRX1').parent().removeClass('has-error has-edit has-success has-warning');
 
-    $('#duplex1RX2').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#duplex2RX2').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#proRX2').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#centroCargaRX2').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#tarRX2').parent().removeClass('has-error has-edit has-success has-warning');
 
     $('#pro1TX3').parent().removeClass('has-error has-edit has-success has-warning');
     $('#pro2TX3').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
 
+
+    document.getElementById('serieTX1').required = false;
     document.getElementById('serieTX1').value = "";
     document.getElementById('8kTX1').value = "";
     document.getElementById('claveCortaTX1').value = "";
@@ -992,6 +929,7 @@ function limpiar(){
     document.getElementById('tx1MAX1').value = "";
     document.getElementById('tx1MAX2').value = "";
 
+    document.getElementById('serieRX1').required = false;
     document.getElementById('serieRX1').value = "";
     document.getElementById('duplex1RX1').value = "";
     document.getElementById('duplex2RX1').value = "";
@@ -999,19 +937,12 @@ function limpiar(){
     document.getElementById('centroCargaRX1').value = "";
     document.getElementById('tarRX1').value = "";
 
-    document.getElementById('serieRX2').value = "";
-    document.getElementById('duplex1RX2').value = "";
-    document.getElementById('duplex2RX2').value = "";
-    document.getElementById('proRX2').value = "";
-    document.getElementById('centroCargaRX2').value = "";
-    document.getElementById('tarRX2').value = "";
-
+    document.getElementById('serieTX3').required = false;
     document.getElementById('serieTX3').value = "";
     document.getElementById('pro1TX3').value = "";
     document.getElementById('pro2TX3').value = "";
     disableDiv("divTX1",false);
-    disableDiv("divRX1",false);
-    disableDiv("divRX2",false);
+    disableDiv("divRX",false);
     disableDiv("divTX3",false);
     editar = false;
     componentesAct = [];
@@ -1021,11 +952,9 @@ function limpiar(){
 function limpiarTodo(){
     limpiar();
     document.getElementById("txtFecha").value = "";
-    document.getElementById("numKit").value = "";
     document.getElementById("txtLote").value = "";
     document.getElementById("btnAgregarBarra").style.display="inline-block";
     document.getElementById("btnEditarBarra").style.display="none";
-    document.getElementById("numKit").disabled = false;
     document.getElementById('txtLote').disabled = false;
     document.getElementById('txtFecha').disabled = false;
 }

@@ -662,7 +662,7 @@ function cargarEditarKit(boton){
     document.getElementById('numKit').value = data[0];
     document.getElementById('numKit').disabled = true;    
     
-        if(data[1]==""){
+        if(data[1]==null){
             disableDiv("divTX1",true);
         }else{
             cargarTX1(data[1]);
@@ -964,15 +964,7 @@ function limpiar(){
 
     $('#pro1TX3').parent().removeClass('has-error has-edit has-success has-warning');
     $('#pro2TX3').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
-    $('#serieTX1').parent().removeClass('has-error has-edit has-success has-warning');
+
 
     document.getElementById('serieTX1').value = "";
     document.getElementById('8kTX1').value = "";

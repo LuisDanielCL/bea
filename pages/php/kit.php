@@ -190,11 +190,11 @@ switch ($opcion) {
 		if(!$mysqli->query("CALL editarRX(@serie,@duplex1,@duplex2,@pro,@centroCarga,@tar)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 Fallo al agregar componetes a la barra');
+    		header('HTTP/1.1 400 Fallo al editar componetes a la barra');
     		die();
 		}
 		if($mysqli) $mysqli->close();
-		echo "Componentes agregados a la barra";
+		echo "Componentes editados en la barra";
 	break;
 
 	case 'agregarRX':

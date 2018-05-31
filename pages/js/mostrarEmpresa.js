@@ -15,11 +15,11 @@ function cargarEmpresas(){
 	var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
 	                     parametros,    	                       
-	                     siRespuesta    // Función que se ejecuta cuando el servidor responde
+	                     siRespuestacargarEmpresas    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta(r){
+function siRespuestacargarEmpresas(r){
 	var doc = JSON.parse(r);
 	var salida = '<select class="form-control" tabindex="-1" id="sEmpresa" onclick="cargarEmpresa();" required>'; 
     salida += '<option disabled selected value>Escoja una opcion</opcion>';                   
@@ -49,11 +49,11 @@ function cargarEmpresa(){
     var post = $.post(
                           "php/mysql.php",    // Script que se ejecuta en el servidor
                           parametros,                              
-                          siRespuesta2    // Función que se ejecuta cuando el servidor responde
+                          siRespuestacargarEmpresa    // Función que se ejecuta cuando el servidor responde
                           ); 
 }
 
-function siRespuesta2(r){
+function siRespuestacargarEmpresa(r){
     var doc = JSON.parse(r);         
     var obj = doc[0];     
     document.getElementById('txtTelefono').value = obj.Telefono;
@@ -74,12 +74,12 @@ function cargarBuses(){
         var post = $.post(
                               "php/mysql.php",    // Script que se ejecuta en el servidor
                               parametros,                              
-                              siRespuesta3    // Función que se ejecuta cuando el servidor responde
+                              siRespuestacargarBuses    // Función que se ejecuta cuando el servidor responde
                               ); 
     }
 }
 
-function siRespuesta3(r){
+function siRespuestacargarBuses(r){
     try{
         var doc = JSON.parse(r);             
         tablaBuses = $('#tablaBuses').DataTable();

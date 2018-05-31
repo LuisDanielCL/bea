@@ -85,7 +85,7 @@ switch ($opcion) {
 		if(!$mysqli->query("CALL agregarBus (@placa,@nombre,@id)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 Es posible que el tipo de violencia ya exista');
+    		header('HTTP/1.1 400 Es posible que ya exista un bus con la misma placa');
     		die();
 		}
 		if($mysqli) $mysqli->close();
@@ -132,6 +132,24 @@ switch ($opcion) {
 		$id = $_POST['id'];
 		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
 		$resultado = $mysqli->query("CALL filtrarBuses (@id)");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case  'filtrarBusesNoKit':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL filtrarBusesNoKit (@id)");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case  'obtenerBusesNoKit':
+		$resultado = $mysqli->query("CALL obtenerBusesNoKit ()");
 		while($row = $resultado->fetch_array()){
 			$json[] = $row;
 		}
@@ -264,6 +282,180 @@ switch ($opcion) {
 			$json[] = $row;
 		}
 		echo json_encode($json) ;
+	break;
+
+	case  'cargarComponente':
+		$codigo = $_POST['codigo'];
+		$mysqli->query("SET @codigo  = " . "'" . $mysqli->real_escape_string($codigo) . "'");
+		$resultado = $mysqli->query("CALL cargarComponente(@codigo)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
+	break;
+
+	case  'cargarKitsDisponibles':
+		$resultado = $mysqli->query("CALL obtenerKitsDisponibles ()");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case  'cargarUsuarios':
+		$resultado = $mysqli->query("CALL obtenerUsuarios ()");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case 'programarInstalacion':
+		$placa = $_POST['placa'];
+		$kit = $_POST['kit'];
+		$tecnico = $_POST['tecnico'];
+		$txtFecha = $_POST['txtFecha'];
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$mysqli->query("SET @kit  = " . "'" . $mysqli->real_escape_string($kit) . "'");
+		$mysqli->query("SET @tecnico  = " . "'" . $mysqli->real_escape_string($tecnico) . "'");
+		$mysqli->query("SET @txtFecha  = " . "'" . $mysqli->real_escape_string($txtFecha) . "'");
+		if(!$mysqli->query("CALL programarInstalacion (@placa,@kit,@tecnico,@txtFecha)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Instalacion Programada";
+	break;
+
+	case 'asignarKit':
+		$placa = $_POST['placa'];
+		$kit = $_POST['kit'];
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$mysqli->query("SET @kit  = " . "'" . $mysqli->real_escape_string($kit) . "'");
+		if(!$mysqli->query("CALL asignarBus (@placa,@kit)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Kit asignado";
+	break;
+
+	case  'cargarComponentes':
+		$resultado = $mysqli->query("CALL obtenerComponentesDisponibles ()");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case  'cargarSimDisponibles':
+		$resultado = $mysqli->query("CALL obtenerSimDisponible ()");
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+		echo json_encode($json) ;
+	break;
+
+	case 'asignarSim':
+		$placa = $_POST['placa'];
+		$sim = $_POST['sim'];
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$mysqli->query("SET @sim  = " . "'" . $mysqli->real_escape_string($sim) . "'");
+		if(!$mysqli->query("CALL asignarBus (@placa,@sim)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Sim asignado";
+	break;
+
+	case 'programarMantenimiento':
+		$tecnico = $_POST['tecnico'];
+		$placa = $_POST['placa'];
+		$barra = $_POST['barra'];
+		$componenteViejo = $_POST['componenteViejo'];
+		$componenteNuevo = $_POST['componenteNuevo'];
+		$fecha = $_POST['fecha'];
+		$mysqli->query("SET @tecnico  = " . "'" . $mysqli->real_escape_string($tecnico) . "'");
+		$mysqli->query("SET @placa  = " . "'" . $mysqli->real_escape_string($placa) . "'");
+		$mysqli->query("SET @barra  = " . "'" . $mysqli->real_escape_string($barra) . "'");
+		$mysqli->query("SET @componenteViejo  = " . "'" . $mysqli->real_escape_string($componenteViejo) . "'");
+		$mysqli->query("SET @componenteNuevo  = " . "'" . $mysqli->real_escape_string($componenteNuevo) . "'");
+		$mysqli->query("SET @fecha  = " . "'" . $mysqli->real_escape_string($fecha) . "'");
+		if(!$mysqli->query("CALL programarMantenimiento (@tecnico,@placa,@barra,@componenteViejo,@componenteNuevo,@fecha)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Mantenimiento Programado";
+	break;
+
+	case 'asignarComponente':
+		$componenteViejo = $_POST['componenteViejo'];
+		$componenteNuevo = $_POST['componenteNuevo'];
+		$mysqli->query("SET @componenteViejo  = " . "'" . $mysqli->real_escape_string($componenteViejo) . "'");
+		$mysqli->query("SET @componenteNuevo  = " . "'" . $mysqli->real_escape_string($componenteNuevo) . "'");
+		if(!$mysqli->query("CALL asignarComponente (@componenteViejo,@componenteNuevo)"))
+		{
+    		if($mysqli) $mysqli->close(); // Close DB connection
+    		header('HTTP/1.1 400 Ha ocurrido un error');
+    		die();
+		}
+		if($mysqli) $mysqli->close();
+		echo "Componente asignado";
+	break;
+
+	case  'cargarInstalacionesTecnico':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL cargarInstalacionesTecnico(@id)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
+	break;
+
+	case  'cargarInstalacionesEmpresa':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL cargarInstalacionesEmpresa(@id)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
+	break;
+
+	case  'cargarMantenimientosTecnico':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL cargarMantenimientosTecnico(@id)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
+	break;
+
+	case  'cargarMantenimientosEmpresa':
+		$id = $_POST['id'];
+		$mysqli->query("SET @id  = " . "'" . $mysqli->real_escape_string($id) . "'");
+		$resultado = $mysqli->query("CALL cargarMantenimientosEmpresa(@id)");
+		$json = array();
+		while($row = $resultado->fetch_array()){
+			$json[] = $row;
+		}
+	    echo json_encode($json);
 	break;
 
 	default:

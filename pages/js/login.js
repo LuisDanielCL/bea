@@ -9,10 +9,10 @@ function iniciar(){
     var post = $.post(
                           "php/mysql.php",    // Script que se ejecuta en el servidor
                           parametros,                              
-                          siRespuesta    // Función que se ejecuta cuando el servidor responde
+                          siRespuestainiciar    // Función que se ejecuta cuando el servidor responde
                           );
 }
-function siRespuesta(r){
+function siRespuestainiciar(r){
 	try{
 		var doc = JSON.parse(r);
 		var user = document.getElementById('txtUser').value;  	
