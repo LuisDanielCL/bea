@@ -13,11 +13,11 @@ function cargarUsuario(){
     var post = $.post(
                           "php/mysql.php",    // Script que se ejecuta en el servidor
                           parametros,                              
-                          siRespuesta    // Función que se ejecuta cuando el servidor responde
+                          siRespuestacargarUsuario    // Función que se ejecuta cuando el servidor responde
                           ); 
 }
 
-function siRespuesta(r){
+function siRespuestacargarUsuario(r){
     var doc = JSON.parse(r);         
     var obj = doc[0];     
     document.getElementById('txtNombre').value = obj.nombre;
@@ -45,11 +45,11 @@ function editarTecnico(){
     var post = $.post(
                           "php/mysql.php",    // Script que se ejecuta en el servidor
                           parametros,                              
-                          siRespuesta2    // Función que se ejecuta cuando el servidor responde
+                          siRespuestaeditarTecnico    // Función que se ejecuta cuando el servidor responde
                           );
 }
 
-function siRespuesta2(r){
+function siRespuestaeditarTecnico(r){
     limpiar();
     alert(r);
 }

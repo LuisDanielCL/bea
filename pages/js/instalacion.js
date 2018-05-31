@@ -22,11 +22,11 @@ function cargarEmpresas(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarEmpresas    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta(r){
+function siRespuestacargarEmpresas(r){
     var doc = JSON.parse(r);
     var salida = '<select class="form-control" tabindex="-1" id="sEmpresa" onclick="filtrarBuses();">';  
     salida += '<option value="-1">Todos</option>';                  
@@ -51,11 +51,11 @@ function cargarBuses(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta2    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarBuses    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta2(r){
+function siRespuestacargarBuses(r){
     var doc = JSON.parse(r);
     var salida = '<select class="form-control" tabindex="-1" id="sBus">';                   
     $("#cbBus").html("");
@@ -85,12 +85,12 @@ function filtrarBuses(){
         var post = $.post(
                              "php/mysql.php",    // Script que se ejecuta en el servidor
                              parametros,                               
-                             siRespuesta3    // Función que se ejecuta cuando el servidor responde
+                             siRespuestafiltrarBuses    // Función que se ejecuta cuando el servidor responde
                              );
         }
 }
 
-function siRespuesta3(r){
+function siRespuestafiltrarBuses(r){
     try{
         arrayBus = [];
         removeOptions('sBus');
@@ -131,11 +131,11 @@ function cargarKits(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta4    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarKits    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta4(r){
+function siRespuestacargarKits(r){
     try{
         var doc = JSON.parse(r);             
         tablaKits = $('#tablaKits').DataTable();
@@ -169,11 +169,11 @@ function cargarUsuarios(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta5    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarUsuarios    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta5(r){
+function siRespuestacargarUsuarios(r){
     var doc = JSON.parse(r);
     var salida = '<select class="form-control" tabindex="-1" id="sUser">';                    
     $("#cbTecnico").html("");
@@ -201,11 +201,11 @@ function programarInstalacion(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta6    // Función que se ejecuta cuando el servidor responde
+                         siRespuestaprogramarInstalacion    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta6(r){
+function siRespuestaprogramarInstalacion(r){
     alert(r);
     asignarKit();
 }
@@ -221,11 +221,11 @@ function asignarKit(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta7    // Función que se ejecuta cuando el servidor responde
+                         siRespuestaasignarKit    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta7(){
+function siRespuestaasignarKit(){
     asignarSim();
 }
 
@@ -237,11 +237,11 @@ function cargarSim(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta8    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarSim    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta8(r){
+function siRespuestacargarSim(r){
     try{
         var doc = JSON.parse(r);             
         tablaSim = $('#tablaSim').DataTable();
@@ -279,11 +279,11 @@ function asignarSim(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta9    // Función que se ejecuta cuando el servidor responde
+                         siRespuestaasignarSim    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta9(){
+function siRespuestaasignarSim(){
     limpiar();
 }
 

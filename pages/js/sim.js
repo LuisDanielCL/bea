@@ -56,11 +56,6 @@ function revisarEstado(texto){
     }
 }
 
-
-
-
-
-
 $( "#componentesForm" ).submit(function( event ) {
     var editarBoton = document.getElementById("btnEditarSim").style.display;
     console.log(editarBoton);
@@ -98,7 +93,6 @@ function simAgregado(r){
         limpiar();
         alert(r);
         tabla.ajax.reload();
-        
 }
 
 

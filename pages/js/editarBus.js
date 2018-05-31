@@ -16,11 +16,11 @@ function cargarEmpresas(){
 	var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
 	                     parametros,    	                       
-	                     siRespuesta    // Función que se ejecuta cuando el servidor responde
+	                     siRespuestacargarEmpresas    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta(r){
+function siRespuestacargarEmpresas(r){
 	var doc = JSON.parse(r);
 	var salida = '<select class="form-control" tabindex="-1" id="sEmpresa">';                    
 	$("#cbEmpresa").html("");
@@ -44,11 +44,11 @@ function cargarBuses(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta2    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarBuses    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta2(r){
+function siRespuestacargarBuses(r){
     var doc = JSON.parse(r);
     var salida = '<select class="form-control" tabindex="-1" id="sBus" onclick="cargarBus();">';                   
     $("#cbBus").html("");
@@ -75,11 +75,11 @@ function cargarBus(){
     var post = $.post(
                           "php/mysql.php",    // Script que se ejecuta en el servidor
                           parametros,                              
-                          siRespuesta3    // Función que se ejecuta cuando el servidor responde
+                          siRespuestacargarBus    // Función que se ejecuta cuando el servidor responde
                           ); 
 }
 
-function siRespuesta3(r){
+function siRespuestacargarBus(r){
     var doc = JSON.parse(r);         
     var obj = doc[0];     
     document.getElementById('txtNombre').value = obj.Nombre;
@@ -114,12 +114,12 @@ function editarBus(){
         var post = $.post(
                               "php/mysql.php",    // Script que se ejecuta en el servidor
                               parametros,                              
-                              siRespuesta4    // Función que se ejecuta cuando el servidor responde
+                              siRespuestaeditarBus    // Función que se ejecuta cuando el servidor responde
                               );
     }
 }
 
-function siRespuesta4(r){
+function siRespuestaeditarBus(r){
     limpiar();
     cargarEmpresasFiltrar();
     filtrarBuses();
@@ -134,11 +134,11 @@ function cargarEmpresasFiltrar(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta5    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarEmpresasFiltrar    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta5(r){
+function siRespuestacargarEmpresasFiltrar(r){
     var doc = JSON.parse(r);
     var salida = '<select class="form-control" tabindex="-1" id="sEmpresaFiltrar" onclick="filtrarBuses();">';  
     salida += '<option value="-1">Todos</option>';                  
@@ -167,12 +167,12 @@ function filtrarBuses(){
         var post = $.post(
                              "php/mysql.php",    // Script que se ejecuta en el servidor
                              parametros,                               
-                             siRespuesta6    // Función que se ejecuta cuando el servidor responde
+                             siRespuestafiltrarBuses    // Función que se ejecuta cuando el servidor responde
                              );
         }
 }
 
-function siRespuesta6(r){
+function siRespuestafiltrarBuses(r){
     try{
         arrayBus = [];
         removeOptions();

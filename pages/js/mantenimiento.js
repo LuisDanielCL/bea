@@ -21,11 +21,11 @@ function cargarEmpresas(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarEmpresas    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta(r){
+function siRespuestacargarEmpresas(r){
     var doc = JSON.parse(r);
     var salida = '<select class="form-control" tabindex="-1" id="sEmpresa" onclick="filtrarBuses();">';  
     salida += '<option value="-1">Todos</option>';                  
@@ -50,11 +50,11 @@ function cargarBuses(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta2    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarBuses    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta2(r){
+function siRespuestacargarBuses(r){
     var doc = JSON.parse(r);
     var salida = '<select class="form-control" tabindex="-1" id="sBus" onclick="cargarKit();">';    
     salida += '<option disabled selected value=0>Escoja una opcion</opcion>';                
@@ -85,12 +85,12 @@ function filtrarBuses(){
         var post = $.post(
                              "php/mysql.php",    // Script que se ejecuta en el servidor
                              parametros,                               
-                             siRespuesta3    // Función que se ejecuta cuando el servidor responde
+                             siRespuestafiltrarBuses    // Función que se ejecuta cuando el servidor responde
                              );
         }
 }
 
-function siRespuesta3(r){
+function siRespuestafiltrarBuses(r){
     try{
         arrayBus = [];
         removeOptions('sBus');
@@ -132,11 +132,11 @@ function cargarUsuarios(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta4    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarUsuarios    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta4(r){
+function siRespuestacargarUsuarios(r){
     try{
         var doc = JSON.parse(r);
         var salida = '<select class="form-control" tabindex="-1" id="sUser">';   
@@ -164,11 +164,11 @@ function cargarComponentes(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta5    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarComponentes    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta5(r){
+function siRespuestacargarComponentes(r){
     try{
         var doc = JSON.parse(r);             
         tablaComponentes = $('#tablaComponentes').DataTable();
@@ -320,12 +320,12 @@ function programarMantenimiento(){
         var post = $.post(
                                   "php/mysql.php",    // Script que se ejecuta en el servidor
                                   parametros,                              
-                                  siRespuesta10    // Función que se ejecuta cuando el servidor responde
+                                  siRespuestaprogramarMantenimiento    // Función que se ejecuta cuando el servidor responde
                                   );
     }
 }
 
-function siRespuesta10(r){
+function siRespuestaprogramarMantenimiento(r){
     alert("El mantenimiento ha sido programado");
     asignarComponente();
 }
@@ -339,11 +339,11 @@ function asignarComponente(){
     var post = $.post(
                               "php/mysql.php",    // Script que se ejecuta en el servidor
                               parametros,                              
-                              siRespuesta11    // Función que se ejecuta cuando el servidor responde
+                              siRespuestaasignarComponente    // Función que se ejecuta cuando el servidor responde
                               );  
 }
 
-function siRespuesta11(r){
+function siRespuestaasignarComponente(r){
     limpiar();
 }
 
@@ -359,12 +359,12 @@ function cargarKit(){
         var post = $.post(
                               "php/mysql.php",    // Script que se ejecuta en el servidor
                               parametros,                              
-                              siRespuesta6    // Función que se ejecuta cuando el servidor responde
+                              siRespuestacargarKit    // Función que se ejecuta cuando el servidor responde
                               );
     }
 }
 
-function siRespuesta6(r){
+function siRespuestacargarKit(r){
     try{
         var doc = JSON.parse(r);
         var obj = doc[0];
@@ -396,11 +396,11 @@ function cargarBarra(ID){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta7    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarBarra    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta7(r){
+function siRespuestacargarBarra(r){
     var doc = JSON.parse(r);
     var tipoBarra = doc[0].tipoBarra;
     switch(tipoBarra){

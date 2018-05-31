@@ -14,12 +14,12 @@ function agregarEmpresa(){
 		var post = $.post(
 	                          "php/mysql.php",    // Script que se ejecuta en el servidor
 		                      parametros,    	                       
-		                      siRespuesta    // Función que se ejecuta cuando el servidor responde
+		                      siRespuestaagregarEmpresa    // Función que se ejecuta cuando el servidor responde
 	                          );
 	}
 }
 
-function siRespuesta(r){
+function siRespuestaagregarEmpresa(r){
 	limpiar();
 	alert(r);
 }

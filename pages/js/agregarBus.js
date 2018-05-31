@@ -12,11 +12,11 @@ function cargarEmpresas(){
 	var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
 	                     parametros,    	                       
-	                     siRespuesta    // Función que se ejecuta cuando el servidor responde
+	                     siRespuestacargarEmpresas    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta(r){
+function siRespuestacargarEmpresas(r){
 	var doc = JSON.parse(r);
 	var salida = '<select class="form-control" tabindex="-1" id="sEmpresa">';                   
 	$("#cbEmpresa").html("");
@@ -44,11 +44,11 @@ function agregarBus(){
     var post = $.post(
                           "php/mysql.php",    // Script que se ejecuta en el servidor
                           parametros,                              
-                          siRespuesta2    // Función que se ejecuta cuando el servidor responde
+                          siRespuestaagregarBus    // Función que se ejecuta cuando el servidor responde
                           );
 }
 
-function siRespuesta2(r){
+function siRespuestaagregarBus(r){
     limpiar();
     alert(r);
 }

@@ -85,7 +85,7 @@ switch ($opcion) {
 		if(!$mysqli->query("CALL agregarBus (@placa,@nombre,@id)"))
 		{
     		if($mysqli) $mysqli->close(); // Close DB connection
-    		header('HTTP/1.1 400 Es posible que el tipo de violencia ya exista');
+    		header('HTTP/1.1 400 Es posible que ya exista un bus con la misma placa');
     		die();
 		}
 		if($mysqli) $mysqli->close();

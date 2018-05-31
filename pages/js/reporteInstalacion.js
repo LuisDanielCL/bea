@@ -36,11 +36,11 @@ function cargarOpciones(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarOpciones    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta(r){
+function siRespuestacargarOpciones(r){
 	switch (document.getElementById('sCategoria').selectedIndex){
 		case 0:
 			cargarTecnicos(r);
@@ -116,11 +116,11 @@ function cargarInstalaciones(){
     var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
                          parametros,                               
-                         siRespuesta2    // Función que se ejecuta cuando el servidor responde
+                         siRespuestacargarInstalaciones    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta2(r){
+function siRespuestacargarInstalaciones(r){
 	if (document.getElementById('sOpciones').selectedIndex != 0) {
 	    var doc = JSON.parse(r); 
 	    if (doc.length != 0) {          

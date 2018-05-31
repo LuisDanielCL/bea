@@ -19,11 +19,11 @@ function cargarEmpresas(){
 	var post = $.post(
                          "php/mysql.php",    // Script que se ejecuta en el servidor
 	                     parametros,    	                       
-	                     siRespuesta    // Función que se ejecuta cuando el servidor responde
+	                     siRespuestacargarEmpresas    // Función que se ejecuta cuando el servidor responde
                          );
 }
 
-function siRespuesta(r){
+function siRespuestacargarEmpresas(r){
 	var doc = JSON.parse(r);
 	var salida = '<select class="form-control" tabindex="-1" id="sEmpresa" onclick="cargarBuses();">';  
     salida += '<option disabled selected value=0>Escoja una opcion</opcion>';                  
@@ -54,12 +54,12 @@ function cargarBuses(){
         var post = $.post(
                              "php/mysql.php",    // Script que se ejecuta en el servidor
                              parametros,                               
-                             siRespuesta2    // Función que se ejecuta cuando el servidor responde
+                             siRespuestacargarBuses    // Función que se ejecuta cuando el servidor responde
                              );
     }
 }
 
-function siRespuesta2(r){
+function siRespuestacargarBuses(r){
     try{
         arrayBus = [];
         removeOptions();
@@ -100,12 +100,12 @@ function cargarBus(){
         var post = $.post(
                               "php/mysql.php",    // Script que se ejecuta en el servidor
                               parametros,                              
-                              siRespuesta3    // Función que se ejecuta cuando el servidor responde
+                              siRespuestacargarBus    // Función que se ejecuta cuando el servidor responde
                               );
     } 
 }
 
-function siRespuesta3(r){
+function siRespuestacargarBus(r){
     var doc = JSON.parse(r);         
     var obj = doc[0];     
     document.getElementById('txtNombre').value = obj.Nombre;
@@ -122,11 +122,11 @@ function cargarKit(){
     var post = $.post(
                           "php/mysql.php",    // Script que se ejecuta en el servidor
                           parametros,                              
-                          siRespuesta4    // Función que se ejecuta cuando el servidor responde
+                          siRespuestacargarKit    // Función que se ejecuta cuando el servidor responde
                           ); 
 }
 
-function siRespuesta4(r){
+function siRespuestacargarKit(r){
     try{
         var doc = JSON.parse(r);             
         tablaKit = $('#tablaKit').DataTable();
